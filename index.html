@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mohamed Ashiq CM — Videographer & Video Editor based in Bengaluru, India. Delivering 50+ cinematic wedding films, high-retention reels, and high-end video post-production in DaVinci Resolve & Premiere Pro.">
+    <meta name="keywords" content="Mohamed Ashiq CM, Asky, Videographer Bengaluru, Video Editor Bangalore, Wedding Videographer India, DaVinci Resolve Editor, Premiere Pro, Wedding Films, Content Creator">
+    <meta name="author" content="Mohamed Ashiq CM">
+    <meta property="og:title" content="Mohamed Ashiq CM • Videographer & Video Editor">
+    <meta property="og:description" content="Cinematic wedding films, dynamic content creation, and professional post-production.">
+    <meta property="og:type" content="website">
+    <title>Mohamed Ashiq CM • Videographer & Video Editor | ASKY</title>
+
+    <!-- Camera Aperture Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e5c378' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m14.31 8 5.74 9.94'/%3E%3Cpath d='M9.69 8h11.48'/%3E%3Cpath d='m7.38 12 5.74-9.94'/%3E%3Cpath d='M9.69 16 3.95 6.06'/%3E%3Cpath d='M14.31 16H2.83'/%3E%3Cpath d='m16.62 12-5.74 9.94'/%3E%3C/svg%3E">
+
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <!-- Swiper CSS for Testimonials & Sliders -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <!-- Custom Modular CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+    <!-- Ambient Glow Lighting Blobs -->
+    <div class="ambient-glow-blob blob-1" aria-hidden="true"></div>
+    <div class="ambient-glow-blob blob-2" aria-hidden="true"></div>
+    <div class="ambient-glow-blob blob-3" aria-hidden="true"></div>
+
+    <!-- Film Grain Overlay -->
+    <div class="film-grain-overlay" aria-hidden="true"></div>
+
+    <!-- Cinematic Custom Cursor -->
+    <div class="custom-cursor" aria-hidden="true">
+        <span class="custom-cursor-text"></span>
+    </div>
+    <div class="custom-cursor-dot" aria-hidden="true"></div>
+
+    <!-- Main Navigation Header -->
+    <header class="main-header">
+        <div class="container navbar-container">
+            <a href="#home" class="brand-logo" data-cursor="hover">
+                ASKY<span class="brand-dot">.</span><span class="brand-sub">CINEMA</span>
+            </a>
+
+            <nav class="d-none d-lg-block">
+                <ul class="nav-links-desktop">
+                    <li><a href="#home" class="nav-link-item is-active" data-cursor="hover">Home</a></li>
+                    <li><a href="#selected-work" class="nav-link-item" data-cursor="hover">Films</a></li>
+                    <li><a href="#about" class="nav-link-item" data-cursor="hover">About</a></li>
+                    <li><a href="#services" class="nav-link-item" data-cursor="hover">Services</a></li>
+                    <li><a href="#photography" class="nav-link-item" data-cursor="hover">Gallery</a></li>
+                    <li><a href="#contact" class="nav-link-item" data-cursor="hover">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="d-flex align-items-center gap-3">
+                <div class="header-status-badge d-none d-sm-inline-flex">
+                    <span class="live-dot"></span>
+                    <span>Available for 2026/27</span>
+                </div>
+                <a href="#contact" class="btn-cinematic btn-primary-cinema" data-cursor="hover" data-magnetic>
+                    Book Shoot
+                </a>
+                <button id="mobile-menu-toggle" class="mobile-menu-btn d-lg-none" aria-label="Open mobile menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Fullscreen Mobile Navigation Drawer -->
+    <div id="fullscreen-mobile-menu" class="fullscreen-mobile-menu" aria-hidden="true">
+        <div class="mobile-menu-top">
+            <div class="brand-logo">
+                ASKY<span class="brand-dot">.</span>
+            </div>
+            <button id="mobile-menu-close" class="mobile-menu-close-btn" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="mobile-menu-nav">
+            <a href="#home" class="mobile-menu-link">Home</a>
+            <a href="#selected-work" class="mobile-menu-link">Featured Films</a>
+            <a href="#about" class="mobile-menu-link">About & Story</a>
+            <a href="#services" class="mobile-menu-link">Services</a>
+            <a href="#photography" class="mobile-menu-link">Still Gallery</a>
+            <a href="#contact" class="mobile-menu-link">Book Collaboration</a>
+        </nav>
+        <div class="mobile-menu-bottom">
+            <span>BENGALURU, INDIA</span>
+            <span>ashiqchangal@gmail.com</span>
+        </div>
+    </div>
+
+    <!-- 1. HERO SECTION -->
+    <section id="home" class="hero-section">
+        <div id="hero-three-canvas" class="hero-three-canvas-container"></div>
+
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-7">
+                    <div class="hero-content">
+                        <div class="hero-pill-badge">
+                            <span>🎥</span>
+                            <span>VIDEOGRAPHER & VIDEO EDITOR • BENGALURU</span>
+                        </div>
+                        <h1 class="hero-title-main">
+                            Crafting <span class="hero-title-highlight">Cinematic Films</span> & Evocative Stories
+                        </h1>
+                        <p class="hero-lead-text">
+                            Mohamed Ashiq CM specializes in emotive wedding films, dynamic content creation, and precision post-production on DaVinci Resolve & Premiere Pro.
+                        </p>
+                        <div class="hero-cta-row">
+                            <a href="#selected-work" class="btn-cinematic btn-primary-cinema" data-cursor="hover" data-magnetic>
+                                Explore 50+ Films
+                            </a>
+                            <a href="#contact" class="btn-cinematic btn-outline-cinema" data-cursor="hover" data-magnetic>
+                                Book Collaboration
+                            </a>
+                        </div>
+                        <div class="hero-metrics-bar">
+                            <div class="metric-item">
+                                <span class="metric-num stat-number-val" data-target="50">50</span>
+                                <span class="metric-num" style="font-size: 1.2rem; margin-left: -4px;">+</span>
+                                <span class="metric-label">Wedding Films</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-num stat-number-val" data-target="3">3</span>
+                                <span class="metric-num" style="font-size: 1.2rem; margin-left: -4px;">+</span>
+                                <span class="metric-label">Years Craft</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-num stat-number-val" data-target="100">100</span>
+                                <span class="metric-num" style="font-size: 1.2rem; margin-left: -4px;">%</span>
+                                <span class="metric-label">Client Satisfaction</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-num">2</span>
+                                <span class="metric-label">Pro Suites</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-scroll-indicator" aria-hidden="true">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span>Scroll</span>
+        </div>
+    </section>
+
+    <!-- 2. SELECTED FEATURED FILMS -->
+    <section id="selected-work" class="section-padding">
+        <div class="container">
+            <div class="section-header-clean">
+                <div class="section-tag-pill">
+                    <span class="tag-dot"></span>
+                    <span>Selected Portfolio</span>
+                </div>
+                <h2 class="section-title-large">Featured Wedding & Cinematic Films</h2>
+                <p class="section-lead-clean">
+                    A curated selection of wedding films, pre-wedding teasers, and high-impact commercial reels directed and edited by Mohamed Ashiq.
+                </p>
+            </div>
+
+            <div class="row g-4" id="featured-works-grid">
+                <!-- Rendered dynamically via gallery.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. ABOUT THE VIDEOGRAPHER -->
+    <section id="about" class="section-padding" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-12 col-lg-5 text-center">
+                    <div class="about-image-card">
+                        <img src="img/mohamed_ashiq.jpeg" alt="Mohamed Ashiq CM" class="about-img">
+                        <div class="about-floating-badge">
+                            <h4 class="about-floating-name">Mohamed Ashiq CM</h4>
+                            <span class="about-floating-role">Videographer & Video Editor • Bengaluru</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-7">
+                    <div>
+                        <div class="section-tag-pill">
+                            <span class="tag-dot"></span>
+                            <span>The Director</span>
+                        </div>
+                        <h2 class="section-title-large mb-3">Directing with Passion.<br>Editing with Precision.</h2>
+                        <p class="mb-4 text-light" style="font-size: 1.02rem; line-height: 1.8;">
+                            Mohamed Ashiq CM is a professional Videographer and Video Editor with hands-on experience in wedding videography, content creation, and video post-production. Skilled in directing video shoots, managing on-site production teams, and coordinating with clients from concept to final delivery.
+                        </p>
+
+                        <!-- 3 Clear Focus Pillars -->
+                        <div class="focus-pillar-card">
+                            <div class="focus-pillar-header">
+                                <div class="focus-pillar-icon">🎥</div>
+                                <h4 class="focus-pillar-title">Wedding Videography & Directing</h4>
+                            </div>
+                            <p class="focus-pillar-desc">
+                                Over 50+ wedding films delivered across multiple clients, capturing intimate moments and grand celebrations with movie-grade storytelling.
+                            </p>
+                        </div>
+
+                        <div class="focus-pillar-card">
+                            <div class="focus-pillar-header">
+                                <div class="focus-pillar-icon">⚡</div>
+                                <h4 class="focus-pillar-title">Post-Production & Color Grading</h4>
+                            </div>
+                            <p class="focus-pillar-desc">
+                                Expert workflow in <strong>DaVinci Resolve</strong> and <strong>Adobe Premiere Pro</strong>, handling multi-cam sync, color science, sound design, and master delivery.
+                            </p>
+                        </div>
+
+                        <div class="focus-pillar-card">
+                            <div class="focus-pillar-header">
+                                <div class="focus-pillar-icon">🎓</div>
+                                <h4 class="focus-pillar-title">Academic Leadership & Communication</h4>
+                            </div>
+                            <p class="focus-pillar-desc">
+                                Bachelor of Hospital Administration (BHA), Yenepoya School of Allied Health Sciences, Mangalore (2023 – 2026). Strong executive coordination and client communication.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. EXPERIENCE TIMELINE -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header-clean">
+                <div class="section-tag-pill">
+                    <span class="tag-dot"></span>
+                    <span>Career Track</span>
+                </div>
+                <h2 class="section-title-large">Professional Journey</h2>
+                <p class="section-lead-clean">
+                    Practical experience across independent production direction and fast-paced studio editing environments.
+                </p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="timeline-minimal-container">
+                        <div class="timeline-node">
+                            <div class="timeline-node-dot"></div>
+                            <div class="timeline-card-inner">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                                    <h4 class="text-white mb-0" style="font-size: 1.18rem; font-weight: 700;">Freelance Videographer & Content Creator</h4>
+                                    <span class="badge" style="background: rgba(229,195,120,0.15); color: var(--accent-gold); font-family: var(--font-mono); font-size: 0.76rem; padding: 6px 12px; border-radius: 20px;">2022 – Present</span>
+                                </div>
+                                <div class="small text-muted font-monospace mb-2">Self-Employed • Bengaluru & Pan-India (2+ Years)</div>
+                                <div class="small mb-3" style="color: var(--accent-gold); font-weight: 600;">⭐ Directed and edited projects for multiple clients and delivered 50+ wedding films</div>
+                                <ul class="small text-light mb-0 ps-3">
+                                    <li class="mb-1">Directed on-location shoots for weddings, brands, and creative campaigns.</li>
+                                    <li class="mb-1">Created ongoing high-engagement content for clients' social media platforms.</li>
+                                    <li class="mb-1">Managed client communication throughout production from concept to delivery.</li>
+                                    <li class="mb-1">Ensured cinematic projects were delivered on schedule.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-node">
+                            <div class="timeline-node-dot"></div>
+                            <div class="timeline-card-inner">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                                    <h4 class="text-white mb-0" style="font-size: 1.18rem; font-weight: 700;">Video Editing Intern</h4>
+                                    <span class="badge" style="background: rgba(229,195,120,0.15); color: var(--accent-gold); font-family: var(--font-mono); font-size: 0.76rem; padding: 6px 12px; border-radius: 20px;">August 2025 – September 2025</span>
+                                </div>
+                                <div class="small text-muted font-monospace mb-2">Lenzpire Media • Bengaluru (1 Month)</div>
+                                <ul class="small text-light mb-0 ps-3">
+                                    <li class="mb-1">Supported senior editors with cutting-edge post-production workflows.</li>
+                                    <li class="mb-1">Organized, cataloged, and synchronized multi-camera raw footage archives.</li>
+                                    <li class="mb-1">Assisted in pacing, audio synchronization, and color grading passes.</li>
+                                    <li class="mb-1">Learned professional production workflows from filming through final delivery.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SERVICES -->
+    <section id="services" class="section-padding" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header-clean text-center mx-auto" style="max-width: 700px;">
+                <div class="section-tag-pill">
+                    <span class="tag-dot"></span>
+                    <span>Services Offered</span>
+                </div>
+                <h2 class="section-title-large">Videography & Post-Production</h2>
+                <p class="section-lead-clean mx-auto">
+                    Full-spectrum production services from on-location direction to final DaVinci Resolve grading.
+                </p>
+            </div>
+
+            <!-- Endless Horizontal Auto-Scrolling Image Marquee Carousel (Zero-Gap) -->
+            <div class="services-marquee-wrapper" aria-label="Cinematic Visual Showcase">
+                <div class="services-marquee-track">
+                    <!-- Set 1 -->
+                    <div class="marquee-image-item">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85" alt="Wedding Film Highlight" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Wedding Cinematography</span>
+                            <h4 class="marquee-title">Royal Wedding Grandeur</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=85" alt="Pre-Wedding Film" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Pre-Wedding Film</span>
+                            <h4 class="marquee-title">Golden Hour Hills</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item">
+                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=85" alt="Traditional Ceremonies" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Event Coverage</span>
+                            <h4 class="marquee-title">Sacred Vows & Rituals</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item">
+                        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=85" alt="Festive Celebrations" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Haldi & Sangeet</span>
+                            <h4 class="marquee-title">Euphoric Festivities</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item">
+                        <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=85" alt="Social Media Reels" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Social Media Reels</span>
+                            <h4 class="marquee-title">High-Retention 9:16 Edits</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item">
+                        <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=800&q=85" alt="Commercial Directing" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Post-Production</span>
+                            <h4 class="marquee-title">DaVinci Resolve Color Grade</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85" alt="Portrait Studio" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Direction</span>
+                            <h4 class="marquee-title">On-Location Camera Direction</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item">
+                        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=85" alt="Cinema Stills" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">4K Master Delivery</span>
+                            <h4 class="marquee-title">CinemaScope 2.39:1</h4>
+                        </div>
+                    </div>
+
+                    <!-- Set 2 (Duplicate for Seamless Infinite Loop) -->
+                    <div class="marquee-image-item" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85" alt="Wedding Film Highlight" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Wedding Cinematography</span>
+                            <h4 class="marquee-title">Royal Wedding Grandeur</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=85" alt="Pre-Wedding Film" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Pre-Wedding Film</span>
+                            <h4 class="marquee-title">Golden Hour Hills</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=85" alt="Traditional Ceremonies" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Event Coverage</span>
+                            <h4 class="marquee-title">Sacred Vows & Rituals</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=85" alt="Festive Celebrations" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Haldi & Sangeet</span>
+                            <h4 class="marquee-title">Euphoric Festivities</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=85" alt="Social Media Reels" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Social Media Reels</span>
+                            <h4 class="marquee-title">High-Retention 9:16 Edits</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=800&q=85" alt="Commercial Directing" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Post-Production</span>
+                            <h4 class="marquee-title">DaVinci Resolve Color Grade</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85" alt="Portrait Studio" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">Direction</span>
+                            <h4 class="marquee-title">On-Location Camera Direction</h4>
+                        </div>
+                    </div>
+                    <div class="marquee-image-item" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=85" alt="Cinema Stills" class="marquee-img" loading="lazy">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">4K Master Delivery</span>
+                            <h4 class="marquee-title">CinemaScope 2.39:1</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4" id="services-grid-container">
+                <div class="col-12 col-md-6">
+                    <div class="service-clean-card">
+                        <div class="service-icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m10 15 5-3-5-3v6z"/></svg>
+                        </div>
+                        <h3 class="service-card-title">Wedding Films & Highlights</h3>
+                        <p class="service-card-desc">Cinematic wedding films that capture intimate emotion, traditional grandeur, and joyous celebrations with movie-grade storytelling.</p>
+                        <ul class="service-checklist">
+                            <li>Full-day on-location cinematic coverage</li>
+                            <li>4K Ultra-HD Multi-camera recording</li>
+                            <li>Emotive teaser trailer + Full feature film</li>
+                            <li>Bespoke color grading & licensed soundtrack</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="service-clean-card">
+                        <div class="service-icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                        </div>
+                        <h3 class="service-card-title">Cinematic Event Videography</h3>
+                        <p class="service-card-desc">Dynamic video coverage for private celebrations, gala events, music performances, and corporate functions.</p>
+                        <ul class="service-checklist">
+                            <li>High-frame rate slow-motion captures</li>
+                            <li>Crisp multi-source audio recording</li>
+                            <li>Same-day / Fast-turnaround teaser reel</li>
+                            <li>Highlight recap film for social & archive</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="service-clean-card">
+                        <div class="service-icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        </div>
+                        <h3 class="service-card-title">Social Media Content Creation & Reels</h3>
+                        <p class="service-card-desc">Viral, high-retention 9:16 vertical reels and shorts engineered for Instagram, YouTube, and brand visibility.</p>
+                        <ul class="service-checklist">
+                            <li>Trend-aware dynamic editing & transitions</li>
+                            <li>Hook-first visual pacing</li>
+                            <li>Optimized typography & captions</li>
+                            <li>Batch production workflows for creators & brands</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="service-clean-card">
+                        <div class="service-icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        </div>
+                        <h3 class="service-card-title">Post-Production & Color Grading</h3>
+                        <p class="service-card-desc">Precision editing in DaVinci Resolve & Premiere Pro, transforming raw footage into polished, cinema-grade deliverables.</p>
+                        <ul class="service-checklist">
+                            <li>Multi-cam timeline synchronization</li>
+                            <li>Cinematic film-emulation color grading</li>
+                            <li>Dialogue cleanup & ambient sound design</li>
+                            <li>Master export in all deliverable formats</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. STILL PHOTOGRAPHY & FRAMES -->
+    <section id="photography" class="section-padding">
+        <div class="container">
+            <div class="section-header-clean">
+                <div class="section-tag-pill">
+                    <span class="tag-dot"></span>
+                    <span>Visual Archive</span>
+                </div>
+                <h2 class="section-title-large">Still Frames & Photography</h2>
+                <p class="section-lead-clean">
+                    Captured moments across weddings, events, portraits, and commercial shoots.
+                </p>
+            </div>
+
+            <!-- Dynamic Category Filter Pills -->
+            <div class="gallery-filter-bar" id="gallery-filter-bar"></div>
+
+            <!-- Masonry Photo Grid -->
+            <div class="row g-4" id="photography-masonry-grid"></div>
+        </div>
+    </section>
+
+    <!-- 7. CLIENT TESTIMONIALS (SWIPER) -->
+    <section class="section-padding" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header-clean text-center mx-auto" style="max-width: 650px;">
+                <div class="section-tag-pill">
+                    <span class="tag-dot"></span>
+                    <span>Testimonials</span>
+                </div>
+                <h2 class="section-title-large">What Clients Say</h2>
+            </div>
+
+            <div class="swiper testimonials-swiper">
+                <div class="swiper-wrapper" id="testimonials-slider-wrapper"></div>
+                <div class="testimonial-pagination d-flex justify-content-center mt-4"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. DIRECT CONTACT & BOOKING -->
+    <section id="contact" class="section-padding">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-12 col-lg-5">
+                    <div>
+                        <div class="section-tag-pill">
+                            <span class="tag-dot"></span>
+                            <span>Get In Touch</span>
+                        </div>
+                        <h2 class="section-title-large mb-3">Let's Create Your Next Film.</h2>
+                        <p class="text-secondary mb-4">
+                            Whether you need full wedding videography, social media content creation, or professional post-production editing, get in touch directly or submit an inquiry.
+                        </p>
+
+                        <!-- Direct Fast Links -->
+                        <a href="https://wa.me/919061733155" target="_blank" rel="noopener" class="direct-quick-link" data-cursor="hover">
+                            <div class="direct-quick-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            </div>
+                            <div>
+                                <div class="small text-muted font-monospace">WhatsApp Direct</div>
+                                <strong class="text-white">+91 9061733155</strong>
+                            </div>
+                        </a>
+
+                        <a href="mailto:ashiqchangal@gmail.com" class="direct-quick-link" data-cursor="hover">
+                            <div class="direct-quick-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </div>
+                            <div>
+                                <div class="small text-muted font-monospace">Direct Email</div>
+                                <strong class="text-white">ashiqchangal@gmail.com</strong>
+                            </div>
+                        </a>
+
+                        <a href="https://www.instagram.com/askie._?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="direct-quick-link" data-cursor="hover">
+                            <div class="direct-quick-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            </div>
+                            <div>
+                                <div class="small text-muted font-monospace">Instagram</div>
+                                <strong class="text-white">@askie._</strong>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-7">
+                    <div class="contact-glass-panel">
+                        <h3 class="text-white mb-4" style="font-size: 1.4rem; font-weight: 700;">Inquiry & Booking Form</h3>
+                        <form id="booking-inquiry-form" novalidate>
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group-cinema">
+                                        <label for="inquiry-name" class="form-label-cinema">Full Name *</label>
+                                        <input type="text" id="inquiry-name" class="form-control-cinema" placeholder="e.g. Arjun Kumar" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group-cinema">
+                                        <label for="inquiry-email" class="form-label-cinema">Email Address *</label>
+                                        <input type="email" id="inquiry-email" class="form-control-cinema" placeholder="e.g. arjun@example.com" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group-cinema">
+                                        <label for="inquiry-phone" class="form-label-cinema">Phone / WhatsApp</label>
+                                        <input type="tel" id="inquiry-phone" class="form-control-cinema" placeholder="+91 98765 43210">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group-cinema">
+                                        <label for="inquiry-service" class="form-label-cinema">Service Required</label>
+                                        <select id="inquiry-service" class="form-control-cinema">
+                                            <option value="Wedding Videography">Wedding Videography & Films</option>
+                                            <option value="Pre-Wedding Film">Pre-Wedding Cinematic Teaser</option>
+                                            <option value="Event Videography">Event / Sangeet / Concert Coverage</option>
+                                            <option value="Social Media Reels">Social Media Content Creation & Reels</option>
+                                            <option value="Video Editing">Video Editing & Color Grading (DaVinci/Premiere)</option>
+                                            <option value="Other">Other Collaboration</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group-cinema">
+                                        <label for="inquiry-message" class="form-label-cinema">Message / Project Details *</label>
+                                        <textarea id="inquiry-message" rows="4" class="form-control-cinema" placeholder="Tell Mohamed Ashiq about your shoot dates, location, vision, and timeline..." required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12 pt-2">
+                                    <button type="submit" class="btn-cinematic btn-primary-cinema w-100 py-3" data-cursor="hover">
+                                        Send Message to Mohamed Ashiq
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="form-feedback-alert" class="d-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FOOTER -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-12 col-md-5">
+                    <div class="brand-logo mb-2">
+                        ASKY<span class="brand-dot">.</span>
+                    </div>
+                    <p class="text-muted small mb-0">
+                        Mohamed Ashiq CM • Videographer & Video Editor.<br>
+                        Delivered 50+ wedding films. Available across India & worldwide.
+                    </p>
+                </div>
+                <div class="col-12 col-md-3 text-md-center">
+                    <div class="d-flex justify-content-md-center gap-3">
+                        <a href="https://www.instagram.com/askie._?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="text-secondary" aria-label="Instagram">Instagram</a>
+                        <span class="text-muted">•</span>
+                        <a href="https://wa.me/919061733155" target="_blank" rel="noopener" class="text-secondary" aria-label="WhatsApp">WhatsApp</a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 text-md-end">
+                    <a href="#home" class="btn-cinematic btn-outline-cinema py-2 px-3 small" data-cursor="hover">
+                        &uarr; Top
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom-bar">
+                <div>&copy; <span id="current-year">2026</span> MOHAMED ASHIQ CM. ALL RIGHTS RESERVED.</div>
+                <div>POWERED BY PYTHON DJANGO CMS • BENGALURU, INDIA</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: FULLSCREEN LIGHTBOX -->
+    <div id="cinematic-lightbox-modal" class="cinematic-modal" role="dialog" aria-modal="true" aria-label="Photo Lightbox">
+        <div class="lightbox-backdrop"></div>
+        <button id="lightbox-close-btn" class="modal-close-icon-btn" aria-label="Close Lightbox">&times;</button>
+        <button id="lightbox-prev-btn" class="lightbox-nav-btn lightbox-prev" aria-label="Previous Photo" data-cursor="hover">&#10094;</button>
+        <button id="lightbox-next-btn" class="lightbox-nav-btn lightbox-next" aria-label="Next Photo" data-cursor="hover">&#10095;</button>
+
+        <div class="lightbox-container">
+            <div class="lightbox-image-wrapper">
+                <img id="lightbox-image" src="" alt="Expanded View">
+            </div>
+            <div class="lightbox-caption-bar">
+                <h3 id="lightbox-title" class="lightbox-title text-white h5 mb-1"></h3>
+                <div id="lightbox-meta" class="lightbox-meta font-monospace small text-gold"></div>
+                <div id="lightbox-counter" class="text-muted small mt-1 font-monospace"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: CINEMATIC VIDEO PLAYER -->
+    <div id="cinematic-video-modal" class="cinematic-modal" role="dialog" aria-modal="true" aria-label="Video Player">
+        <div class="modal-backdrop-cinematic"></div>
+        <button id="video-modal-close-btn" class="modal-close-icon-btn" aria-label="Close Video">&times;</button>
+
+        <div class="video-modal-dialog">
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <h4 id="video-modal-title" class="mb-0 text-white font-monospace" style="font-size: 1.1rem; letter-spacing: 0.12em;"></h4>
+                <span class="badge" style="background: var(--accent-gold); color: #000; font-family: var(--font-mono);">4K MASTER</span>
+            </div>
+            <div class="video-modal-screen">
+                <video id="video-modal-player" controls playsinline preload="auto">
+                    Your browser does not support HTML5 cinema playback.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Custom Portfolio Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/three-scene.js"></script>
+    <script src="js/cursor.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
