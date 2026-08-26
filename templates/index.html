@@ -493,25 +493,57 @@
         </div>
     </section>
 
-    <!-- 6. STILL PHOTOGRAPHY & FRAMES -->
-    <section id="photography" class="section-padding">
-        <div class="container">
-            <div class="section-header-clean">
-                <div class="section-tag-pill">
-                    <span class="tag-dot"></span>
-                    <span>Visual Archive</span>
+    <!-- 6. CINEMATIC SPLIT-SCREEN GALLERY & VISUAL ARCHIVE -->
+    <section id="photography" class="section-padding gallery-split-section">
+        <div class="container-fluid px-lg-5 px-3">
+            <div class="gallery-split-wrapper">
+                <div class="gallery-split-grid">
+                    
+                    <!-- Left Column: Sticky Cinematic Hub -->
+                    <aside class="gallery-sticky-sidebar">
+                        <div class="gallery-sidebar-header">
+                            <div class="gallery-rec-badge">
+                                <span class="gallery-rec-dot"></span>
+                                <span>REC // VISUAL ARCHIVE</span>
+                            </div>
+                            <h2 class="gallery-title-large">Gallery</h2>
+                            <p class="gallery-lead-synopsis">
+                                A curated continuum of light, motion, and raw emotion captured across wedding chronicles, editorial portraits, live events, and cinema frames.
+                            </p>
+                        </div>
+
+                        <!-- Minimalist Category Navigation -->
+                        <nav class="gallery-category-nav" id="gallery-category-nav" aria-label="Gallery Categories">
+                            <!-- Populated dynamically via JS / fallback -->
+                        </nav>
+
+                        <!-- Camera Archive HUD specs -->
+                        <div class="gallery-sidebar-hud">
+                            <div class="hud-item">
+                                <span class="hud-label">CINEMA SENSOR</span>
+                                <span class="hud-val">FULL-FRAME 4K HDR</span>
+                            </div>
+                            <div class="hud-item">
+                                <span class="hud-label">LENS SUITE</span>
+                                <span class="hud-val">24-85MM T1.4 PRIME</span>
+                            </div>
+                            <div class="hud-item">
+                                <span class="hud-label">COLOR PIPELINE</span>
+                                <span class="hud-val">DaVinci Resolve ACES</span>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Right Column: Dynamic Multi-Column Parallax Masonry -->
+                    <div class="gallery-parallax-container" id="gallery-parallax-container">
+                        <div class="gallery-parallax-columns" id="gallery-parallax-columns">
+                            <div class="gallery-stream-col col-left" id="gallery-stream-col-1"></div>
+                            <div class="gallery-stream-col col-right col-offset" id="gallery-stream-col-2"></div>
+                        </div>
+                    </div>
+
                 </div>
-                <h2 class="section-title-large">Still Frames & Photography</h2>
-                <p class="section-lead-clean">
-                    Captured moments across weddings, events, portraits, and commercial shoots.
-                </p>
             </div>
-
-            <!-- Dynamic Category Filter Pills -->
-            <div class="gallery-filter-bar" id="gallery-filter-bar"></div>
-
-            <!-- Masonry Photo Grid -->
-            <div class="row g-4" id="photography-masonry-grid"></div>
         </div>
     </section>
 
@@ -675,21 +707,43 @@
         </div>
     </footer>
 
-    <!-- MODAL 1: FULLSCREEN LIGHTBOX -->
+    <!-- MODAL 1: FULLSCREEN CINEMATIC LIGHTBOX -->
     <div id="cinematic-lightbox-modal" class="cinematic-modal" role="dialog" aria-modal="true" aria-label="Photo Lightbox">
         <div class="lightbox-backdrop"></div>
-        <button id="lightbox-close-btn" class="modal-close-icon-btn" aria-label="Close Lightbox">&times;</button>
+        <button id="lightbox-close-btn" class="modal-close-icon-btn" aria-label="Close Lightbox" data-cursor="hover">&times;</button>
         <button id="lightbox-prev-btn" class="lightbox-nav-btn lightbox-prev" aria-label="Previous Photo" data-cursor="hover">&#10094;</button>
         <button id="lightbox-next-btn" class="lightbox-nav-btn lightbox-next" aria-label="Next Photo" data-cursor="hover">&#10095;</button>
 
         <div class="lightbox-container">
-            <div class="lightbox-image-wrapper">
-                <img id="lightbox-image" src="" alt="Expanded View">
+            <div class="lightbox-main-stage">
+                <div class="lightbox-image-wrapper" id="lightbox-image-wrapper">
+                    <!-- Top HUD -->
+                    <div class="lightbox-top-hud">
+                        <span id="lightbox-roll-tag">ROLL // MASTER</span>
+                        <span id="lightbox-counter">1 / 16</span>
+                    </div>
+
+                    <!-- Viewfinder Corners -->
+                    <div class="lightbox-viewfinder" aria-hidden="true">
+                        <span class="frame-corner top-left"></span>
+                        <span class="frame-corner top-right"></span>
+                        <span class="frame-corner bottom-left"></span>
+                        <span class="frame-corner bottom-right"></span>
+                    </div>
+
+                    <img id="lightbox-image" src="" alt="Expanded Master Frame">
+                </div>
+
+                <div class="lightbox-caption-bar">
+                    <h3 id="lightbox-title" class="lightbox-title"></h3>
+                    <div id="lightbox-meta" class="lightbox-meta"></div>
+                </div>
             </div>
-            <div class="lightbox-caption-bar">
-                <h3 id="lightbox-title" class="lightbox-title text-white h5 mb-1"></h3>
-                <div id="lightbox-meta" class="lightbox-meta font-monospace small text-gold"></div>
-                <div id="lightbox-counter" class="text-muted small mt-1 font-monospace"></div>
+
+            <!-- Interactive Film-Strip Reel -->
+            <div class="lightbox-filmstrip-wrapper">
+                <div class="lightbox-filmstrip-label">FRAME INDEX // QUICK JUMP</div>
+                <div class="lightbox-filmstrip" id="lightbox-filmstrip"></div>
             </div>
         </div>
     </div>
