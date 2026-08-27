@@ -52,8 +52,8 @@
             <nav class="d-none d-lg-block">
                 <ul class="nav-links-desktop">
                     <li><a href="#home" class="nav-link-item is-active" data-cursor="hover">Home</a></li>
-                    <li><a href="#selected-work" class="nav-link-item" data-cursor="hover">Films</a></li>
                     <li><a href="#about" class="nav-link-item" data-cursor="hover">About</a></li>
+                    <li><a href="#selected-work" class="nav-link-item" data-cursor="hover">Films</a></li>
                     <li><a href="#services" class="nav-link-item" data-cursor="hover">Services</a></li>
                     <li><a href="#photography" class="nav-link-item" data-cursor="hover">Gallery</a></li>
                     <li><a href="#contact" class="nav-link-item" data-cursor="hover">Contact</a></li>
@@ -89,8 +89,8 @@
         </div>
         <nav class="mobile-menu-nav">
             <a href="#home" class="mobile-menu-link">Home</a>
-            <a href="#selected-work" class="mobile-menu-link">Featured Films</a>
             <a href="#about" class="mobile-menu-link">About & Story</a>
+            <a href="#selected-work" class="mobile-menu-link">Featured Films</a>
             <a href="#services" class="mobile-menu-link">Services</a>
             <a href="#photography" class="mobile-menu-link">Still Gallery</a>
             <a href="#contact" class="mobile-menu-link">Book Collaboration</a>
@@ -161,27 +161,7 @@
         </div>
     </section>
 
-    <!-- 2. SELECTED FEATURED FILMS -->
-    <section id="selected-work" class="section-padding">
-        <div class="container">
-            <div class="section-header-clean">
-                <div class="section-tag-pill">
-                    <span class="tag-dot"></span>
-                    <span>Selected Portfolio</span>
-                </div>
-                <h2 class="section-title-large">Featured Wedding & Cinematic Films</h2>
-                <p class="section-lead-clean">
-                    A curated selection of wedding films, pre-wedding teasers, and high-impact commercial reels directed and edited by Mohamed Ashiq.
-                </p>
-            </div>
-
-            <div class="row g-4" id="featured-works-grid">
-                <!-- Rendered dynamically via gallery.js -->
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. ABOUT THE VIDEOGRAPHER -->
+    <!-- 2. ABOUT THE VIDEOGRAPHER -->
     <section id="about" class="section-padding" style="background: var(--bg-secondary);">
         <div class="container">
             <div class="row align-items-center g-5">
@@ -238,6 +218,26 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SELECTED FEATURED FILMS -->
+    <section id="selected-work" class="section-padding">
+        <div class="container">
+            <div class="section-header-clean">
+                <div class="section-tag-pill">
+                    <span class="tag-dot"></span>
+                    <span>Selected Portfolio</span>
+                </div>
+                <h2 class="section-title-large">Featured Wedding & Cinematic Films</h2>
+                <p class="section-lead-clean">
+                    A curated selection of wedding films, pre-wedding teasers, and high-impact commercial reels directed and edited by Mohamed Ashiq.
+                </p>
+            </div>
+
+            <div class="featured-films-grid" id="featured-works-grid">
+                <!-- Rendered dynamically via gallery.js -->
             </div>
         </div>
     </section>

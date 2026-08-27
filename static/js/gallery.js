@@ -31,28 +31,37 @@ class GalleryManager {
         // Fallback render if container has no items
         if (container.children.length === 0 && this.data.featuredProjects) {
             container.innerHTML = this.data.featuredProjects.map((proj) => `
-                <div class="col-12 col-lg-6 mb-4">
-                    <article class="film-card-luxury" data-video-url="${proj.videoTeaser}" data-video-title="${proj.title}" data-cursor="play">
-                        <div class="film-thumb-wrap">
-                            <img src="${proj.coverImage}" alt="${proj.title}" class="film-thumb-img" loading="lazy">
-                            <div class="film-gradient-overlay"></div>
-                            <div class="film-play-badge">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-                            </div>
+                <article class="film-card-luxury" data-video-url="${proj.videoTeaser}" data-video-title="${proj.title}" data-cursor="play">
+                    <div class="film-thumb-wrap">
+                        <img src="${proj.coverImage}" alt="${proj.title}" class="film-thumb-img" loading="lazy">
+                        <div class="film-gradient-overlay"></div>
+                        <div class="film-category-pill">${proj.category}</div>
+                        <div class="film-quality-pill">${proj.aspectRatio || '4K CINEMA'}</div>
+                        <div class="film-play-badge">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
                         </div>
-                        <div class="film-card-info">
+                    </div>
+                    <div class="film-card-info">
+                        <div class="film-card-body">
                             <div class="film-card-tags">
                                 <span>${proj.category}</span>
-                                <span>•</span>
+                                <span class="tag-sep">•</span>
                                 <span>${proj.location}</span>
-                                <span>•</span>
+                                <span class="tag-sep">•</span>
                                 <span>${proj.year}</span>
                             </div>
                             <h3 class="film-card-title">${proj.title}</h3>
                             <p class="film-card-desc">${proj.overview || proj.subtitle}</p>
                         </div>
-                    </article>
-                </div>
+                        <div class="film-card-footer">
+                            <span class="film-spec-badge">${proj.focalLength || 'DaVinci Graded'}</span>
+                            <div class="film-watch-cta">
+                                <span>Watch Film</span>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </article>
             `).join("");
         }
 

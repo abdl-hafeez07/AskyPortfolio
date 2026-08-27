@@ -136,7 +136,8 @@ class CinematicAnimations {
                     opacity: 0,
                     stagger: 0.15,
                     duration: 0.9,
-                    ease: "power3.out"
+                    ease: "power3.out",
+                    clearProps: "transform"
                 });
             },
             once: true

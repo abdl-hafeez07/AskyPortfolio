@@ -102,6 +102,13 @@
         opacity: 0.3;
     }
 
+    /* Featured Work Grid Tablet Adaptation */
+    .featured-films-grid,
+    #featured-works-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 24px !important;
+    }
+
     /* Split-Screen Gallery Tablet Adaptation */
     .gallery-split-grid {
         grid-template-columns: 1fr;
@@ -132,6 +139,29 @@
 
     .gallery-stream-col.col-offset {
         margin-top: 0;
+    }
+}
+
+/* Mobile Breakpoint (max 767.98px) */
+@media (max-width: 767.98px) {
+    .featured-films-grid,
+    #featured-works-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+
+    .film-card-info {
+        padding: 20px;
+    }
+
+    .film-card-title {
+        height: auto;
+        min-height: auto;
+    }
+
+    .film-card-desc {
+        height: auto;
+        min-height: auto;
     }
 }
 

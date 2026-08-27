@@ -71,13 +71,15 @@ class CinematicCursor {
             const target = e.target.closest("[data-cursor]");
             const magneticEl = e.target.closest("[data-magnetic]");
 
-            if (target) {
+            if (target && (!e.relatedTarget || !e.relatedTarget.closest("[data-cursor]"))) {
                 this.resetCursorState();
             }
 
-            if (magneticEl && this.magneticTarget === magneticEl) {
-                this.magneticTarget.style.transform = "translate3d(0, 0, 0)";
-                this.magneticTarget = null;
+            if (magneticEl && (!e.relatedTarget || !e.relatedTarget.closest("[data-magnetic]"))) {
+                if (this.magneticTarget === magneticEl) {
+                    this.magneticTarget.style.transform = "translate3d(0, 0, 0)";
+                    this.magneticTarget = null;
+                }
             }
         });
 

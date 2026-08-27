@@ -53,8 +53,8 @@
             <nav class="d-none d-lg-block">
                 <ul class="nav-links-desktop">
                     <li><a href="#home" class="nav-link-item is-active" data-cursor="hover">Home</a></li>
-                    <li><a href="#selected-work" class="nav-link-item" data-cursor="hover">Films</a></li>
                     <li><a href="#about" class="nav-link-item" data-cursor="hover">About</a></li>
+                    <li><a href="#selected-work" class="nav-link-item" data-cursor="hover">Films</a></li>
                     <li><a href="#services" class="nav-link-item" data-cursor="hover">Services</a></li>
                     <li><a href="#photography" class="nav-link-item" data-cursor="hover">Gallery</a></li>
                     <li><a href="#contact" class="nav-link-item" data-cursor="hover">Contact</a></li>
@@ -90,8 +90,8 @@
         </div>
         <nav class="mobile-menu-nav">
             <a href="#home" class="mobile-menu-link">Home</a>
-            <a href="#selected-work" class="mobile-menu-link">Featured Films</a>
             <a href="#about" class="mobile-menu-link">About & Story</a>
+            <a href="#selected-work" class="mobile-menu-link">Featured Films</a>
             <a href="#services" class="mobile-menu-link">Services</a>
             <a href="#photography" class="mobile-menu-link">Still Gallery</a>
             <a href="#contact" class="mobile-menu-link">Book Collaboration</a>
@@ -162,52 +162,7 @@
         </div>
     </section>
 
-    <!-- 2. SELECTED FEATURED FILMS -->
-    <section id="selected-work" class="section-padding">
-        <div class="container">
-            <div class="section-header-clean">
-                <div class="section-tag-pill">
-                    <span class="tag-dot"></span>
-                    <span>Selected Portfolio</span>
-                </div>
-                <h2 class="section-title-large">Featured Wedding & Cinematic Films</h2>
-                <p class="section-lead-clean">
-                    A curated selection of wedding films, pre-wedding teasers, and high-impact commercial reels directed and edited by Mohamed Ashiq.
-                </p>
-            </div>
-
-            <div class="row g-4" id="featured-works-grid">
-                {% for proj in featured_projects %}
-                <div class="col-12 col-lg-6">
-                    <article class="film-card-luxury" data-video-url="{{ proj.video_url }}" data-video-title="{{ proj.title }}" data-cursor="play">
-                        <div class="film-thumb-wrap">
-                            <img src="{{ proj.image_src }}" alt="{{ proj.title }}" class="film-thumb-img" loading="lazy">
-                            <div class="film-gradient-overlay"></div>
-                            <div class="film-play-badge">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-                            </div>
-                        </div>
-                        <div class="film-card-info">
-                            <div class="film-card-tags">
-                                <span>{{ proj.get_category_display }}</span>
-                                <span>•</span>
-                                <span>{{ proj.location }}</span>
-                                <span>•</span>
-                                <span>{{ proj.year }}</span>
-                            </div>
-                            <h3 class="film-card-title">{{ proj.title }}</h3>
-                            <p class="film-card-desc">{{ proj.overview|default:proj.subtitle }}</p>
-                        </div>
-                    </article>
-                </div>
-                {% empty %}
-                <!-- Rendered dynamically via JS fallback -->
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. ABOUT THE VIDEOGRAPHER -->
+    <!-- 2. ABOUT THE VIDEOGRAPHER -->
     <section id="about" class="section-padding" style="background: var(--bg-secondary);">
         <div class="container">
             <div class="row align-items-center g-5">
@@ -264,6 +219,60 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SELECTED FEATURED FILMS -->
+    <section id="selected-work" class="section-padding">
+        <div class="container">
+            <div class="section-header-clean">
+                <div class="section-tag-pill">
+                    <span class="tag-dot"></span>
+                    <span>Selected Portfolio</span>
+                </div>
+                <h2 class="section-title-large">Featured Wedding & Cinematic Films</h2>
+                <p class="section-lead-clean">
+                    A curated selection of wedding films, pre-wedding teasers, and high-impact commercial reels directed and edited by Mohamed Ashiq.
+                </p>
+            </div>
+
+            <div class="featured-films-grid" id="featured-works-grid">
+                {% for proj in featured_projects %}
+                <article class="film-card-luxury" data-video-url="{{ proj.video_url }}" data-video-title="{{ proj.title }}" data-cursor="play">
+                    <div class="film-thumb-wrap">
+                        <img src="{{ proj.image_src }}" alt="{{ proj.title }}" class="film-thumb-img" loading="lazy">
+                        <div class="film-gradient-overlay"></div>
+                        <div class="film-category-pill">{{ proj.get_category_display }}</div>
+                        <div class="film-quality-pill">{% if proj.aspect_ratio %}{{ proj.aspect_ratio }}{% else %}4K CINEMA{% endif %}</div>
+                        <div class="film-play-badge">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                        </div>
+                    </div>
+                    <div class="film-card-info">
+                        <div class="film-card-body">
+                            <div class="film-card-tags">
+                                <span>{{ proj.get_category_display }}</span>
+                                <span class="tag-sep">•</span>
+                                <span>{{ proj.location }}</span>
+                                <span class="tag-sep">•</span>
+                                <span>{{ proj.year }}</span>
+                            </div>
+                            <h3 class="film-card-title">{{ proj.title }}</h3>
+                            <p class="film-card-desc">{{ proj.overview|default:proj.subtitle }}</p>
+                        </div>
+                        <div class="film-card-footer">
+                            <span class="film-spec-badge">{% if proj.focal_length %}{{ proj.focal_length }}{% else %}DaVinci Graded{% endif %}</span>
+                            <div class="film-watch-cta">
+                                <span>Watch Film</span>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                {% empty %}
+                <!-- Rendered dynamically via JS fallback -->
+                {% endfor %}
             </div>
         </div>
     </section>
