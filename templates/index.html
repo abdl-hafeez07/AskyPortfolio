@@ -1,19 +1,25 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{{ profile.full_name|default:'Mohamed Ashiq CM' }} — {{ profile.professional_title|default:'Videographer & Video Editor' }} based in {{ profile.location|default:'Bengaluru, India' }}. Delivering 50+ cinematic wedding films, high-retention reels, and high-end video post-production in DaVinci Resolve & Premiere Pro.">
-    <meta name="keywords" content="Mohamed Ashiq CM, Asky, Videographer Bengaluru, Video Editor Bangalore, Wedding Videographer India, DaVinci Resolve Editor, Premiere Pro, Wedding Films, Content Creator">
+    <meta name="description"
+        content="{{ profile.full_name|default:'Mohamed Ashiq CM' }} — {{ profile.professional_title|default:'Videographer & Video Editor' }} based in {{ profile.location|default:'Bengaluru, India' }}. Delivering 50+ cinematic wedding films, high-retention reels, and high-end video post-production in DaVinci Resolve & Premiere Pro.">
+    <meta name="keywords"
+        content="Mohamed Ashiq CM, Asky, Videographer Bengaluru, Video Editor Bangalore, Wedding Videographer India, DaVinci Resolve Editor, Premiere Pro, Wedding Films, Content Creator">
     <meta name="author" content="{{ profile.full_name|default:'Mohamed Ashiq CM' }}">
-    <meta property="og:title" content="{{ profile.full_name|default:'Mohamed Ashiq CM' }} • {{ profile.professional_title|default:'Videographer & Video Editor' }}">
-    <meta property="og:description" content="Cinematic wedding films, dynamic content creation, and professional post-production.">
+    <meta property="og:title"
+        content="{{ profile.full_name|default:'Mohamed Ashiq CM' }} • {{ profile.professional_title|default:'Videographer & Video Editor' }}">
+    <meta property="og:description"
+        content="Cinematic wedding films, dynamic content creation, and professional post-production.">
     <meta property="og:type" content="website">
     <title>{{ profile.full_name|default:'Mohamed Ashiq CM' }} • {{ profile.professional_title|default:'Videographer & Video Editor' }} | {{ profile.brand_name|default:'ASKY' }}</title>
 
     <!-- Camera Aperture Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e5c378' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m14.31 8 5.74 9.94'/%3E%3Cpath d='M9.69 8h11.48'/%3E%3Cpath d='m7.38 12 5.74-9.94'/%3E%3Cpath d='M9.69 16 3.95 6.06'/%3E%3Cpath d='M14.31 16H2.83'/%3E%3Cpath d='m16.62 12-5.74 9.94'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e5c378' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m14.31 8 5.74 9.94'/%3E%3Cpath d='M9.69 8h11.48'/%3E%3Cpath d='m7.38 12 5.74-9.94'/%3E%3Cpath d='M9.69 16 3.95 6.06'/%3E%3Cpath d='M14.31 16H2.83'/%3E%3Cpath d='m16.62 12-5.74 9.94'/%3E%3C/svg%3E">
 
     <!-- Bootstrap 5 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -27,7 +33,72 @@
     <link rel="stylesheet" href="{% static 'css/animations.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 </head>
+
 <body>
+
+    <!-- CINEMATIC VIEWFINDER LOADING STAGE (FEATURING IMG_1013.JPG) -->
+    <div id="cinematic-loader-stage" class="cinematic-loader-stage" aria-label="Loading Cinema Experience">
+        <div class="loader-backdrop-glow"></div>
+
+        <div class="loader-viewfinder-rig" id="loader-viewfinder-rig">
+            <!-- Camera Recording HUD -->
+            <div class="loader-camera-hud">
+                <div class="hud-top-bar">
+                    <div class="hud-rec-indicator">
+                        <span class="hud-rec-dot"></span>
+                        <span class="hud-rec-text">REC ●</span>
+                    </div>
+                    <div class="hud-shutter-spec">4K CINEMA // 24.00 FPS</div>
+                    <div class="hud-battery-spec">RAW [■■■■] 100%</div>
+                </div>
+
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+
+                <!-- Iris Aperture & Master Frame (IMG_1013.JPG) -->
+                <div class="loader-iris-frame">
+                    <img src="{% static 'img/IMG_1013.JPG' %}" alt="Mohamed Ashiq CM - Cinema Master Frame" class="loader-iris-image" id="loader-iris-image">
+                    
+                    <!-- Optical Lens Glint & Shutter Blade Aperture -->
+                    <div class="loader-lens-aperture-overlay"></div>
+                    <div class="loader-lens-anamorphic-flare"></div>
+                </div>
+
+                <!-- Bottom Camera Parameters -->
+                <div class="hud-bottom-bar">
+                    <div class="hud-param-item">
+                        <span class="hud-param-label">SHUTTER</span>
+                        <span class="hud-param-val">1/48</span>
+                    </div>
+                    <div class="hud-param-item">
+                        <span class="hud-param-label">APERTURE</span>
+                        <span class="hud-param-val">f/1.8</span>
+                    </div>
+                    <div class="hud-param-item">
+                        <span class="hud-param-label">ISO</span>
+                        <span class="hud-param-val">400</span>
+                    </div>
+                    <div class="hud-param-item">
+                        <span class="hud-param-label">LENS</span>
+                        <span class="hud-param-val">35mm RAW</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loader Brand Title & Focus Tracker -->
+            <div class="loader-brand-focus-line">
+                <span class="loader-brand-title">MOHAMED ASHIQ CM</span>
+                <div class="loader-focus-bar">
+                    <div class="loader-focus-progress" id="loader-focus-progress"></div>
+                </div>
+                <span class="loader-status-sub">CALIBRATING OPTICS // READY</span>
+            </div>
+        </div>
+
+        <div class="loader-flash-transition" id="loader-flash-transition"></div>
+    </div>
 
     <!-- Ambient Glow Lighting Blobs -->
     <div class="ambient-glow-blob blob-1" aria-hidden="true"></div>
@@ -47,7 +118,8 @@
     <header class="main-header">
         <div class="container navbar-container">
             <a href="#home" class="brand-logo" data-cursor="hover">
-                {{ profile.brand_name|default:'ASKY' }}<span class="brand-dot">.</span><span class="brand-sub">CINEMA</span>
+                {{ profile.brand_name|default:'ASKY' }}<span class="brand-dot">.</span><span
+                    class="brand-sub">CINEMA</span>
             </a>
 
             <nav class="d-none d-lg-block">
@@ -104,10 +176,12 @@
 
     <!-- 1. HERO SECTION -->
     <section id="home" class="hero-section">
-        <div id="hero-three-canvas" class="hero-three-canvas-container"></div>
+        <!-- Ambient Warm Studio Spotlight Glow -->
+        <div class="hero-ambient-spotlight" aria-hidden="true"></div>
 
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row align-items-center g-5">
+                <!-- Left Column: Cinematic Typography & CTAs -->
                 <div class="col-12 col-lg-7">
                     <div class="hero-content">
                         <div class="hero-pill-badge">
@@ -118,19 +192,23 @@
                             Crafting <span class="hero-title-highlight">Cinematic Films</span> & Evocative Stories
                         </h1>
                         <p class="hero-lead-text">
-                            Mohamed Ashiq CM specializes in emotive wedding films, dynamic content creation, and precision post-production on DaVinci Resolve & Premiere Pro.
+                            Mohamed Ashiq CM specializes in emotive wedding films, dynamic content creation, and
+                            precision post-production on DaVinci Resolve & Premiere Pro.
                         </p>
                         <div class="hero-cta-row">
-                            <a href="#selected-work" class="btn-cinematic btn-primary-cinema" data-cursor="hover" data-magnetic>
+                            <a href="#selected-work" class="btn-cinematic btn-primary-cinema" data-cursor="hover"
+                                data-magnetic>
                                 Explore 50+ Films
                             </a>
-                            <a href="#contact" class="btn-cinematic btn-outline-cinema" data-cursor="hover" data-magnetic>
+                            <a href="#contact" class="btn-cinematic btn-outline-cinema" data-cursor="hover"
+                                data-magnetic>
                                 Book Collaboration
                             </a>
                         </div>
                         <div class="hero-metrics-bar">
                             <div class="metric-item">
-                                <span class="metric-num stat-number-val" data-target="{{ profile.wedding_films_delivered|default:50 }}">50</span>
+                                <span class="metric-num stat-number-val"
+                                    data-target="{{ profile.wedding_films_delivered|default:50 }}">50</span>
                                 <span class="metric-num" style="font-size: 1.2rem; margin-left: -4px;">+</span>
                                 <span class="metric-label">Wedding Films</span>
                             </div>
@@ -147,6 +225,39 @@
                             <div class="metric-item">
                                 <span class="metric-num">2</span>
                                 <span class="metric-label">Pro Suites</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Stunning DSLR Camera Visual Showcase (Uploaded Photo) -->
+                <div class="col-12 col-lg-5">
+                    <div class="hero-visual-showcase" id="hero-visual-showcase">
+                        <div class="hero-visual-container" id="hero-visual-card">
+                            <!-- Golden Ambient Bokeh Aura -->
+                            <div class="hero-card-ambient-aura"></div>
+
+                            <!-- Master Artwork Frame -->
+                            <div class="hero-artwork-frame">
+                                <img src="{% static 'img/IMG_1013.JPG' %}" alt="Mohamed Ashiq CM - Cinematic Videographer & Film Director" class="hero-artwork-img" id="hero-artwork-img">
+                                
+                                <!-- Interactive Light Glint / Flare Layer -->
+                                <div class="hero-shimmer-sweep" aria-hidden="true"></div>
+                                <div class="hero-lens-flare-glint" aria-hidden="true"></div>
+                            </div>
+
+                            <!-- Floating Luxury Badges -->
+                            <div class="hero-floating-badge badge-top-right">
+                                <span class="badge-dot-live"></span>
+                                <span class="badge-text">4K CINEMA // RAW OPTICS</span>
+                            </div>
+
+                            <div class="hero-floating-badge badge-bottom-left">
+                                <span class="badge-icon">🎬</span>
+                                <div class="badge-content">
+                                    <span class="badge-headline">50+ MASTER FILMS</span>
+                                    <span class="badge-subline">DaVinci & Premiere Suite</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -168,7 +279,8 @@
             <div class="row align-items-center g-5">
                 <div class="col-12 col-lg-5 text-center">
                     <div class="about-image-card">
-                        <img src="{% if profile.profile_photo %}{{ profile.profile_photo.url }}{% elif profile.profile_photo_url %}{{ profile.profile_photo_url }}{% else %}{% static 'img/mohamed_ashiq.jpeg' %}{% endif %}" alt="{{ profile.full_name|default:'Mohamed Ashiq CM' }}" class="about-img">
+                        <img src="{% if profile.profile_photo %}{{ profile.profile_photo.url }}{% elif profile.profile_photo_url %}{{ profile.profile_photo_url }}{% else %}{% static 'img/mohamed_ashiq.jpeg' %}{% endif %}"
+                            alt="{{ profile.full_name|default:'Mohamed Ashiq CM' }}" class="about-img">
                         <div class="about-floating-badge">
                             <h4 class="about-floating-name">{{ profile.full_name|default:'Mohamed Ashiq CM' }}</h4>
                             <span class="about-floating-role">{{ profile.professional_title|default:'Videographer & Video Editor' }} • Bengaluru</span>
@@ -194,7 +306,8 @@
                                 <h4 class="focus-pillar-title">Wedding Videography & Directing</h4>
                             </div>
                             <p class="focus-pillar-desc">
-                                Over 50+ wedding films delivered across multiple clients, capturing intimate moments and grand celebrations with movie-grade storytelling.
+                                Over 50+ wedding films delivered across multiple clients, capturing intimate moments and
+                                grand celebrations with movie-grade storytelling.
                             </p>
                         </div>
 
@@ -204,7 +317,9 @@
                                 <h4 class="focus-pillar-title">Post-Production & Color Grading</h4>
                             </div>
                             <p class="focus-pillar-desc">
-                                Expert workflow in <strong>DaVinci Resolve</strong> and <strong>Adobe Premiere Pro</strong>, handling multi-cam sync, color science, sound design, and master delivery.
+                                Expert workflow in <strong>DaVinci Resolve</strong> and <strong>Adobe Premiere
+                                    Pro</strong>, handling multi-cam sync, color science, sound design, and master
+                                delivery.
                             </p>
                         </div>
 
@@ -214,7 +329,8 @@
                                 <h4 class="focus-pillar-title">Academic Leadership & Communication</h4>
                             </div>
                             <p class="focus-pillar-desc">
-                                Bachelor of Hospital Administration (BHA), Yenepoya School of Allied Health Sciences, Mangalore (2023 – 2026). Strong executive coordination and client communication.
+                                Bachelor of Hospital Administration (BHA), Yenepoya School of Allied Health Sciences,
+                                Mangalore (2023 – 2026). Strong executive coordination and client communication.
                             </p>
                         </div>
                     </div>
@@ -233,20 +349,24 @@
                 </div>
                 <h2 class="section-title-large">Featured Wedding & Cinematic Films</h2>
                 <p class="section-lead-clean">
-                    A curated selection of wedding films, pre-wedding teasers, and high-impact commercial reels directed and edited by Mohamed Ashiq.
+                    A curated selection of wedding films, pre-wedding teasers, and high-impact commercial reels directed
+                    and edited by Mohamed Ashiq.
                 </p>
             </div>
 
             <div class="featured-films-grid" id="featured-works-grid">
                 {% for proj in featured_projects %}
-                <article class="film-card-luxury" data-video-url="{{ proj.video_url }}" data-video-title="{{ proj.title }}" data-cursor="play">
+                <article class="film-card-luxury" data-video-url="{{ proj.video_url }}"
+                    data-video-title="{{ proj.title }}" data-cursor="play">
                     <div class="film-thumb-wrap">
                         <img src="{{ proj.image_src }}" alt="{{ proj.title }}" class="film-thumb-img" loading="lazy">
                         <div class="film-gradient-overlay"></div>
                         <div class="film-category-pill">{{ proj.get_category_display }}</div>
                         <div class="film-quality-pill">{% if proj.aspect_ratio %}{{ proj.aspect_ratio }}{% else %}4K CINEMA{% endif %}</div>
                         <div class="film-play-badge">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="6 3 20 12 6 21 6 3" />
+                            </svg>
                         </div>
                     </div>
                     <div class="film-card-info">
@@ -265,7 +385,11 @@
                             <span class="film-spec-badge">{% if proj.focal_length %}{{ proj.focal_length }}{% else %}DaVinci Graded{% endif %}</span>
                             <div class="film-watch-cta">
                                 <span>Watch Film</span>
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12h14" />
+                                    <path d="m12 5 7 7-7 7" />
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -287,7 +411,8 @@
                 </div>
                 <h2 class="section-title-large">Professional Journey</h2>
                 <p class="section-lead-clean">
-                    Practical experience across independent production direction and fast-paced studio editing environments.
+                    Practical experience across independent production direction and fast-paced studio editing
+                    environments.
                 </p>
             </div>
 
@@ -318,11 +443,16 @@
                             <div class="timeline-node-dot"></div>
                             <div class="timeline-card-inner">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
-                                    <h4 class="text-white mb-0" style="font-size: 1.18rem; font-weight: 700;">Freelance Videographer & Content Creator</h4>
-                                    <span class="badge" style="background: rgba(229,195,120,0.15); color: var(--accent-gold); font-family: var(--font-mono);">2022 – Present</span>
+                                    <h4 class="text-white mb-0" style="font-size: 1.18rem; font-weight: 700;">Freelance
+                                        Videographer & Content Creator</h4>
+                                    <span class="badge"
+                                        style="background: rgba(229,195,120,0.15); color: var(--accent-gold); font-family: var(--font-mono);">2022
+                                        – Present</span>
                                 </div>
-                                <div class="small text-muted font-monospace mb-2">Self-Employed • Bengaluru (2+ Years)</div>
-                                <div class="small mb-2" style="color: var(--accent-gold); font-weight: 600;">⭐ Directed and edited projects for multiple clients and delivered 50+ wedding films</div>
+                                <div class="small text-muted font-monospace mb-2">Self-Employed • Bengaluru (2+ Years)
+                                </div>
+                                <div class="small mb-2" style="color: var(--accent-gold); font-weight: 600;">⭐ Directed
+                                    and edited projects for multiple clients and delivered 50+ wedding films</div>
                             </div>
                         </div>
                         {% endfor %}
@@ -351,56 +481,64 @@
                 <div class="services-marquee-track">
                     <!-- Set 1 -->
                     <div class="marquee-image-item">
-                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85" alt="Wedding Film Highlight" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85"
+                            alt="Wedding Film Highlight" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Wedding Cinematography</span>
                             <h4 class="marquee-title">Royal Wedding Grandeur</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item">
-                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=85" alt="Pre-Wedding Film" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=85"
+                            alt="Pre-Wedding Film" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Pre-Wedding Film</span>
                             <h4 class="marquee-title">Golden Hour Hills</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item">
-                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=85" alt="Traditional Ceremonies" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=85"
+                            alt="Traditional Ceremonies" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Event Coverage</span>
                             <h4 class="marquee-title">Sacred Vows & Rituals</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item">
-                        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=85" alt="Festive Celebrations" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=85"
+                            alt="Festive Celebrations" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Haldi & Sangeet</span>
                             <h4 class="marquee-title">Euphoric Festivities</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item">
-                        <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=85" alt="Social Media Reels" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=85"
+                            alt="Social Media Reels" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Social Media Reels</span>
                             <h4 class="marquee-title">High-Retention 9:16 Edits</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item">
-                        <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=800&q=85" alt="Commercial Directing" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=800&q=85"
+                            alt="Commercial Directing" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Post-Production</span>
                             <h4 class="marquee-title">DaVinci Resolve Color Grade</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85" alt="Portrait Studio" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85"
+                            alt="Portrait Studio" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Direction</span>
                             <h4 class="marquee-title">On-Location Camera Direction</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item">
-                        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=85" alt="Cinema Stills" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=85"
+                            alt="Cinema Stills" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">4K Master Delivery</span>
                             <h4 class="marquee-title">CinemaScope 2.39:1</h4>
@@ -409,56 +547,64 @@
 
                     <!-- Set 2 (Duplicate for Seamless Infinite Loop) -->
                     <div class="marquee-image-item" aria-hidden="true">
-                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85" alt="Wedding Film Highlight" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85"
+                            alt="Wedding Film Highlight" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Wedding Cinematography</span>
                             <h4 class="marquee-title">Royal Wedding Grandeur</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item" aria-hidden="true">
-                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=85" alt="Pre-Wedding Film" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=85"
+                            alt="Pre-Wedding Film" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Pre-Wedding Film</span>
                             <h4 class="marquee-title">Golden Hour Hills</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item" aria-hidden="true">
-                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=85" alt="Traditional Ceremonies" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=85"
+                            alt="Traditional Ceremonies" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Event Coverage</span>
                             <h4 class="marquee-title">Sacred Vows & Rituals</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item" aria-hidden="true">
-                        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=85" alt="Festive Celebrations" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=85"
+                            alt="Festive Celebrations" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Haldi & Sangeet</span>
                             <h4 class="marquee-title">Euphoric Festivities</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item" aria-hidden="true">
-                        <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=85" alt="Social Media Reels" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=85"
+                            alt="Social Media Reels" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Social Media Reels</span>
                             <h4 class="marquee-title">High-Retention 9:16 Edits</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item" aria-hidden="true">
-                        <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=800&q=85" alt="Commercial Directing" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=800&q=85"
+                            alt="Commercial Directing" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Post-Production</span>
                             <h4 class="marquee-title">DaVinci Resolve Color Grade</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item" aria-hidden="true">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85" alt="Portrait Studio" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85"
+                            alt="Portrait Studio" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">Direction</span>
                             <h4 class="marquee-title">On-Location Camera Direction</h4>
                         </div>
                     </div>
                     <div class="marquee-image-item" aria-hidden="true">
-                        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=85" alt="Cinema Stills" class="marquee-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=85"
+                            alt="Cinema Stills" class="marquee-img" loading="lazy">
                         <div class="marquee-item-overlay">
                             <span class="marquee-tag">4K Master Delivery</span>
                             <h4 class="marquee-title">CinemaScope 2.39:1</h4>
@@ -467,36 +613,90 @@
                 </div>
             </div>
 
-            <div class="row g-4" id="services-grid-container">
+            <div class="services-stack-wrapper" id="services-stack-container">
                 {% for s in services %}
-                <div class="col-12 col-md-6">
+                <div class="service-stack-card" style="--card-index: {{ forloop.counter0 }};"
+                    data-card-index="{{ forloop.counter0 }}">
                     <div class="service-clean-card">
-                        <div class="service-icon-box">
-                            {% if s.icon == 'camera' %}
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                            {% elif s.icon == 'zap' %}
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                            {% elif s.icon == 'video' %}
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2"/></svg>
-                            {% elif s.icon == 'edit' %}
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                            {% elif s.icon == 'aperture' %}
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
-                            {% else %}
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m10 15 5-3-5-3v6z"/></svg>
-                            {% endif %}
+                        <div class="service-card-main">
+                            <div class="service-card-topbar">
+                                <div class="service-topbar-left">
+                                    <div class="service-icon-box">
+                                        {% if s.icon == 'camera' %}
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.8">
+                                            <path
+                                                d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                                            <circle cx="12" cy="13" r="4" />
+                                        </svg>
+                                        {% elif s.icon == 'zap' %}
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.8">
+                                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                                        </svg>
+                                        {% elif s.icon == 'video' %}
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.8">
+                                            <path d="m22 8-6 4 6 4V8Z" />
+                                            <rect width="14" height="12" x="2" y="6" rx="2" />
+                                        </svg>
+                                        {% elif s.icon == 'edit' %}
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.8">
+                                            <path d="M12 20h9" />
+                                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                                        </svg>
+                                        {% elif s.icon == 'aperture' %}
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.8">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <circle cx="12" cy="12" r="4" />
+                                        </svg>
+                                        {% else %}
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.8">
+                                            <rect x="2" y="4" width="20" height="16" rx="2" />
+                                            <path d="m10 15 5-3-5-3v6z" />
+                                        </svg>
+                                        {% endif %}
+                                    </div>
+                                    <div class="service-meta-tags">
+                                        <span class="service-cat-badge">{{ s.get_category_display }}</span>
+                                        {% if s.badge_label %}
+                                        <span class="service-status-pill">{{ s.badge_label }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="service-card-num">0{{ forloop.counter }}</div>
+                            </div>
+                            <h3 class="service-card-title">{{ s.title }}</h3>
+                            <p class="service-card-desc">{{ s.description }}</p>
                         </div>
-                        <h3 class="service-card-title">{{ s.title }}</h3>
-                        <p class="service-card-desc">{{ s.description }}</p>
-                        <ul class="service-checklist">
-                            {% for f in s.get_features_list %}
-                            <li>{{ f }}</li>
-                            {% endfor %}
-                        </ul>
+                        <div class="service-card-aside">
+                            <div class="service-specs-header">
+                                <span class="specs-dot"></span>
+                                <span>KEY DELIVERABLES & SPECS</span>
+                            </div>
+                            <ul class="service-checklist">
+                                {% for f in s.get_features_list %}
+                                <li>{{ f }}</li>
+                                {% endfor %}
+                            </ul>
+                            <div class="service-card-footer">
+                                <a href="#contact" class="service-inquire-link" data-service="{{ s.title }}"
+                                    data-cursor="hover">
+                                    <span>Book Service</span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M5 12h14M12 5l7 7-7 7" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% empty %}
-                <!-- Handled via JS -->
+                <!-- Handled via fallback -->
                 {% endfor %}
             </div>
         </div>
@@ -507,7 +707,7 @@
         <div class="container-fluid px-lg-5 px-3">
             <div class="gallery-split-wrapper">
                 <div class="gallery-split-grid">
-                    
+
                     <!-- Left Column: Sticky Cinematic Hub -->
                     <aside class="gallery-sticky-sidebar">
                         <div class="gallery-sidebar-header">
@@ -517,7 +717,8 @@
                             </div>
                             <h2 class="gallery-title-large">Gallery</h2>
                             <p class="gallery-lead-synopsis">
-                                A curated continuum of light, motion, and raw emotion captured across wedding chronicles, editorial portraits, live events, and cinema frames.
+                                A curated continuum of light, motion, and raw emotion captured across wedding
+                                chronicles, editorial portraits, live events, and cinema frames.
                             </p>
                         </div>
 
@@ -586,13 +787,19 @@
                         </div>
                         <h2 class="section-title-large mb-3">Let's Create Your Next Film.</h2>
                         <p class="text-secondary mb-4">
-                            Whether you need full wedding videography, social media content creation, or professional post-production editing, get in touch directly or submit an inquiry.
+                            Whether you need full wedding videography, social media content creation, or professional
+                            post-production editing, get in touch directly or submit an inquiry.
                         </p>
 
                         <!-- Direct Fast Links -->
-                        <a href="https://wa.me/{{ profile.whatsapp_number|default:'919061733155' }}" target="_blank" rel="noopener" class="direct-quick-link" data-cursor="hover">
+                        <a href="https://wa.me/{{ profile.whatsapp_number|default:'919061733155' }}" target="_blank"
+                            rel="noopener" class="direct-quick-link" data-cursor="hover">
                             <div class="direct-quick-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                                </svg>
                             </div>
                             <div>
                                 <div class="small text-muted font-monospace">WhatsApp Direct</div>
@@ -600,9 +807,15 @@
                             </div>
                         </a>
 
-                        <a href="mailto:{{ profile.email|default:'ashiqchangal@gmail.com' }}" class="direct-quick-link" data-cursor="hover">
+                        <a href="mailto:{{ profile.email|default:'ashiqchangal@gmail.com' }}" class="direct-quick-link"
+                            data-cursor="hover">
                             <div class="direct-quick-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
                             </div>
                             <div>
                                 <div class="small text-muted font-monospace">Direct Email</div>
@@ -610,9 +823,15 @@
                             </div>
                         </a>
 
-                        <a href="{{ profile.instagram_url|default:'https://www.instagram.com/askie._?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==' }}" target="_blank" rel="noopener" class="direct-quick-link" data-cursor="hover">
+                        <a href="{{ profile.instagram_url|default:'https://www.instagram.com/askie._?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==' }}"
+                            target="_blank" rel="noopener" class="direct-quick-link" data-cursor="hover">
                             <div class="direct-quick-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                                </svg>
                             </div>
                             <div>
                                 <div class="small text-muted font-monospace">Instagram</div>
@@ -624,49 +843,66 @@
 
                 <div class="col-12 col-lg-7">
                     <div class="contact-glass-panel">
-                        <h3 class="text-white mb-4" style="font-size: 1.4rem; font-weight: 700;">Inquiry & Booking Form</h3>
-                        <form id="booking-inquiry-form" method="POST" action="{% url 'portfolio:contact_submit' %}" novalidate>
+                        <h3 class="text-white mb-4" style="font-size: 1.4rem; font-weight: 700;">Inquiry & Booking Form
+                        </h3>
+                        <form id="booking-inquiry-form" method="POST" action="{% url 'portfolio:contact_submit' %}"
+                            novalidate>
                             {% csrf_token %}
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group-cinema">
                                         <label for="inquiry-name" class="form-label-cinema">Full Name *</label>
-                                        <input type="text" name="name" id="inquiry-name" class="form-control-cinema" placeholder="e.g. Arjun Kumar" required>
+                                        <input type="text" name="name" id="inquiry-name" class="form-control-cinema"
+                                            placeholder="e.g. Arjun Kumar" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group-cinema">
                                         <label for="inquiry-email" class="form-label-cinema">Email Address *</label>
-                                        <input type="email" name="email" id="inquiry-email" class="form-control-cinema" placeholder="e.g. arjun@example.com" required>
+                                        <input type="email" name="email" id="inquiry-email" class="form-control-cinema"
+                                            placeholder="e.g. arjun@example.com" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group-cinema">
                                         <label for="inquiry-phone" class="form-label-cinema">Phone / WhatsApp</label>
-                                        <input type="tel" name="phone" id="inquiry-phone" class="form-control-cinema" placeholder="+91 98765 43210">
+                                        <input type="tel" name="phone" id="inquiry-phone" class="form-control-cinema"
+                                            placeholder="+91 98765 43210">
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group-cinema">
                                         <label for="inquiry-service" class="form-label-cinema">Service Required</label>
                                         <select name="event_type" id="inquiry-service" class="form-control-cinema">
-                                            <option value="Wedding Videography">Wedding Videography & Films</option>
-                                            <option value="Pre-Wedding Film">Pre-Wedding Cinematic Teaser</option>
-                                            <option value="Event Videography">Event / Sangeet / Concert Coverage</option>
-                                            <option value="Social Media Reels">Social Media Content Creation & Reels</option>
-                                            <option value="Video Editing">Video Editing & Color Grading (DaVinci/Premiere)</option>
+                                            <option value="Wedding Films & Highlights">Wedding Films & Highlights
+                                            </option>
+                                            <option value="Cinematic Event Videography">Cinematic Event Videography
+                                            </option>
+                                            <option value="Social Media Content Creation & Reels">Social Media Content
+                                                Creation & Reels</option>
+                                            <option value="Video Direction & On-Location Production">Video Direction &
+                                                On-Location Production</option>
+                                            <option value="Post-Production & Color Grading">Post-Production & Color
+                                                Grading (DaVinci/Premiere)</option>
+                                            <option value="Client Project Management & Delivery">Client Project
+                                                Management & Delivery</option>
                                             <option value="Other">Other Collaboration</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group-cinema">
-                                        <label for="inquiry-message" class="form-label-cinema">Message / Project Details *</label>
-                                        <textarea name="message" id="inquiry-message" rows="4" class="form-control-cinema" placeholder="Tell Mohamed Ashiq about your shoot dates, location, vision, and timeline..." required></textarea>
+                                        <label for="inquiry-message" class="form-label-cinema">Message / Project Details
+                                            *</label>
+                                        <textarea name="message" id="inquiry-message" rows="4"
+                                            class="form-control-cinema"
+                                            placeholder="Tell Mohamed Ashiq about your shoot dates, location, vision, and timeline..."
+                                            required></textarea>
                                     </div>
                                 </div>
                                 <div class="col-12 pt-2">
-                                    <button type="submit" class="btn-cinematic btn-primary-cinema w-100 py-3" data-cursor="hover">
+                                    <button type="submit" class="btn-cinematic btn-primary-cinema w-100 py-3"
+                                        data-cursor="hover">
                                         Send Message to Mohamed Ashiq
                                     </button>
                                 </div>
@@ -694,13 +930,16 @@
                 </div>
                 <div class="col-12 col-md-3 text-md-center">
                     <div class="d-flex justify-content-md-center gap-3">
-                        <a href="{{ profile.instagram_url|default:'https://www.instagram.com/askie._?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==' }}" target="_blank" rel="noopener" class="text-secondary" aria-label="Instagram">Instagram</a>
+                        <a href="{{ profile.instagram_url|default:'https://www.instagram.com/askie._?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==' }}"
+                            target="_blank" rel="noopener" class="text-secondary" aria-label="Instagram">Instagram</a>
                         <span class="text-muted">•</span>
-                        <a href="https://wa.me/{{ profile.whatsapp_number|default:'919061733155' }}" target="_blank" rel="noopener" class="text-secondary" aria-label="WhatsApp">WhatsApp</a>
+                        <a href="https://wa.me/{{ profile.whatsapp_number|default:'919061733155' }}" target="_blank"
+                            rel="noopener" class="text-secondary" aria-label="WhatsApp">WhatsApp</a>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 text-md-end">
-                    <a href="/admin/" target="_blank" class="btn-cinematic btn-outline-cinema py-2 px-3 small me-2" data-cursor="hover" title="Access Django Admin CMS">
+                    <a href="/admin/" target="_blank" class="btn-cinematic btn-outline-cinema py-2 px-3 small me-2"
+                        data-cursor="hover" title="Access Django Admin CMS">
                         ⚙ Admin CMS
                     </a>
                     <a href="#home" class="btn-cinematic btn-outline-cinema py-2 px-3 small" data-cursor="hover">
@@ -717,11 +956,15 @@
     </footer>
 
     <!-- MODAL 1: FULLSCREEN CINEMATIC LIGHTBOX -->
-    <div id="cinematic-lightbox-modal" class="cinematic-modal" role="dialog" aria-modal="true" aria-label="Photo Lightbox">
+    <div id="cinematic-lightbox-modal" class="cinematic-modal" role="dialog" aria-modal="true"
+        aria-label="Photo Lightbox">
         <div class="lightbox-backdrop"></div>
-        <button id="lightbox-close-btn" class="modal-close-icon-btn" aria-label="Close Lightbox" data-cursor="hover">&times;</button>
-        <button id="lightbox-prev-btn" class="lightbox-nav-btn lightbox-prev" aria-label="Previous Photo" data-cursor="hover">&#10094;</button>
-        <button id="lightbox-next-btn" class="lightbox-nav-btn lightbox-next" aria-label="Next Photo" data-cursor="hover">&#10095;</button>
+        <button id="lightbox-close-btn" class="modal-close-icon-btn" aria-label="Close Lightbox"
+            data-cursor="hover">&times;</button>
+        <button id="lightbox-prev-btn" class="lightbox-nav-btn lightbox-prev" aria-label="Previous Photo"
+            data-cursor="hover">&#10094;</button>
+        <button id="lightbox-next-btn" class="lightbox-nav-btn lightbox-next" aria-label="Next Photo"
+            data-cursor="hover">&#10095;</button>
 
         <div class="lightbox-container">
             <div class="lightbox-main-stage">
@@ -764,8 +1007,10 @@
 
         <div class="video-modal-dialog">
             <div class="mb-3 d-flex justify-content-between align-items-center">
-                <h4 id="video-modal-title" class="mb-0 text-white font-monospace" style="font-size: 1.1rem; letter-spacing: 0.12em;"></h4>
-                <span class="badge" style="background: var(--accent-gold); color: #000; font-family: var(--font-mono);">4K MASTER</span>
+                <h4 id="video-modal-title" class="mb-0 text-white font-monospace"
+                    style="font-size: 1.1rem; letter-spacing: 0.12em;"></h4>
+                <span class="badge"
+                    style="background: var(--accent-gold); color: #000; font-family: var(--font-mono);">4K MASTER</span>
             </div>
             <div class="video-modal-screen">
                 <video id="video-modal-player" controls playsinline preload="auto">
@@ -778,7 +1023,6 @@
     <!-- External Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
@@ -790,4 +1034,5 @@
     <script src="{% static 'js/gallery.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
 </body>
+
 </html>

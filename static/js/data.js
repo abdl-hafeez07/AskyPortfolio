@@ -161,27 +161,27 @@ window.PORTFOLIO_DATA = {
     photographyItems: [
         {
             id: "photo-01",
-            title: "Royal Mandap Heritage",
-            category: "wedding",
-            categoryLabel: "Weddings",
-            location: "Bengaluru, India",
-            lens: "Sony A7S III • 50mm T1.4 Cinema",
+            title: "The Filmmaker in Nature (Mohamed Ashiq)",
+            category: "portraits",
+            categoryLabel: "Portraits",
+            location: "Wayanad Forests, India",
+            lens: "Sony A7S III • 35mm f/1.4 Cinema",
             frameNum: "FR // 001",
-            image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=85",
-            aspectRatio: "landscape",
-            year: "2025"
+            image: "static/img/IMG_1013.JPG",
+            aspectRatio: "portrait",
+            year: "2026"
         },
         {
             id: "photo-02",
-            title: "Golden Hour Bride",
-            category: "portraits",
-            categoryLabel: "Portraits",
-            location: "Mysuru Palace",
-            lens: "Sony FX3 • 85mm f/1.4 GM",
+            title: "Canopy Perspective & Master Direction",
+            category: "films",
+            categoryLabel: "Films",
+            location: "Bengaluru Reserve",
+            lens: "Sony FX3 • 24-70mm GM",
             frameNum: "FR // 002",
-            image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1200&q=85",
-            aspectRatio: "portrait",
-            year: "2025"
+            image: "static/img/IMG_1011.JPG",
+            aspectRatio: "landscape",
+            year: "2026"
         },
         {
             id: "photo-03",

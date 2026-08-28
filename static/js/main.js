@@ -13,13 +13,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Smooth anchor scrolling & active link tracking
 function initNavigation() {
-    const navLinks = document.querySelectorAll(".nav-link-item, .mobile-menu-link, .btn-cinematic[href^='#']");
+    const navLinks = document.querySelectorAll(".nav-link-item, .mobile-menu-link, .btn-cinematic[href^='#'], .service-inquire-link[href^='#']");
 
     navLinks.forEach(link => {
         link.addEventListener("click", (e) => {
             const targetId = link.getAttribute("href");
             if (targetId && targetId.startsWith("#") && targetId.length > 1) {
                 e.preventDefault();
+
+                // If this is a service booking link, auto-select the corresponding option in inquiry form
+                const serviceName = link.getAttribute("data-service");
+                const serviceSelect = document.getElementById("inquiry-service");
+                if (serviceName && serviceSelect) {
+                    for (let i = 0; i < serviceSelect.options.length; i++) {
+                        const optVal = serviceSelect.options[i].value.toLowerCase();
+                        const optText = serviceSelect.options[i].text.toLowerCase();
+                        const targetLower = serviceName.toLowerCase();
+                        if (optVal === targetLower || optText.includes(targetLower) || targetLower.includes(optVal)) {
+                            serviceSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     // Close mobile menu if open

@@ -98,8 +98,12 @@
         padding-bottom: 60px;
     }
 
-    .hero-three-canvas-container {
-        opacity: 0.3;
+    .hero-visual-showcase {
+        margin-top: 24px;
+    }
+
+    .hero-visual-container {
+        max-width: 420px;
     }
 
     /* Featured Work Grid Tablet Adaptation */
@@ -137,8 +141,23 @@
         gap: 20px;
     }
 
-    .gallery-stream-col.col-offset {
-        margin-top: 0;
+    /* Services Stacked Deck Tablet Adaptation */
+    .services-stack-wrapper {
+        padding: 0 8px;
+        gap: 28px;
+    }
+
+    .service-clean-card {
+        padding: 26px 24px;
+        gap: 24px;
+    }
+
+    .service-card-title {
+        font-size: 1.22rem;
+    }
+
+    .service-stack-card {
+        top: calc(88px + var(--card-index, 0) * 14px);
     }
 }
 
@@ -163,9 +182,47 @@
         height: auto;
         min-height: auto;
     }
+
+    /* Services Stacked Deck Mobile Adaptation */
+    .services-stack-wrapper {
+        gap: 22px;
+        padding-bottom: 24px;
+    }
+
+    .service-stack-card {
+        top: calc(78px + var(--card-index, 0) * 10px);
+    }
+
+    .service-clean-card {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 22px 20px;
+        border-radius: 16px;
+    }
+
+    .service-card-title {
+        font-size: 1.16rem;
+    }
+
+    .service-card-desc {
+        font-size: 0.88rem;
+    }
+
+    .service-card-aside {
+        padding: 16px 18px;
+    }
+
+    .service-checklist li {
+        font-size: 0.82rem;
+    }
+
+    .marquee-image-item {
+        width: 280px;
+        height: 190px;
+    }
 }
 
-/* Mobile Breakpoint (max 575px) */
+/* Mobile Breakpoint (max 575.98px) */
 @media (max-width: 575.98px) {
     .hero-title-main {
         font-size: 2.2rem;
@@ -183,6 +240,44 @@
 
     .hero-metrics-bar {
         gap: 18px;
+    }
+
+    /* Services Extra Compact Mobile Layout */
+    .service-clean-card {
+        padding: 18px 16px;
+    }
+
+    .service-card-topbar {
+        margin-bottom: 12px;
+    }
+
+    .service-icon-box {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+    }
+
+    .service-icon-box svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .service-card-num {
+        font-size: 1.05rem;
+    }
+
+    .service-card-title {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+
+    .service-card-aside {
+        padding: 14px;
+    }
+
+    .marquee-image-item {
+        width: 240px;
+        height: 160px;
     }
 
     .gallery-title-large {
