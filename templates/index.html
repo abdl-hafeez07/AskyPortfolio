@@ -702,57 +702,77 @@
         </div>
     </section>
 
-    <!-- 6. CINEMATIC SPLIT-SCREEN GALLERY & VISUAL ARCHIVE -->
-    <section id="photography" class="section-padding gallery-split-section">
-        <div class="container-fluid px-lg-5 px-3">
-            <div class="gallery-split-wrapper">
-                <div class="gallery-split-grid">
+    <!-- 6. EDITORIAL PEOPLE GALLERY & CONTINUOUS PHOTO COLLAGE -->
+    <section id="photography" class="people-gallery-section" aria-label="People Gallery">
+        <div class="people-gallery-container">
+            <div class="people-gallery-layout">
 
-                    <!-- Left Column: Sticky Cinematic Hub -->
-                    <aside class="gallery-sticky-sidebar">
-                        <div class="gallery-sidebar-header">
-                            <div class="gallery-rec-badge">
-                                <span class="gallery-rec-dot"></span>
-                                <span>REC // VISUAL ARCHIVE</span>
+                <!-- Left Column: Anchored Editorial Panel (40-45% width) -->
+                <div class="people-left-panel">
+                    <div class="people-content-sticky">
+                        <div class="people-badge">
+                            <span class="people-badge-dot"></span>
+                            <span class="people-badge-text">PORTFOLIO ARCHIVE // 01</span>
+                        </div>
+                        <h2 class="people-heading">Gallery</h2>
+                        <p class="people-description">
+                            A curated visual archive of cinematic wedding chronicles, authentic portraits, and still frames captured, directed, and color-graded by Mohamed Ashiq CM.
+                        </p>
+
+                        <div class="people-divider" aria-hidden="true"></div>
+
+                        <div class="people-meta-details">
+                            <div class="people-meta-item">
+                                <span class="people-meta-label">DIRECTED BY</span>
+                                <span class="people-meta-val">Mohamed Ashiq CM</span>
                             </div>
-                            <h2 class="gallery-title-large">Gallery</h2>
-                            <p class="gallery-lead-synopsis">
-                                A curated continuum of light, motion, and raw emotion captured across wedding
-                                chronicles, editorial portraits, live events, and cinema frames.
-                            </p>
+                            <div class="people-meta-item">
+                                <span class="people-meta-label">SUITE</span>
+                                <span class="people-meta-val">DaVinci Resolve & 4K Stills</span>
+                            </div>
                         </div>
 
-                        <!-- Minimalist Category Navigation -->
-                        <nav class="gallery-category-nav" id="gallery-category-nav" aria-label="Gallery Categories">
-                            <!-- Populated dynamically via JS / fallback -->
-                        </nav>
-
-                        <!-- Camera Archive HUD specs -->
-                        <div class="gallery-sidebar-hud">
-                            <div class="hud-item">
-                                <span class="hud-label">CINEMA SENSOR</span>
-                                <span class="hud-val">FULL-FRAME 4K HDR</span>
-                            </div>
-                            <div class="hud-item">
-                                <span class="hud-label">LENS SUITE</span>
-                                <span class="hud-val">24-85MM T1.4 PRIME</span>
-                            </div>
-                            <div class="hud-item">
-                                <span class="hud-label">COLOR PIPELINE</span>
-                                <span class="hud-val">DaVinci Resolve ACES</span>
-                            </div>
-                        </div>
-                    </aside>
-
-                    <!-- Right Column: Dynamic Multi-Column Parallax Masonry -->
-                    <div class="gallery-parallax-container" id="gallery-parallax-container">
-                        <div class="gallery-parallax-columns" id="gallery-parallax-columns">
-                            <div class="gallery-stream-col col-left" id="gallery-stream-col-1"></div>
-                            <div class="gallery-stream-col col-right col-offset" id="gallery-stream-col-2"></div>
+                        <div class="people-action-row">
+                            <a href="{% url 'portfolio:gallery' %}" class="people-watch-tutorial-btn" data-cursor="hover">
+                                <span>Explore Full Gallery</span>
+                                <span class="people-btn-arrow">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14"></path>
+                                        <path d="m12 5 7 7-7 7"></path>
+                                    </svg>
+                                </span>
+                            </a>
                         </div>
                     </div>
-
                 </div>
+
+                <!-- Right Column: Dense Multi-Column Continuous Moving Masonry Collage -->
+                <div class="people-right-collage" id="people-right-collage">
+                    <div class="people-collage-columns">
+                        <!-- Column 1: Smooth Vertical Scroll Up -->
+                        <div class="people-col-track col-speed-1" id="people-col-1">
+                            <div class="people-col-inner"></div>
+                            <div class="people-col-inner clone" aria-hidden="true"></div>
+                        </div>
+
+                        <!-- Column 2: Reverse/Staggered Vertical Scroll Down -->
+                        <div class="people-col-track col-speed-2 col-reverse" id="people-col-2">
+                            <div class="people-col-inner"></div>
+                            <div class="people-col-inner clone" aria-hidden="true"></div>
+                        </div>
+
+                        <!-- Column 3: Offset Smooth Vertical Scroll Up -->
+                        <div class="people-col-track col-speed-3" id="people-col-3">
+                            <div class="people-col-inner"></div>
+                            <div class="people-col-inner clone" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Subtle Top and Bottom Fade Masks for seamless ingress/egress -->
+                    <div class="collage-edge-mask top" aria-hidden="true"></div>
+                    <div class="collage-edge-mask bottom" aria-hidden="true"></div>
+                </div>
+
             </div>
         </div>
     </section>

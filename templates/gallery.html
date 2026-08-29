@@ -1,0 +1,320 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Visual Gallery & Stills — Mohamed Ashiq CM. A curated portfolio archive of wedding photography, intimate portraits, live events, and cinematic directorial frames.">
+    <meta name="keywords"
+        content="Mohamed Ashiq CM, Asky, Visual Gallery, Wedding Photography, Stills, Film Frames, DaVinci Resolve, Bengaluru Videographer">
+    <meta name="author" content="Mohamed Ashiq CM">
+    <meta property="og:title" content="Visual Gallery & Stills • Mohamed Ashiq CM">
+    <meta property="og:description"
+        content="Curated archive of cinematic wedding chronicles, authentic portraits, and still frames.">
+    <meta property="og:type" content="website">
+    <title>Visual Gallery & Stills • Mohamed Ashiq CM | ASKY</title>
+
+    <!-- Camera Aperture Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e5c378' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m14.31 8 5.74 9.94'/%3E%3Cpath d='M9.69 8h11.48'/%3E%3Cpath d='m7.38 12 5.74-9.94'/%3E%3Cpath d='M9.69 16 3.95 6.06'/%3E%3Cpath d='M14.31 16H2.83'/%3E%3Cpath d='m16.62 12-5.74 9.94'/%3E%3C/svg%3E">
+
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <!-- Custom Modular CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+</head>
+
+<body class="gallery-page-body">
+
+    <!-- AMBIENT THREE.JS CANVAS BACKGROUND -->
+    <canvas id="three-canvas-bg" class="three-canvas-bg" aria-hidden="true"></canvas>
+
+    <!-- CUSTOM CINEMATIC CURSOR -->
+    <div id="cinematic-cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+    <div id="cinematic-cursor-ring" class="cursor-ring" aria-hidden="true">
+        <span class="cursor-badge-text" id="cursor-badge-text">VIEW</span>
+    </div>
+
+    <!-- SOUNDSCAPE TOGGLE -->
+    <button id="cinematic-sound-toggle" class="sound-toggle-btn" aria-label="Toggle Cinematic Atmosphere" data-cursor="hover">
+        <div class="sound-wave-bars">
+            <span class="sound-bar"></span>
+            <span class="sound-bar"></span>
+            <span class="sound-bar"></span>
+            <span class="sound-bar"></span>
+        </div>
+        <span class="sound-label">SOUND</span>
+    </button>
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="main-navigation-bar is-scrolled" id="main-navbar">
+        <div class="container-fluid px-lg-5 d-flex align-items-center justify-content-between">
+            <!-- Brand Logo -->
+            <a href="{% url 'portfolio:home' %}" class="nav-brand-logo" data-cursor="hover">
+                <span class="logo-accent-mark">●</span>
+                <span class="logo-brand-text">{{ profile.brand_name|default:"ASKY" }}</span>
+                <span class="logo-sub-role">CINEMA</span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="desktop-nav-links d-none d-lg-flex align-items-center gap-4">
+                <a href="{% url 'portfolio:home' %}" class="nav-link-item" data-cursor="hover">
+                    <span class="nav-num">←</span>
+                    <span class="nav-text">Back to Home</span>
+                </a>
+                <a href="{% url 'portfolio:home' %}#featured-films" class="nav-link-item" data-cursor="hover">
+                    <span class="nav-num">01</span>
+                    <span class="nav-text">Films</span>
+                </a>
+                <a href="{% url 'portfolio:gallery' %}" class="nav-link-item is-active" data-cursor="hover">
+                    <span class="nav-num">02</span>
+                    <span class="nav-text">Gallery</span>
+                </a>
+                <a href="{% url 'portfolio:home' %}#services" class="nav-link-item" data-cursor="hover">
+                    <span class="nav-num">03</span>
+                    <span class="nav-text">Services</span>
+                </a>
+                <a href="{% url 'portfolio:home' %}#contact" class="nav-link-item" data-cursor="hover">
+                    <span class="nav-num">04</span>
+                    <span class="nav-text">Contact</span>
+                </a>
+            </nav>
+
+            <!-- Quick Action CTA -->
+            <div class="nav-right-actions d-flex align-items-center gap-3">
+                <a href="{% url 'portfolio:home' %}#contact" class="btn-cinematic-pill d-none d-md-inline-flex" data-cursor="hover">
+                    <span>Book Shoot</span>
+                    <span class="pill-dot"></span>
+                </a>
+
+                <!-- Mobile Hamburger Toggle -->
+                <button class="mobile-hamburger-btn d-lg-none" id="mobile-menu-toggle" aria-label="Open Navigation Menu" data-cursor="hover">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- FULLSCREEN MOBILE DRAWER MENU -->
+    <div id="fullscreen-mobile-menu" class="fullscreen-mobile-menu" aria-hidden="true">
+        <div class="mobile-menu-backdrop"></div>
+        <div class="mobile-menu-container">
+            <div class="mobile-menu-header">
+                <span class="mobile-brand">{{ profile.brand_name|default:"ASKY" }} // CINEMA</span>
+                <button id="mobile-menu-close" class="mobile-close-btn" aria-label="Close Menu">✕</button>
+            </div>
+            <nav class="mobile-nav-list">
+                <a href="{% url 'portfolio:home' %}" class="mobile-menu-link">
+                    <span class="link-num">←</span>
+                    <span class="link-title">Home</span>
+                </a>
+                <a href="{% url 'portfolio:home' %}#featured-films" class="mobile-menu-link">
+                    <span class="link-num">01</span>
+                    <span class="link-title">Films</span>
+                </a>
+                <a href="{% url 'portfolio:gallery' %}" class="mobile-menu-link is-active">
+                    <span class="link-num">02</span>
+                    <span class="link-title">Gallery</span>
+                </a>
+                <a href="{% url 'portfolio:home' %}#services" class="mobile-menu-link">
+                    <span class="link-num">03</span>
+                    <span class="link-title">Services</span>
+                </a>
+                <a href="{% url 'portfolio:home' %}#contact" class="mobile-menu-link">
+                    <span class="link-num">04</span>
+                    <span class="link-title">Contact</span>
+                </a>
+            </nav>
+            <div class="mobile-menu-footer">
+                <span class="mobile-loc">{{ profile.location|default:"Bengaluru, India" }}</span>
+                <a href="tel:{{ profile.phone|default:'9061733155' }}" class="mobile-phone">+91 {{ profile.phone|default:"90617 33155" }}</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN GALLERY CONTENT -->
+    <main class="gallery-page-main">
+        <div class="container-fluid px-lg-5">
+
+            <!-- Hero Section -->
+            <section class="gallery-page-hero">
+                <div class="gallery-page-tag">
+                    <span class="people-badge-dot"></span>
+                    <span>VISUAL ARCHIVE // 4K STILLS</span>
+                </div>
+                <h1 class="gallery-page-title">Visual Gallery & Stills</h1>
+                <p class="gallery-page-lead">
+                    A curated portfolio of still frames, wedding moments, authentic portraits, and cinematic visual stories captured and color-graded by {{ profile.full_name|default:"Mohamed Ashiq CM" }}.
+                </p>
+
+                <!-- Category Filter Bar -->
+                <div class="gallery-filter-wrapper" id="gallery-filter-wrapper">
+                    <button class="gallery-filter-btn is-active" data-filter="all" data-cursor="hover">
+                        <span>All Frames</span>
+                        <span class="gallery-filter-count">[16]</span>
+                    </button>
+                    <button class="gallery-filter-btn" data-filter="wedding" data-cursor="hover">
+                        <span>Weddings</span>
+                        <span class="gallery-filter-count">[04]</span>
+                    </button>
+                    <button class="gallery-filter-btn" data-filter="portraits" data-cursor="hover">
+                        <span>Portraits</span>
+                        <span class="gallery-filter-count">[04]</span>
+                    </button>
+                    <button class="gallery-filter-btn" data-filter="events" data-cursor="hover">
+                        <span>Events</span>
+                        <span class="gallery-filter-count">[04]</span>
+                    </button>
+                    <button class="gallery-filter-btn" data-filter="cinematic" data-cursor="hover">
+                        <span>Cinematic</span>
+                        <span class="gallery-filter-count">[04]</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Dynamic Staggered Masonry Grid -->
+            <section class="gallery-grid-container">
+                <div class="gallery-masonry-grid" id="gallery-masonry-grid">
+                    <!-- Populated dynamically via js/gallery.js and data.js -->
+                </div>
+            </section>
+
+            <!-- Direct Booking & Collaboration Banner -->
+            <section class="gallery-cta-section container my-5">
+                <div class="gallery-page-tag">
+                    <span class="people-badge-dot"></span>
+                    <span>COLLABORATION & BOOKINGS</span>
+                </div>
+                <h2 class="gallery-cta-title">Ready to Capture Your Story?</h2>
+                <p class="gallery-cta-lead">
+                    Whether you are planning a grand wedding celebration, an editorial brand shoot, or a commercial film, let's create timeless visuals with precision and emotion.
+                </p>
+                <div class="gallery-cta-actions">
+                    <a href="https://wa.me/{{ profile.whatsapp_number|default:'919061733155' }}?text=Hello%20Mohamed%20Ashiq,%20I%20would%20like%20to%20inquire%20about%20a%20shoot%20booking."
+                       target="_blank" rel="noopener noreferrer" class="btn-cinematic-gold" data-cursor="hover">
+                        <span>Direct WhatsApp</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                    <a href="{% url 'portfolio:home' %}#contact" class="btn-cinematic-outline" data-cursor="hover">
+                        <span>Send Project Brief</span>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- FULLSCREEN CINEMATIC DARKROOM LIGHTBOX MODAL -->
+    <div id="cinematic-lightbox-modal" class="cinematic-lightbox-modal" aria-hidden="true" role="dialog" aria-label="Photo Lightbox Stage">
+        <div class="lightbox-backdrop"></div>
+        <div class="lightbox-stage-container">
+            <!-- Lightbox Top HUD -->
+            <div class="lightbox-top-hud">
+                <div class="lightbox-brand-pill">
+                    <span class="hud-rec-dot"></span>
+                    <span id="lightbox-roll-tag">MASTER // ARCHIVE</span>
+                </div>
+                <div class="lightbox-info-center">
+                    <h3 id="lightbox-title" class="lightbox-title-text">Frame Title</h3>
+                    <div id="lightbox-meta" class="lightbox-meta-specs">Location • Lens • Year</div>
+                </div>
+                <div class="lightbox-hud-right">
+                    <span id="lightbox-counter" class="lightbox-counter-badge">1 / 16</span>
+                    <button id="lightbox-close-btn" class="lightbox-close-btn" aria-label="Close Lightbox (Esc)" data-cursor="hover">✕</button>
+                </div>
+            </div>
+
+            <!-- Lightbox Main Stage -->
+            <div class="lightbox-main-stage">
+                <button id="lightbox-prev-btn" class="lightbox-nav-btn lightbox-prev" aria-label="Previous Frame" data-cursor="hover">&#10094;</button>
+
+                <div class="lightbox-image-wrapper" id="lightbox-image-wrapper">
+                    <img id="lightbox-image" src="{% static 'img/IMG_1013.JPG' %}" alt="Expanded Photography Frame" class="lightbox-active-img">
+                </div>
+
+                <button id="lightbox-next-btn" class="lightbox-nav-btn lightbox-next" aria-label="Next Frame" data-cursor="hover">&#10095;</button>
+            </div>
+
+            <!-- Lightbox Bottom Filmstrip -->
+            <div class="lightbox-filmstrip-tray">
+                <div class="lightbox-filmstrip" id="lightbox-filmstrip">
+                    <!-- Filmstrip thumbnails dynamically populated -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CINEMATIC VIDEO THEATER MODAL -->
+    <div id="cinematic-video-modal" class="cinematic-video-modal" aria-hidden="true" role="dialog" aria-label="Video Player Stage">
+        <div class="modal-backdrop-cinematic"></div>
+        <div class="modal-content-stage">
+            <div class="modal-top-bar">
+                <div class="modal-title-wrap">
+                    <span class="rec-dot-live"></span>
+                    <span id="video-modal-title" class="modal-film-title">Cinematic Showreel</span>
+                </div>
+                <button id="video-modal-close-btn" class="modal-close-icon-btn" aria-label="Close Video Theater" data-cursor="hover">✕</button>
+            </div>
+            <div class="modal-video-container">
+                <video id="video-modal-player" controls preload="metadata" playsinline class="modal-html5-player">
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- SITE FOOTER -->
+    <footer class="main-footer">
+        <div class="container-fluid px-lg-5">
+            <div class="row align-items-center justify-content-between g-4">
+                <div class="col-md-6">
+                    <a href="{% url 'portfolio:home' %}" class="nav-brand-logo mb-2 d-inline-block">
+                        <span class="logo-accent-mark">●</span>
+                        <span class="logo-brand-text">{{ profile.brand_name|default:"ASKY" }}</span>
+                        <span class="logo-sub-role">CINEMA</span>
+                    </a>
+                    <p class="text-muted small mb-0 font-monospace">
+                        {{ profile.full_name|default:"Mohamed Ashiq CM" }} • {{ profile.professional_title|default:"Videographer & Video Editor" }} • {{ profile.location|default:"Bengaluru, India" }}
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="{% url 'portfolio:home' %}" class="btn-cinematic-pill small" data-cursor="hover">
+                        <span>← Back to Home</span>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom-bar">
+                <span>&copy; <span id="footer-year">2026</span> {{ profile.full_name|default:"Mohamed Ashiq CM" }} ({{ profile.brand_name|default:"ASKY" }}). All visual assets and master rights reserved.</span>
+                <span>Crafted with Cinema Optics & Precision Color</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT DEPENDENCIES -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- CUSTOM APP SCRIPTS -->
+    <script src="{% static 'js/data.js' %}"></script>
+    <script src="{% static 'js/cursor.js' %}"></script>
+    <script src="{% static 'js/three-scene.js' %}"></script>
+    <script src="{% static 'js/gallery.js' %}"></script>
+    <script src="{% static 'js/animations.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

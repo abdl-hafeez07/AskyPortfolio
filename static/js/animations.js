@@ -262,116 +262,44 @@ class CinematicAnimations {
         });
     }
 
-    // Split-Screen Multi-Column Parallax ScrollTrigger
+    // People Editorial Section Scroll Reveal
     initGalleryParallax() {
         if (!this.hasGSAP || !this.hasScrollTrigger) return;
 
-        const mm = gsap.matchMedia();
+        const section = document.querySelector(".people-gallery-section");
+        const leftPanel = document.querySelector(".people-left-panel");
+        const rightCollage = document.querySelector(".people-right-collage");
 
-        mm.add("(min-width: 768px)", () => {
-            const col1 = document.getElementById("gallery-stream-col-1");
-            const col2 = document.getElementById("gallery-stream-col-2");
-            const section = document.querySelector(".gallery-split-section");
+        if (!section || !leftPanel || !rightCollage) return;
 
-            if (!col1 || !col2 || !section) return;
+        gsap.from(leftPanel.children, {
+            scrollTrigger: {
+                trigger: section,
+                start: "top 80%",
+                once: true
+            },
+            y: 35,
+            opacity: 0,
+            duration: 0.9,
+            stagger: 0.1,
+            ease: "power3.out"
+        });
 
-            gsap.timeline({
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: 1.2
-                }
-            })
-                .to(col1, {
-                    y: -60,
-                    ease: "none"
-                }, 0)
-                .to(col2, {
-                    y: -180,
-                    ease: "none"
-                }, 0);
-
-            // Subtle 3D perspective shift on cards as they traverse viewport
-            gsap.utils.toArray(".gallery-frame-card").forEach((card) => {
-                gsap.fromTo(card,
-                    {
-                        scale: 0.97,
-                        opacity: 0.85
-                    },
-                    {
-                        scale: 1,
-                        opacity: 1,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: card,
-                            start: "top 95%",
-                            end: "top 60%",
-                            scrub: 0.8
-                        }
-                    }
-                );
-            });
+        gsap.from(rightCollage, {
+            scrollTrigger: {
+                trigger: section,
+                start: "top 80%",
+                once: true
+            },
+            scale: 0.96,
+            opacity: 0,
+            duration: 1.1,
+            ease: "power3.out"
         });
     }
 
-    // 3D Cinematic Card Tilt & Spotlight
     initGalleryCardTilt() {
-        const attachTilt = () => {
-            const cards = document.querySelectorAll(".gallery-frame-card");
-
-            cards.forEach(card => {
-                if (card.getAttribute("data-tilt-bound")) return;
-                card.setAttribute("data-tilt-bound", "true");
-
-                card.addEventListener("mousemove", (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-
-                    const deltaX = (x - centerX) / centerX;
-                    const deltaY = (y - centerY) / centerY;
-
-                    // Subtle 3D rotation
-                    const rotX = -deltaY * 5; // max 5 deg
-                    const rotY = deltaX * 5;
-
-                    if (this.hasGSAP) {
-                        gsap.to(card, {
-                            rotateX: rotX,
-                            rotateY: rotY,
-                            transformPerspective: 900,
-                            duration: 0.35,
-                            ease: "power2.out"
-                        });
-                    }
-                });
-
-                card.addEventListener("mouseleave", () => {
-                    if (this.hasGSAP) {
-                        gsap.to(card, {
-                            rotateX: 0,
-                            rotateY: 0,
-                            duration: 0.6,
-                            ease: "power3.out"
-                        });
-                    }
-                });
-            });
-        };
-
-        attachTilt();
-
-        // Re-attach whenever category changes / cards re-render
-        const categoryNav = document.getElementById("gallery-category-nav");
-        if (categoryNav) {
-            categoryNav.addEventListener("click", () => {
-                setTimeout(attachTilt, 260);
-            });
-        }
+        // GPU keyframes drive the continuous vertical flow
     }
 
     initCardSpotlightHover() {

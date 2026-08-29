@@ -50,6 +50,20 @@ def home_view(request):
     return render(request, 'index.html', context)
 
 
+def gallery_view(request):
+    """Dedicated full-page visual gallery and still archive - Mohamed Ashiq CM"""
+    profile = get_active_profile()
+    gallery_items = GalleryItem.objects.all()
+    featured_projects = Project.objects.all()
+
+    context = {
+        'profile': profile,
+        'gallery_items': gallery_items,
+        'featured_projects': featured_projects,
+    }
+    return render(request, 'gallery.html', context)
+
+
 @csrf_exempt
 @require_POST
 def contact_submit(request):
