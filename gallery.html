@@ -34,59 +34,44 @@
 
 <body class="gallery-page-body">
 
-    <!-- AMBIENT THREE.JS CANVAS BACKGROUND -->
-    <canvas id="three-canvas-bg" class="three-canvas-bg" aria-hidden="true"></canvas>
+    <!-- Ambient Glow Lighting Blobs -->
+    <div class="ambient-glow-blob blob-1" aria-hidden="true"></div>
+    <div class="ambient-glow-blob blob-2" aria-hidden="true"></div>
+    <div class="ambient-glow-blob blob-3" aria-hidden="true"></div>
 
-    <!-- CUSTOM CINEMATIC CURSOR -->
-    <div id="cinematic-cursor-dot" class="cursor-dot" aria-hidden="true"></div>
-    <div id="cinematic-cursor-ring" class="cursor-ring" aria-hidden="true">
-        <span class="cursor-badge-text" id="cursor-badge-text">VIEW</span>
+    <!-- Film Grain Overlay -->
+    <div class="film-grain-overlay" aria-hidden="true"></div>
+
+    <!-- Cinematic Custom Cursor -->
+    <div class="custom-cursor" aria-hidden="true">
+        <span class="custom-cursor-text"></span>
     </div>
+    <div class="custom-cursor-dot" aria-hidden="true"></div>
 
-    <!-- SOUNDSCAPE TOGGLE -->
-    <button id="cinematic-sound-toggle" class="sound-toggle-btn" aria-label="Toggle Cinematic Atmosphere" data-cursor="hover">
-        <div class="sound-wave-bars">
-            <span class="sound-bar"></span>
-            <span class="sound-bar"></span>
-            <span class="sound-bar"></span>
-            <span class="sound-bar"></span>
-        </div>
-        <span class="sound-label">SOUND</span>
-    </button>
-
-    <!-- TOP NAVIGATION BAR -->
-    <header class="main-navigation-bar is-scrolled" id="main-navbar">
-        <div class="container-fluid px-lg-5 d-flex align-items-center justify-content-between">
+    <!-- Main Navigation Header -->
+    <header class="main-header nav-scrolled" id="main-navbar">
+        <div class="container navbar-container">
             <!-- Brand Logo -->
-            <a href="index.html" class="nav-brand-logo" data-cursor="hover">
-                <span class="logo-accent-mark">●</span>
-                <span class="logo-brand-text">ASKY</span>
-                <span class="logo-sub-role">CINEMA</span>
+            <a href="index.html" class="brand-logo" data-cursor="hover">
+                <span class="brand-mark">ASKY</span>
+                <span class="brand-dot">●</span>
+                <span class="brand-sub">CINEMA</span>
             </a>
 
             <!-- Desktop Nav Links -->
-            <nav class="desktop-nav-links d-none d-lg-flex align-items-center gap-4">
-                <a href="index.html" class="nav-link-item" data-cursor="hover">
-                    <span class="nav-num">←</span>
-                    <span class="nav-text">Back to Home</span>
-                </a>
-                <a href="index.html#featured-films" class="nav-link-item" data-cursor="hover">
-                    <span class="nav-num">01</span>
-                    <span class="nav-text">Films</span>
-                </a>
-                <a href="gallery.html" class="nav-link-item is-active" data-cursor="hover">
-                    <span class="nav-num">02</span>
-                    <span class="nav-text">Gallery</span>
-                </a>
-                <a href="index.html#services" class="nav-link-item" data-cursor="hover">
-                    <span class="nav-num">03</span>
-                    <span class="nav-text">Services</span>
-                </a>
-                <a href="index.html#contact" class="nav-link-item" data-cursor="hover">
-                    <span class="nav-num">04</span>
-                    <span class="nav-text">Contact</span>
-                </a>
+            <nav class="nav-links-desktop">
+                <a href="index.html" class="nav-link-item" data-cursor="hover">← Back to Home</a>
+                <a href="index.html#featured-films" class="nav-link-item" data-cursor="hover">Films</a>
+                <a href="gallery.html" class="nav-link-item is-active" data-cursor="hover">Gallery</a>
+                <a href="index.html#services" class="nav-link-item" data-cursor="hover">Services</a>
+                <a href="index.html#contact" class="nav-link-item" data-cursor="hover">Contact</a>
             </nav>
+
+            <!-- Status Indicator Badge -->
+            <div class="header-status-badge d-none d-lg-flex">
+                <span class="status-live-dot"></span>
+                <span class="status-text">Available for 2026/27</span>
+            </div>
 
             <!-- Quick Action CTA -->
             <div class="nav-right-actions d-flex align-items-center gap-3">
@@ -104,40 +89,25 @@
         </div>
     </header>
 
-    <!-- FULLSCREEN MOBILE DRAWER MENU -->
+    <!-- Fullscreen Mobile Navigation Drawer -->
     <div id="fullscreen-mobile-menu" class="fullscreen-mobile-menu" aria-hidden="true">
-        <div class="mobile-menu-backdrop"></div>
-        <div class="mobile-menu-container">
-            <div class="mobile-menu-header">
-                <span class="mobile-brand">ASKY // CINEMA</span>
-                <button id="mobile-menu-close" class="mobile-close-btn" aria-label="Close Menu">✕</button>
+        <div class="mobile-menu-top">
+            <div class="brand-logo">
+                ASKY<span class="brand-dot">●</span>
             </div>
-            <nav class="mobile-nav-list">
-                <a href="index.html" class="mobile-menu-link">
-                    <span class="link-num">←</span>
-                    <span class="link-title">Home</span>
-                </a>
-                <a href="index.html#featured-films" class="mobile-menu-link">
-                    <span class="link-num">01</span>
-                    <span class="link-title">Films</span>
-                </a>
-                <a href="gallery.html" class="mobile-menu-link is-active">
-                    <span class="link-num">02</span>
-                    <span class="link-title">Gallery</span>
-                </a>
-                <a href="index.html#services" class="mobile-menu-link">
-                    <span class="link-num">03</span>
-                    <span class="link-title">Services</span>
-                </a>
-                <a href="index.html#contact" class="mobile-menu-link">
-                    <span class="link-num">04</span>
-                    <span class="link-title">Contact</span>
-                </a>
-            </nav>
-            <div class="mobile-menu-footer">
-                <span class="mobile-loc">Bengaluru, India</span>
-                <a href="tel:9061733155" class="mobile-phone">+91 90617 33155</a>
-            </div>
+            <button id="mobile-menu-close" class="mobile-menu-close-btn" aria-label="Close menu">&times;</button>
+        </div>
+        <nav class="mobile-menu-nav">
+            <a href="index.html" class="mobile-menu-link">← Back to Home</a>
+            <a href="index.html#about" class="mobile-menu-link">About & Story</a>
+            <a href="index.html#featured-films" class="mobile-menu-link">Featured Films</a>
+            <a href="gallery.html" class="mobile-menu-link is-active">Still Gallery</a>
+            <a href="index.html#services" class="mobile-menu-link">Services</a>
+            <a href="index.html#contact" class="mobile-menu-link">Book Collaboration</a>
+        </nav>
+        <div class="mobile-menu-bottom">
+            <span>BENGALURU, INDIA</span>
+            <a href="tel:9061733155" class="text-secondary text-decoration-none">+91 90617 33155</a>
         </div>
     </div>
 
@@ -148,7 +118,7 @@
             <!-- Hero Section -->
             <section class="gallery-page-hero">
                 <div class="gallery-page-tag">
-                    <span class="people-badge-dot"></span>
+                    <span class="status-live-dot"></span>
                     <span>VISUAL ARCHIVE // 4K STILLS</span>
                 </div>
                 <h1 class="gallery-page-title">Visual Gallery & Stills</h1>
@@ -160,28 +130,28 @@
                 <div class="gallery-filter-wrapper" id="gallery-filter-wrapper">
                     <button class="gallery-filter-btn is-active" data-filter="all" data-cursor="hover">
                         <span>All Frames</span>
-                        <span class="gallery-filter-count">[16]</span>
+                        <span class="gallery-filter-count" id="count-all">[16]</span>
                     </button>
                     <button class="gallery-filter-btn" data-filter="wedding" data-cursor="hover">
                         <span>Weddings</span>
-                        <span class="gallery-filter-count">[04]</span>
+                        <span class="gallery-filter-count" id="count-wedding">[04]</span>
                     </button>
                     <button class="gallery-filter-btn" data-filter="portraits" data-cursor="hover">
                         <span>Portraits</span>
-                        <span class="gallery-filter-count">[04]</span>
+                        <span class="gallery-filter-count" id="count-portraits">[04]</span>
                     </button>
                     <button class="gallery-filter-btn" data-filter="events" data-cursor="hover">
                         <span>Events</span>
-                        <span class="gallery-filter-count">[04]</span>
+                        <span class="gallery-filter-count" id="count-events">[04]</span>
                     </button>
                     <button class="gallery-filter-btn" data-filter="cinematic" data-cursor="hover">
                         <span>Cinematic</span>
-                        <span class="gallery-filter-count">[04]</span>
+                        <span class="gallery-filter-count" id="count-cinematic">[04]</span>
                     </button>
                 </div>
             </section>
 
-            <!-- Dynamic Staggered Masonry Grid -->
+            <!-- Dynamic Staggered Multi-Column Masonry Grid -->
             <section class="gallery-grid-container">
                 <div class="gallery-masonry-grid" id="gallery-masonry-grid">
                     <!-- Populated dynamically via js/gallery.js and data.js -->
@@ -191,7 +161,7 @@
             <!-- Direct Booking & Collaboration Banner -->
             <section class="gallery-cta-section container my-5">
                 <div class="gallery-page-tag">
-                    <span class="people-badge-dot"></span>
+                    <span class="status-live-dot"></span>
                     <span>COLLABORATION & BOOKINGS</span>
                 </div>
                 <h2 class="gallery-cta-title">Ready to Capture Your Story?</h2>
@@ -200,11 +170,11 @@
                 </p>
                 <div class="gallery-cta-actions">
                     <a href="https://wa.me/919061733155?text=Hello%20Mohamed%20Ashiq,%20I%20would%20like%20to%20inquire%20about%20a%20shoot%20booking."
-                       target="_blank" rel="noopener noreferrer" class="btn-cinematic-gold" data-cursor="hover">
+                       target="_blank" rel="noopener noreferrer" class="btn-cinematic btn-primary-cinema" data-cursor="hover">
                         <span>Direct WhatsApp</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                     </a>
-                    <a href="index.html#contact" class="btn-cinematic-outline" data-cursor="hover">
+                    <a href="index.html#contact" class="btn-cinematic-pill" data-cursor="hover">
                         <span>Send Project Brief</span>
                     </a>
                 </div>
@@ -278,12 +248,12 @@
         <div class="container-fluid px-lg-5">
             <div class="row align-items-center justify-content-between g-4">
                 <div class="col-md-6">
-                    <a href="index.html" class="nav-brand-logo mb-2 d-inline-block">
-                        <span class="logo-accent-mark">●</span>
-                        <span class="logo-brand-text">ASKY</span>
-                        <span class="logo-sub-role">CINEMA</span>
+                    <a href="index.html" class="brand-logo mb-2 d-inline-block">
+                        <span class="brand-mark">ASKY</span>
+                        <span class="brand-dot">●</span>
+                        <span class="brand-sub">CINEMA</span>
                     </a>
-                    <p class="text-muted small mb-0 font-monospace">
+                    <p class="text-secondary small mb-0 font-monospace">
                         Mohamed Ashiq CM • Videographer & Video Editor • Bengaluru, India
                     </p>
                 </div>
@@ -293,7 +263,7 @@
                     </a>
                 </div>
             </div>
-            <div class="footer-bottom-bar">
+            <div class="footer-bottom-bar mt-4 pt-3 border-top border-secondary border-opacity-10 d-flex flex-wrap justify-content-between text-secondary small font-monospace">
                 <span>&copy; <span id="footer-year">2026</span> Mohamed Ashiq CM (ASKY). All visual assets and master rights reserved.</span>
                 <span>Crafted with Cinema Optics & Precision Color</span>
             </div>
@@ -302,7 +272,6 @@
 
     <!-- SCRIPT DEPENDENCIES -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -310,7 +279,6 @@
     <!-- CUSTOM APP SCRIPTS -->
     <script src="js/data.js"></script>
     <script src="js/cursor.js"></script>
-    <script src="js/three-scene.js"></script>
     <script src="js/gallery.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/main.js"></script>

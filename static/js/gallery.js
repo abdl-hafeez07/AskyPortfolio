@@ -1,21 +1,22 @@
 /**
  * MOHAMED ASHIQ CM — People Editorial Gallery & Interactive Lightbox Controller
- * Handles Multi-Column Continuous Photo Collage, Watch Tutorial Action, and Fullscreen Darkroom Lightbox
+ * Handles Multi-Column Continuous Photo Collage, Watch Tutorial Action, Category Filtering, and Fullscreen Darkroom Lightbox
  */
 
 function resolveAssetUrl(url) {
     if (!url) return "";
-    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:")) {
+    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:") || url.startsWith("//")) {
         return url;
     }
+    // When running under Django (HTTP environment)
     if (window.location && window.location.protocol && window.location.protocol.startsWith("http")) {
-        if (!url.startsWith("/static/") && !url.startsWith("static/")) {
-            return "/static/" + (url.startsWith("/") ? url.slice(1) : url);
-        }
-        if (url.startsWith("static/")) {
-            return "/" + url;
-        }
+        if (url.startsWith("/static/")) return url;
+        if (url.startsWith("static/")) return "/" + url;
+        return "/static/" + (url.startsWith("/") ? url.slice(1) : url);
     }
+    // Static HTML environment (file:// or plain server)
+    if (url.startsWith("/static/")) return url.replace("/static/", "");
+    if (url.startsWith("static/")) return url.replace("static/", "");
     return url;
 }
 
@@ -24,19 +25,88 @@ class GalleryManager {
         this.data = window.PORTFOLIO_DATA || {};
         this.currentLightboxIndex = 0;
         this.activePhotoList = [];
+        this.touchStartX = 0;
+        this.touchEndX = 0;
 
         this.init();
     }
 
     init() {
         this.bindFilmCardEvents();
+        this.bindWatchTutorialEvent();
         this.renderPeopleCollage();
+        this.updateCategoryCounts();
         this.renderDedicatedGalleryGrid("all");
         this.bindDedicatedGalleryFilters();
         this.renderTestimonials();
 
         this.bindLightboxEvents();
         this.bindVideoModalEvents();
+
+        let resizeTimer;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const activeFilter = document.querySelector(".gallery-filter-btn.is-active");
+                const currentCat = activeFilter ? activeFilter.getAttribute("data-filter") : "all";
+                if (document.getElementById("gallery-masonry-grid")) {
+                    this.renderDedicatedGalleryGrid(currentCat);
+                }
+            }, 200);
+        });
+    }
+
+    // Category Normalization
+    normalizeCategory(cat) {
+        if (!cat) return "all";
+        const c = cat.toLowerCase().trim();
+        if (c === "all" || c === "all frames") return "all";
+        if (c === "wedding" || c === "weddings") return "wedding";
+        if (c === "portraits" || c === "portrait") return "portraits";
+        if (c === "events" || c === "event") return "events";
+        if (c === "cinematic" || c === "films" || c === "film") return "films";
+        return c;
+    }
+
+    matchCategory(itemCategory, targetCategory) {
+        const target = this.normalizeCategory(targetCategory);
+        if (target === "all") return true;
+        const item = this.normalizeCategory(itemCategory);
+        return item === target;
+    }
+
+    // Dynamically update count badges on filter tabs
+    updateCategoryCounts() {
+        const allPhotos = this.data.photographyItems || [];
+        const counts = {
+            all: allPhotos.length,
+            wedding: 0,
+            portraits: 0,
+            events: 0,
+            cinematic: 0
+        };
+
+        allPhotos.forEach(p => {
+            const norm = this.normalizeCategory(p.category || p.categoryLabel);
+            if (norm === "wedding") counts.wedding++;
+            else if (norm === "portraits") counts.portraits++;
+            else if (norm === "events") counts.events++;
+            else if (norm === "films") counts.cinematic++;
+        });
+
+        const formatCount = (n) => `[${n < 10 ? '0' + n : n}]`;
+
+        const elAll = document.getElementById("count-all");
+        const elWedding = document.getElementById("count-wedding");
+        const elPortraits = document.getElementById("count-portraits");
+        const elEvents = document.getElementById("count-events");
+        const elCinematic = document.getElementById("count-cinematic");
+
+        if (elAll) elAll.textContent = formatCount(counts.all);
+        if (elWedding) elWedding.textContent = formatCount(counts.wedding);
+        if (elPortraits) elPortraits.textContent = formatCount(counts.portraits);
+        if (elEvents) elEvents.textContent = formatCount(counts.events);
+        if (elCinematic) elCinematic.textContent = formatCount(counts.cinematic);
     }
 
     // Attach click listeners to all film cards
@@ -114,14 +184,12 @@ class GalleryManager {
         if (!col1Track || !col2Track || !this.data.photographyItems) return;
 
         const allPhotos = [...this.data.photographyItems];
-        this.activePhotoList = allPhotos;
 
         // Distribute photos cyclically across 3 columns with varied aspect ratios
         const col1Photos = [];
         const col2Photos = [];
         const col3Photos = [];
 
-        // Aspect ratio sequences for editorial masonry rhythm
         const ratioSeq1 = ["ratio-portrait", "ratio-landscape", "ratio-tall", "ratio-square", "ratio-portrait", "ratio-landscape"];
         const ratioSeq2 = ["ratio-tall", "ratio-square", "ratio-portrait", "ratio-landscape", "ratio-tall", "ratio-portrait"];
         const ratioSeq3 = ["ratio-landscape", "ratio-portrait", "ratio-square", "ratio-tall", "ratio-landscape", "ratio-portrait"];
@@ -137,7 +205,6 @@ class GalleryManager {
             }
         });
 
-        // Ensure each column has at least 5-6 items for seamless infinite looping
         while (col1Photos.length < 6 && allPhotos.length > 0) {
             const pick = allPhotos[col1Photos.length % allPhotos.length];
             col1Photos.push({ item: pick, index: col1Photos.length % allPhotos.length, ratio: ratioSeq1[col1Photos.length % ratioSeq1.length] });
@@ -156,7 +223,7 @@ class GalleryManager {
         const buildCardHtml = ({ item, index, ratio }) => `
             <article class="people-photo-card" data-photo-index="${index}" data-cursor="zoom">
                 <div class="people-photo-box ${ratio}">
-                    <img src="${item.image}" alt="${item.title}" class="people-photo-img" loading="lazy">
+                    <img src="${resolveAssetUrl(item.image)}" alt="${item.title}" class="people-photo-img" loading="lazy">
                     <div class="people-photo-overlay">
                         <span class="people-photo-title">${item.title}</span>
                         <span class="people-photo-sub">${item.location || item.category}</span>
@@ -184,6 +251,7 @@ class GalleryManager {
             card.addEventListener("click", () => {
                 const idx = parseInt(card.getAttribute("data-photo-index"), 10);
                 if (!isNaN(idx)) {
+                    this.activePhotoList = allPhotos;
                     this.openLightbox(idx);
                 }
             });
@@ -196,35 +264,60 @@ class GalleryManager {
         if (!grid || !this.data.photographyItems) return;
 
         const allPhotos = this.data.photographyItems;
-        const filtered = (category === "all")
+        const targetNorm = this.normalizeCategory(category);
+        const filtered = (targetNorm === "all")
             ? allPhotos
-            : allPhotos.filter(item => item.category === category || (item.categoryLabel && item.categoryLabel.toLowerCase() === category.toLowerCase()));
+            : allPhotos.filter(item => this.matchCategory(item.category || item.categoryLabel, targetNorm));
 
         this.activePhotoList = filtered;
 
+        if (filtered.length === 0) {
+            grid.innerHTML = `
+                <div class="text-center py-5 w-100">
+                    <p class="text-secondary font-monospace">No visual stills found in this category.</p>
+                </div>
+            `;
+            return;
+        }
+
+        const width = window.innerWidth;
+        const numCols = width < 768 ? 1 : (width < 992 ? 2 : 3);
+        const cols = Array.from({ length: numCols }, () => []);
+
         const aspectRatios = ["ratio-portrait", "ratio-landscape", "ratio-tall", "ratio-square", "ratio-portrait", "ratio-landscape"];
 
-        grid.innerHTML = filtered.map((item, idx) => {
-            const ratio = item.aspectRatio ? (item.aspectRatio === "portrait" ? "ratio-portrait" : item.aspectRatio === "landscape" ? "ratio-landscape" : item.aspectRatio === "tall" ? "ratio-tall" : "ratio-square") : aspectRatios[idx % aspectRatios.length];
-            return `
+        filtered.forEach((item, idx) => {
+            const colIdx = idx % numCols;
+            const ratio = item.aspectRatio
+                ? (item.aspectRatio === "portrait" ? "ratio-portrait" : item.aspectRatio === "landscape" ? "ratio-landscape" : item.aspectRatio === "tall" ? "ratio-tall" : "ratio-square")
+                : aspectRatios[idx % aspectRatios.length];
+            const resolvedSrc = resolveAssetUrl(item.image);
+
+            cols[colIdx].push(`
                 <article class="gallery-grid-card" data-photo-index="${idx}" data-cursor="zoom">
                     <div class="gallery-card-aspect ${ratio}">
                         <div class="gallery-card-hud-top">
                             <span class="gallery-card-roll">${item.frameNum || `FR // 00${idx + 1}`}</span>
                             <span class="gallery-card-cat">${item.categoryLabel || item.category}</span>
                         </div>
-                        <img src="${resolveAssetUrl(item.image)}" alt="${item.title}" class="gallery-card-img" loading="lazy">
+                        <img src="${resolvedSrc}" alt="${item.title}" class="gallery-card-img" loading="eager" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=85';">
                         <div class="gallery-card-hud-bottom">
                             <h3 class="gallery-card-title">${item.title}</h3>
                             <div class="gallery-card-meta">
-                                <span class="gallery-card-lens">${item.lens}</span>
+                                <span class="gallery-card-lens">${item.lens || 'Cinema Prime'}</span>
                                 <span class="gallery-card-zoom-btn">&#x2922;</span>
                             </div>
                         </div>
                     </div>
                 </article>
-            `;
-        }).join("");
+            `);
+        });
+
+        grid.innerHTML = cols.map(colItems => `
+            <div class="gallery-col">
+                ${colItems.join("")}
+            </div>
+        `).join("");
 
         // Attach Lightbox click listeners
         grid.querySelectorAll(".gallery-grid-card").forEach(card => {
@@ -380,17 +473,42 @@ class GalleryManager {
             if (e.key === "ArrowLeft") this.navigateLightbox(-1);
             if (e.key === "ArrowRight") this.navigateLightbox(1);
         });
+
+        // Touch Swipe Navigation for mobile
+        if (modal) {
+            modal.addEventListener("touchstart", (e) => {
+                this.touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            modal.addEventListener("touchend", (e) => {
+                this.touchEndX = e.changedTouches[0].screenX;
+                this.handleSwipe();
+            }, { passive: true });
+        }
+    }
+
+    handleSwipe() {
+        const diff = this.touchEndX - this.touchStartX;
+        if (Math.abs(diff) > 50) {
+            if (diff < 0) {
+                // Swipe Left -> Next
+                this.navigateLightbox(1);
+            } else {
+                // Swipe Right -> Prev
+                this.navigateLightbox(-1);
+            }
+        }
     }
 
     navigateLightbox(direction) {
-        if (!this.activePhotoList.length) return;
+        if (!this.activePhotoList || !this.activePhotoList.length) return;
         this.currentLightboxIndex = (this.currentLightboxIndex + direction + this.activePhotoList.length) % this.activePhotoList.length;
         this.updateLightboxContent();
     }
 
     openLightbox(index) {
         const modal = document.getElementById("cinematic-lightbox-modal");
-        if (!modal || !this.activePhotoList.length) return;
+        if (!modal || !this.activePhotoList || !this.activePhotoList.length) return;
 
         this.currentLightboxIndex = Math.min(Math.max(0, index), this.activePhotoList.length - 1);
         this.renderLightboxFilmstrip();
@@ -404,7 +522,7 @@ class GalleryManager {
 
         filmstrip.innerHTML = this.activePhotoList.map((item, idx) => `
             <div class="filmstrip-thumb ${idx === this.currentLightboxIndex ? 'is-active' : ''}" data-film-index="${idx}">
-                <img src="${resolveAssetUrl(item.image)}" alt="${item.title}" loading="lazy">
+                <img src="${resolveAssetUrl(item.image)}" alt="${item.title}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=300&q=80';">
             </div>
         `).join("");
 
@@ -434,7 +552,7 @@ class GalleryManager {
             setTimeout(() => {
                 if (img) img.src = resolveAssetUrl(item.image);
                 if (title) title.textContent = item.title;
-                if (meta) meta.innerHTML = `<span>${item.location}</span> <span>•</span> <span>${item.lens}</span> <span>•</span> <span>${item.year}</span>`;
+                if (meta) meta.innerHTML = `<span>${item.location || 'Location'}</span> <span>•</span> <span>${item.lens || 'Cinema Lens'}</span> <span>•</span> <span>${item.year || '2026'}</span>`;
                 if (counter) counter.textContent = `${this.currentLightboxIndex + 1} / ${this.activePhotoList.length}`;
                 if (rollTag) rollTag.textContent = item.frameNum || `ROLL // MASTER`;
 
@@ -452,7 +570,7 @@ class GalleryManager {
                 }
 
                 imgWrapper.classList.remove("is-animating");
-            }, 120);
+            }, 100);
         }
     }
 }

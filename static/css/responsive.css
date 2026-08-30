@@ -394,18 +394,64 @@
 
 @media (max-width: 991.98px) {
     .gallery-masonry-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
         gap: 20px !important;
+    }
+    .gallery-col {
+        gap: 20px !important;
+    }
+    .gallery-grid-container {
+        padding: 0 16px;
     }
 }
 
 @media (max-width: 767.98px) {
     .gallery-masonry-grid {
-        grid-template-columns: 1fr !important;
-        gap: 18px !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+
+    .gallery-col {
+        width: 100% !important;
+        gap: 16px !important;
     }
 
     .gallery-page-main {
         padding-top: 100px;
+        padding-bottom: 50px;
+    }
+
+    .lightbox-stage-container {
+        padding: 14px 16px;
+    }
+
+    .lightbox-top-hud {
+        gap: 10px;
+    }
+
+    .lightbox-brand-pill {
+        display: none;
+    }
+
+    .lightbox-title-text {
+        font-size: 0.98rem;
+    }
+
+    .lightbox-nav-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+    }
+
+    .lightbox-prev {
+        left: 8px;
+    }
+
+    .lightbox-next {
+        right: 8px;
+    }
+
+    .filmstrip-thumb {
+        width: 48px;
+        height: 34px;
     }
 }

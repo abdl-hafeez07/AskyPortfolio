@@ -167,7 +167,7 @@ window.PORTFOLIO_DATA = {
             location: "Wayanad Forests, India",
             lens: "Sony A7S III • 35mm f/1.4 Cinema",
             frameNum: "FR // 001",
-            image: "static/img/IMG_1013.JPG",
+            image: "img/IMG_1013.JPG",
             aspectRatio: "portrait",
             year: "2026"
         },
@@ -179,7 +179,7 @@ window.PORTFOLIO_DATA = {
             location: "Bengaluru Reserve",
             lens: "Sony FX3 • 24-70mm GM",
             frameNum: "FR // 002",
-            image: "static/img/IMG_1011.JPG",
+            image: "img/IMG_1011.JPG",
             aspectRatio: "landscape",
             year: "2026"
         },
