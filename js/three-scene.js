@@ -3,7 +3,7 @@
  * Features:
  * 1. Viewfinder Camera HUD Calibration & Optical Focus Pull on IMG_1013.JPG
  * 2. Anamorphic Flare Shimmer & Optical Flash Reveal
- * 3. Interactive 3D Perspective Tilt with Multi-Layer Parallax Badges
+ * 3. Interactive 3D Perspective Tilt with Multi-Layer Parallax Badges & Performance Pausing
  */
 
 class CinematicLoaderEngine {
@@ -127,10 +127,11 @@ class HeroArtworkController {
         this.floatingBadges = document.querySelectorAll(".hero-floating-badge");
         this.lensGlint = document.querySelector(".hero-lens-flare-glint");
 
-        if (!this.heroCard) return;
+        if (!this.heroCard || !this.heroShowcase) return;
 
         this.mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
         this.isHovered = false;
+        this.isVisible = true;
         this.rafId = null;
 
         this.init();
@@ -139,15 +140,30 @@ class HeroArtworkController {
     init() {
         this.bindEvents();
         this.renderLoop = this.renderLoop.bind(this);
-        this.rafId = requestAnimationFrame(this.renderLoop);
+        this.startLoop();
+    }
+
+    startLoop() {
+        if (!this.rafId) {
+            this.rafId = requestAnimationFrame(this.renderLoop);
+        }
+    }
+
+    stopLoop() {
+        if (this.rafId) {
+            cancelAnimationFrame(this.rafId);
+            this.rafId = null;
+        }
     }
 
     bindEvents() {
         window.addEventListener("mousemove", (e) => {
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            this.mouse.targetX = (e.clientX - centerX) / centerX; // -1 to 1
-            this.mouse.targetY = (e.clientY - centerY) / centerY; // -1 to 1
+            if (!this.isVisible) return;
+            const rect = this.heroShowcase.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            this.mouse.targetX = Math.max(-1, Math.min(1, (e.clientX - centerX) / (window.innerWidth * 0.5)));
+            this.mouse.targetY = Math.max(-1, Math.min(1, (e.clientY - centerY) / (window.innerHeight * 0.5)));
         }, { passive: true });
 
         if (this.heroShowcase) {
@@ -156,38 +172,60 @@ class HeroArtworkController {
             });
             this.heroShowcase.addEventListener("mouseleave", () => {
                 this.isHovered = false;
+                this.mouse.targetX = 0;
+                this.mouse.targetY = 0;
             });
+
+            // Pause calculations when out of viewport
+            if ("IntersectionObserver" in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        this.isVisible = entry.isIntersecting;
+                        if (this.isVisible) {
+                            this.startLoop();
+                        } else {
+                            this.stopLoop();
+                        }
+                    });
+                }, { threshold: 0.1 });
+                observer.observe(this.heroShowcase);
+            }
         }
     }
 
     renderLoop() {
-        // Smooth dampening
-        this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.07;
-        this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.07;
+        if (!this.isVisible) {
+            this.rafId = null;
+            return;
+        }
+
+        // Smooth spring dampening
+        this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.08;
+        this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.08;
 
         if (this.heroCard) {
-            const rotY = this.mouse.x * (this.isHovered ? 12 : 7);
-            const rotX = -this.mouse.y * (this.isHovered ? 12 : 7);
-            const transZ = this.isHovered ? 20 : 0;
+            const rotY = this.mouse.x * (this.isHovered ? 10 : 5);
+            const rotX = -this.mouse.y * (this.isHovered ? 10 : 5);
+            const transZ = this.isHovered ? 16 : 0;
 
             this.heroCard.style.transform = `perspective(1000px) rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg) translateZ(${transZ}px)`;
         }
 
         // Parallax offset on floating badges
         if (this.floatingBadges && this.floatingBadges.length > 0) {
-            const badgeShiftX = this.mouse.x * 15;
-            const badgeShiftY = this.mouse.y * 12;
+            const badgeShiftX = this.mouse.x * 12;
+            const badgeShiftY = this.mouse.y * 10;
             this.floatingBadges.forEach((badge, idx) => {
                 const mult = idx === 0 ? 1 : -0.8;
-                badge.style.transform = `translate3d(${badgeShiftX * mult}px, ${badgeShiftY * mult}px, 30px)`;
+                badge.style.transform = `translate3d(${badgeShiftX * mult}px, ${badgeShiftY * mult}px, 25px)`;
             });
         }
 
         // Parallax on lens flare glint
         if (this.lensGlint) {
-            const glintX = this.mouse.x * 18;
-            const glintY = this.mouse.y * 14;
-            this.lensGlint.style.transform = `translate(calc(-50% + ${glintX}px), calc(-50% + ${glintY}px)) scale(${this.isHovered ? 1.25 : 1.0})`;
+            const glintX = this.mouse.x * 15;
+            const glintY = this.mouse.y * 12;
+            this.lensGlint.style.transform = `translate(calc(-50% + ${glintX}px), calc(-50% + ${glintY}px)) scale(${this.isHovered ? 1.2 : 1.0})`;
         }
 
         this.rafId = requestAnimationFrame(this.renderLoop);

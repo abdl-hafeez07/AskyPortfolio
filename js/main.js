@@ -54,27 +54,33 @@ function initNavigation() {
         });
     });
 
-    // Intersection observer to highlight current nav item
+    // Scroll listener to highlight current nav item accurately
     const sections = document.querySelectorAll("section[id]");
-    window.addEventListener("scroll", () => {
-        let current = "";
-        const scrollPosition = window.scrollY + 140;
+    if (sections.length) {
+        window.addEventListener("scroll", () => {
+            let current = "";
+            const scrollPosition = window.scrollY + 160;
 
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                current = section.getAttribute("id");
-            }
-        });
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                const sectionTop = rect.top + window.scrollY;
+                const sectionHeight = section.offsetHeight;
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    current = section.getAttribute("id");
+                }
+            });
 
-        document.querySelectorAll(".nav-link-item").forEach(a => {
-            a.classList.remove("is-active");
-            if (a.getAttribute("href") === `#${current}`) {
-                a.classList.add("is-active");
-            }
-        });
-    }, { passive: true });
+            document.querySelectorAll(".nav-link-item").forEach(a => {
+                const href = a.getAttribute("href");
+                if (href && href.startsWith("#")) {
+                    a.classList.remove("is-active");
+                    if (href === `#${current}`) {
+                        a.classList.add("is-active");
+                    }
+                }
+            });
+        }, { passive: true });
+    }
 }
 
 // Fullscreen Mobile Drawer Menu
@@ -120,13 +126,16 @@ function initBookingForm() {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const name = document.getElementById("inquiry-name").value.trim();
-        const email = document.getElementById("inquiry-email").value.trim();
+        const nameInput = document.getElementById("inquiry-name");
+        const emailInput = document.getElementById("inquiry-email");
+        const name = nameInput ? nameInput.value.trim() : "";
+        const email = emailInput ? emailInput.value.trim() : "";
         const phone = document.getElementById("inquiry-phone") ? document.getElementById("inquiry-phone").value.trim() : "";
         const service = document.getElementById("inquiry-service") ? document.getElementById("inquiry-service").value : "";
         const eventDate = document.getElementById("inquiry-date") ? document.getElementById("inquiry-date").value : "";
         const budget = document.getElementById("inquiry-budget") ? document.getElementById("inquiry-budget").value.trim() : "";
-        const message = document.getElementById("inquiry-message").value.trim();
+        const messageInput = document.getElementById("inquiry-message");
+        const message = messageInput ? messageInput.value.trim() : "";
         const submitBtn = form.querySelector("button[type='submit']");
 
         if (!name || !email) {
@@ -134,12 +143,14 @@ function initBookingForm() {
             return;
         }
 
-        const originalText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `
-            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-            Transmitting to Darkroom...
-        `;
+        const originalText = submitBtn ? submitBtn.innerHTML : "Send Message";
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                Transmitting to Darkroom...
+            `;
+        }
 
         try {
             const response = await fetch('/api/contact/', {
@@ -161,33 +172,41 @@ function initBookingForm() {
             const result = await response.json();
 
             if (response.ok && result.status === 'success') {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Inquiry Dispatched
+                    `;
+                }
+                showFeedback(result.message || `Thank you ${name}. Your commission inquiry has been received. Mohamed Ashiq will respond shortly.`, "success");
+                form.reset();
+            } else {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                }
+                showFeedback(result.message || "An error occurred while transmitting your inquiry. Please try again.", "danger");
+            }
+        } catch (err) {
+            // Fallback for static demo environments
+            if (submitBtn) {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = `
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     Inquiry Dispatched
                 `;
-                showFeedback(result.message || `Thank you ${name}. Your commission inquiry has been received. Mohamed Ashiq will respond shortly.`, "success");
-                form.reset();
-            } else {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-                showFeedback(result.message || "An error occurred while transmitting your inquiry. Please try again.", "danger");
             }
-        } catch (err) {
-            // Fallback for static demo environments
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = `
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                Inquiry Dispatched
-            `;
             showFeedback(`Thank you ${name}. Your commission inquiry for ${service || 'our studio'} has been recorded. Mohamed Ashiq will respond within 24 hours.`, "success");
             form.reset();
         }
 
-        setTimeout(() => {
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }, 5000);
+        if (submitBtn) {
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 5000);
+        }
     });
 
     function showFeedback(msg, type) {

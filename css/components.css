@@ -1974,82 +1974,7 @@
 }
 
 /* ==========================================================================
-   9. MODALS
-   ========================================================================== */
-.cinematic-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.cinematic-modal.is-active {
-    display: flex;
-}
-
-.modal-backdrop-cinematic,
-.lightbox-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(4, 4, 6, 0.94);
-    backdrop-filter: blur(20px);
-}
-
-.video-modal-dialog {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    max-width: 950px;
-    background: #0d0d12;
-    border: 1px solid var(--border-gold);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
-}
-
-.video-modal-screen {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #000;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.video-modal-screen video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.modal-close-icon-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 20;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid var(--border-subtle);
-    color: var(--text-pure-white);
-    font-size: 1.4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: var(--transition-fast);
-}
-
-.modal-close-icon-btn:hover {
-    background: var(--accent-gold);
-    color: #07070a;
-}
-
-/* ==========================================================================
-   MODALS: FULLSCREEN LIGHTBOX & VIDEO THEATER
+   9. MODALS: FULLSCREEN LIGHTBOX & VIDEO THEATER
    ========================================================================== */
 .cinematic-lightbox-modal {
     position: fixed;
@@ -2367,6 +2292,29 @@
     font-size: 0.85rem;
     letter-spacing: 0.08em;
     color: var(--accent-gold);
+}
+
+.modal-close-icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+}
+
+.modal-close-icon-btn:hover {
+    background: var(--accent-gold);
+    color: #050508;
+    border-color: var(--accent-gold);
+    transform: rotate(90deg);
 }
 
 .modal-video-container {
@@ -2737,250 +2685,4 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 16px;
-}
-
-/* Fullscreen Cinematic Darkroom Lightbox Modal */
-.cinematic-lightbox-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.35s ease, visibility 0.35s ease;
-}
-
-.cinematic-lightbox-modal.is-active {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-.lightbox-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(5, 5, 8, 0.94);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-}
-
-.lightbox-stage-container {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px 30px;
-}
-
-.lightbox-top-hud {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.lightbox-brand-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    color: var(--accent-gold);
-    background: rgba(229, 195, 120, 0.1);
-    border: 1px solid rgba(229, 195, 120, 0.3);
-    padding: 6px 14px;
-    border-radius: 999px;
-}
-
-.lightbox-brand-pill .hud-rec-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #ff3b30;
-    box-shadow: 0 0 8px #ff3b30;
-    animation: pulseGlow 1.5s infinite;
-}
-
-.lightbox-info-center {
-    text-align: center;
-}
-
-.lightbox-title-text {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin: 0 0 2px 0;
-}
-
-.lightbox-meta-specs {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--accent-gold);
-    letter-spacing: 0.06em;
-}
-
-.lightbox-hud-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.lightbox-counter-badge {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    background: rgba(255, 255, 255, 0.06);
-    padding: 6px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.lightbox-close-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.lightbox-close-btn:hover {
-    background: var(--accent-gold);
-    color: #050508;
-    border-color: var(--accent-gold);
-    transform: rotate(90deg);
-}
-
-.lightbox-main-stage {
-    position: relative;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 0;
-    min-height: 0;
-}
-
-.lightbox-image-wrapper {
-    position: relative;
-    max-width: 90vw;
-    max-height: 72vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 0, 0, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.lightbox-image-wrapper.is-animating {
-    opacity: 0;
-    transform: scale(0.97);
-}
-
-.lightbox-active-img {
-    max-width: 100%;
-    max-height: 72vh;
-    object-fit: contain;
-    display: block;
-    border-radius: 12px;
-}
-
-.lightbox-nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: rgba(14, 14, 20, 0.85);
-    border: 1px solid rgba(229, 195, 120, 0.35);
-    color: var(--accent-gold);
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    transition: all 0.25s ease;
-    backdrop-filter: blur(10px);
-}
-
-.lightbox-nav-btn:hover {
-    background: var(--accent-gold);
-    color: #050508;
-    box-shadow: 0 0 20px rgba(229, 195, 120, 0.5);
-    transform: translateY(-50%) scale(1.08);
-}
-
-.lightbox-prev {
-    left: 20px;
-}
-
-.lightbox-next {
-    right: 20px;
-}
-
-.lightbox-filmstrip-tray {
-    padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    display: flex;
-    justify-content: center;
-}
-
-.lightbox-filmstrip {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    max-width: 80vw;
-    padding: 6px 2px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--accent-gold) rgba(255, 255, 255, 0.05);
-}
-
-.filmstrip-thumb {
-    width: 64px;
-    height: 44px;
-    border-radius: 6px;
-    overflow: hidden;
-    flex-shrink: 0;
-    cursor: pointer;
-    border: 2px solid transparent;
-    opacity: 0.5;
-    transition: all 0.25s ease;
-}
-
-.filmstrip-thumb:hover {
-    opacity: 0.85;
-    border-color: rgba(229, 195, 120, 0.5);
-}
-
-.filmstrip-thumb.is-active {
-    opacity: 1;
-    border-color: var(--accent-gold);
-    box-shadow: 0 0 12px rgba(229, 195, 120, 0.6);
-    transform: scale(1.06);
-}
-
-.filmstrip-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
 }

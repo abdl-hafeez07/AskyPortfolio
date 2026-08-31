@@ -1,6 +1,6 @@
 /**
  * MOHAMED ASHIQ CM — Cinematic Subtle Custom Cursor
- * Enhances desktop interaction with fluid trailing and magnetic pull without disabling native pointers.
+ * Enhances desktop interaction with fluid trailing and micro-states without lag.
  */
 
 class CinematicCursor {
@@ -11,10 +11,9 @@ class CinematicCursor {
 
         this.pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
         this.mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-        this.speed = 0.18;
-        this.isTouch = window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 992;
+        this.speed = 0.2;
         this.active = false;
-        this.magneticTarget = null;
+        this.isTouch = window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 992;
 
         if (this.isTouch || !this.cursor || !this.cursorDot) {
             if (this.cursor) this.cursor.style.display = "none";
@@ -35,17 +34,20 @@ class CinematicCursor {
             this.mouse.x = e.clientX;
             this.mouse.y = e.clientY;
 
+            // Instantly update dot without lag
             this.cursorDot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
         }, { passive: true });
 
         document.addEventListener("mouseleave", () => {
-            this.cursor.classList.remove("is-active");
-            this.cursorDot.classList.remove("is-active");
+            if (this.cursor) this.cursor.classList.remove("is-active");
+            if (this.cursorDot) this.cursorDot.classList.remove("is-active");
         });
 
         document.addEventListener("mouseenter", () => {
-            this.cursor.classList.add("is-active");
-            this.cursorDot.classList.add("is-active");
+            if (this.active) {
+                if (this.cursor) this.cursor.classList.add("is-active");
+                if (this.cursorDot) this.cursorDot.classList.add("is-active");
+            }
         });
 
         this.bindHoverElements();
@@ -55,44 +57,36 @@ class CinematicCursor {
     bindHoverElements() {
         document.addEventListener("mouseover", (e) => {
             const target = e.target.closest("[data-cursor]");
-            const magneticEl = e.target.closest("[data-magnetic]");
-
             if (target) {
                 const cursorType = target.getAttribute("data-cursor");
                 this.setCursorState(cursorType, target.getAttribute("data-cursor-text"));
-            }
-
-            if (magneticEl) {
-                this.magneticTarget = magneticEl;
             }
         });
 
         document.addEventListener("mouseout", (e) => {
             const target = e.target.closest("[data-cursor]");
-            const magneticEl = e.target.closest("[data-magnetic]");
-
-            if (target && (!e.relatedTarget || !e.relatedTarget.closest("[data-cursor]"))) {
-                this.resetCursorState();
-            }
-
-            if (magneticEl && (!e.relatedTarget || !e.relatedTarget.closest("[data-magnetic]"))) {
-                if (this.magneticTarget === magneticEl) {
-                    this.magneticTarget.style.transform = "translate3d(0, 0, 0)";
-                    this.magneticTarget = null;
+            if (target) {
+                const nextTarget = e.relatedTarget ? e.relatedTarget.closest("[data-cursor]") : null;
+                if (!nextTarget) {
+                    this.resetCursorState();
+                } else if (nextTarget !== target) {
+                    const cursorType = nextTarget.getAttribute("data-cursor");
+                    this.setCursorState(cursorType, nextTarget.getAttribute("data-cursor-text"));
                 }
             }
         });
 
         document.addEventListener("mousedown", () => {
-            this.cursor.classList.add("is-clicking");
+            if (this.cursor) this.cursor.classList.add("is-clicking");
         });
 
         document.addEventListener("mouseup", () => {
-            this.cursor.classList.remove("is-clicking");
+            if (this.cursor) this.cursor.classList.remove("is-clicking");
         });
     }
 
     setCursorState(type, customText) {
+        if (!this.cursor) return;
         this.cursor.className = `custom-cursor is-active is-${type}`;
         if (this.cursorText) {
             let label = customText || "";
@@ -109,6 +103,7 @@ class CinematicCursor {
     }
 
     resetCursorState() {
+        if (!this.cursor) return;
         this.cursor.className = "custom-cursor is-active";
         if (this.cursorText) {
             this.cursorText.textContent = "";
@@ -119,15 +114,8 @@ class CinematicCursor {
         this.pos.x += (this.mouse.x - this.pos.x) * this.speed;
         this.pos.y += (this.mouse.y - this.pos.y) * this.speed;
 
-        this.cursor.style.transform = `translate3d(${this.pos.x}px, ${this.pos.y}px, 0)`;
-
-        if (this.magneticTarget) {
-            const rect = this.magneticTarget.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const deltaX = (this.mouse.x - centerX) * 0.25;
-            const deltaY = (this.mouse.y - centerY) * 0.25;
-            this.magneticTarget.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0)`;
+        if (this.cursor) {
+            this.cursor.style.transform = `translate3d(${this.pos.x}px, ${this.pos.y}px, 0)`;
         }
 
         requestAnimationFrame(() => this.renderLoop());

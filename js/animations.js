@@ -8,7 +8,7 @@ class CinematicAnimations {
         this.hasGSAP = typeof gsap !== "undefined";
         this.hasScrollTrigger = typeof ScrollTrigger !== "undefined";
 
-        if (this.hasScrollTrigger) {
+        if (this.hasGSAP && this.hasScrollTrigger) {
             gsap.registerPlugin(ScrollTrigger);
         }
 
@@ -19,32 +19,49 @@ class CinematicAnimations {
         this.initScrollAnimations();
         this.initServicesStackAnimation();
         this.initGalleryParallax();
-        this.initGalleryCardTilt();
         this.initStatsCounter();
     }
 
     initHeroState() {
         if (!this.hasGSAP) return;
 
-        gsap.set(".main-header", { opacity: 0, y: -25 });
-        gsap.set(".hero-pill-badge, .hero-title-main, .hero-lead-text, .hero-cta-row .btn-cinematic, .hero-metrics-bar .metric-item, .hero-scroll-indicator", {
-            opacity: 0,
-            y: 30
-        });
-        gsap.set(".hero-visual-container", {
-            opacity: 0,
-            scale: 0.92,
-            y: 40
-        });
-        gsap.set(".hero-floating-badge", {
-            opacity: 0,
-            scale: 0.8
-        });
+        const heroSection = document.querySelector(".hero-section");
+        if (!heroSection) return;
 
-        // Trigger entrance immediately on load with a smooth 100ms micro-delay
+        const mainHeader = document.querySelector(".main-header");
+        if (mainHeader) {
+            gsap.set(mainHeader, { opacity: 0, y: -20 });
+        }
+
+        const heroAnimElements = document.querySelectorAll(".hero-pill-badge, .hero-title-main, .hero-lead-text, .hero-cta-row .btn-cinematic, .hero-metrics-bar .metric-item, .hero-scroll-indicator");
+        if (heroAnimElements.length) {
+            gsap.set(heroAnimElements, { opacity: 0, y: 25 });
+        }
+
+        const heroVisual = document.querySelector(".hero-visual-container");
+        if (heroVisual) {
+            gsap.set(heroVisual, { opacity: 0, scale: 0.95, y: 30 });
+        }
+
+        const heroBadges = document.querySelectorAll(".hero-floating-badge");
+        if (heroBadges.length) {
+            gsap.set(heroBadges, { opacity: 0, scale: 0.85 });
+        }
+
+        // Safety reveal timer
         setTimeout(() => {
-            this.revealHeroContent();
-        }, 100);
+            if (!this.heroRevealed) {
+                this.revealHeroContent();
+            }
+        }, 2200);
+
+        // If no loader stage exists, reveal immediately
+        const loaderStage = document.getElementById("cinematic-loader-stage");
+        if (!loaderStage) {
+            setTimeout(() => {
+                this.revealHeroContent();
+            }, 80);
+        }
     }
 
     revealHeroContent() {
@@ -59,136 +76,131 @@ class CinematicAnimations {
             return;
         }
 
-        const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        const heroTl = gsap.timeline({
+            defaults: { ease: "power3.out" },
+            onComplete: () => {
+                if (typeof ScrollTrigger !== "undefined") {
+                    ScrollTrigger.refresh();
+                }
+            }
+        });
 
-        heroTl
-            .to(".main-header", {
-                y: 0,
-                opacity: 1,
-                duration: 0.8
-            }, 0)
-            .to(".hero-visual-container", {
-                y: 0,
-                scale: 1,
-                opacity: 1,
-                duration: 1.2,
-                ease: "power3.out"
-            }, 0.1)
-            .to(".hero-floating-badge", {
-                scale: 1,
-                opacity: 1,
-                stagger: 0.15,
-                duration: 0.8,
-                ease: "back.out(1.7)"
-            }, 0.4)
-            .to(".hero-pill-badge", {
-                y: 0,
-                opacity: 1,
-                duration: 0.8
-            }, 0.1)
-            .to(".hero-title-main", {
-                y: 0,
-                opacity: 1,
-                duration: 0.9
-            }, 0.2)
-            .to(".hero-lead-text", {
-                y: 0,
-                opacity: 1,
-                duration: 0.85
-            }, 0.3)
-            .to(".hero-cta-row .btn-cinematic", {
-                y: 0,
-                opacity: 1,
-                stagger: 0.1,
-                duration: 0.75
-            }, 0.4)
-            .to(".hero-metrics-bar .metric-item", {
-                opacity: 1,
-                y: 0,
-                stagger: 0.08,
-                duration: 0.75
-            }, 0.5)
-            .to(".hero-scroll-indicator", {
-                opacity: 1,
-                y: 0,
-                duration: 0.7
-            }, 0.6);
+        const mainHeader = document.querySelector(".main-header");
+        if (mainHeader) {
+            heroTl.to(mainHeader, { y: 0, opacity: 1, duration: 0.7, clearProps: "transform,opacity" }, 0);
+        }
+
+        const heroVisual = document.querySelector(".hero-visual-container");
+        if (heroVisual) {
+            heroTl.to(heroVisual, { y: 0, scale: 1, opacity: 1, duration: 0.9, clearProps: "opacity" }, 0.1);
+        }
+
+        const heroBadges = document.querySelectorAll(".hero-floating-badge");
+        if (heroBadges.length) {
+            heroTl.to(heroBadges, { scale: 1, opacity: 1, stagger: 0.12, duration: 0.7, ease: "back.out(1.5)", clearProps: "opacity" }, 0.3);
+        }
+
+        const pillBadge = document.querySelector(".hero-pill-badge");
+        if (pillBadge) {
+            heroTl.to(pillBadge, { y: 0, opacity: 1, duration: 0.6, clearProps: "all" }, 0.1);
+        }
+
+        const heroTitle = document.querySelector(".hero-title-main");
+        if (heroTitle) {
+            heroTl.to(heroTitle, { y: 0, opacity: 1, duration: 0.7, clearProps: "all" }, 0.2);
+        }
+
+        const heroLead = document.querySelector(".hero-lead-text");
+        if (heroLead) {
+            heroTl.to(heroLead, { y: 0, opacity: 1, duration: 0.65, clearProps: "all" }, 0.28);
+        }
+
+        const ctaBtns = document.querySelectorAll(".hero-cta-row .btn-cinematic");
+        if (ctaBtns.length) {
+            heroTl.to(ctaBtns, { y: 0, opacity: 1, stagger: 0.08, duration: 0.6, clearProps: "opacity" }, 0.34);
+        }
+
+        const metrics = document.querySelectorAll(".hero-metrics-bar .metric-item");
+        if (metrics.length) {
+            heroTl.to(metrics, { opacity: 1, y: 0, stagger: 0.06, duration: 0.6, clearProps: "all" }, 0.4);
+        }
+
+        const scrollIndicator = document.querySelector(".hero-scroll-indicator");
+        if (scrollIndicator) {
+            heroTl.to(scrollIndicator, { opacity: 1, y: 0, duration: 0.5, clearProps: "opacity" }, 0.5);
+        }
     }
 
     initScrollAnimations() {
         if (!this.hasScrollTrigger) return;
 
         // Navbar glass blur on scroll
-        ScrollTrigger.create({
-            start: "top -50",
-            end: 99999,
-            toggleClass: {
-                className: "nav-scrolled",
-                targets: ".main-header"
-            }
-        });
+        const header = document.querySelector(".main-header");
+        if (header) {
+            ScrollTrigger.create({
+                start: "top -40",
+                end: 99999,
+                toggleClass: {
+                    className: "nav-scrolled",
+                    targets: header
+                }
+            });
+        }
 
         // Clean Section Headers Reveal
-        gsap.utils.toArray(".section-header-clean").forEach((header) => {
-            gsap.from(header.children, {
-                scrollTrigger: {
-                    trigger: header,
-                    start: "top 85%",
-                    toggleActions: "play none none none"
-                },
-                y: 35,
-                opacity: 0,
-                stagger: 0.12,
-                duration: 0.9,
-                ease: "power3.out"
+        const headers = gsap.utils.toArray(".section-header-clean, .section-tag-pill, .section-title-large");
+        if (headers.length) {
+            headers.forEach((hdr) => {
+                gsap.from(hdr, {
+                    scrollTrigger: {
+                        trigger: hdr,
+                        start: "top 92%",
+                        once: true
+                    },
+                    y: 24,
+                    opacity: 0,
+                    duration: 0.7,
+                    ease: "power2.out",
+                    clearProps: "all"
+                });
             });
-        });
+        }
+
+        // About section focus cards
+        const focusCards = document.querySelectorAll(".focus-pillar-card");
+        if (focusCards.length) {
+            gsap.from(focusCards, {
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top 85%",
+                    once: true
+                },
+                y: 25,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.65,
+                ease: "power2.out",
+                clearProps: "all"
+            });
+        }
 
         // Film Cards Stagger Reveal
-        ScrollTrigger.batch(".film-card-luxury", {
-            start: "top 88%",
-            onEnter: (batch) => {
-                gsap.from(batch, {
-                    y: 40,
-                    opacity: 0,
-                    stagger: 0.15,
-                    duration: 0.9,
-                    ease: "power3.out",
-                    clearProps: "transform"
-                });
-            },
-            once: true
-        });
-
-        // Focus Pillars Stagger Reveal
-        ScrollTrigger.batch(".focus-pillar-card", {
-            start: "top 90%",
-            onEnter: (batch) => {
-                gsap.from(batch, {
-                    x: -25,
-                    opacity: 0,
-                    stagger: 0.1,
-                    duration: 0.8,
-                    ease: "power2.out"
-                });
-            },
-            once: true
-        });
-
-        // Timeline Nodes Stagger Reveal
-        ScrollTrigger.batch(".timeline-node", {
-            start: "top 90%",
-            onEnter: (batch) => {
-                gsap.from(batch, {
-                    x: 30,
-                    opacity: 0,
-                    stagger: 0.15,
-                    duration: 0.8,
-                    ease: "power3.out"
-                });
-            },
-            once: true
-        });
+        const filmCards = document.querySelectorAll(".film-card-luxury");
+        if (filmCards.length) {
+            gsap.from(filmCards, {
+                scrollTrigger: {
+                    trigger: "#featured-works-grid",
+                    start: "top 90%",
+                    once: true
+                },
+                y: 30,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.7,
+                ease: "power2.out",
+                clearProps: "all"
+            });
+        }
     }
 
     // Stacked Cards Cinematic Scroll Animation for Services
@@ -201,22 +213,22 @@ class CinematicAnimations {
         const stackCards = gsap.utils.toArray(".service-stack-card");
         if (!stackCards.length) return;
 
-        // Entrance stagger reveal for all cards as the section reaches viewport
+        // Entrance reveal
         gsap.from(stackCards, {
             scrollTrigger: {
                 trigger: stackContainer,
-                start: "top 85%",
+                start: "top 88%",
                 once: true
             },
-            y: 45,
+            y: 30,
             opacity: 0,
-            duration: 0.85,
-            stagger: 0.1,
-            ease: "power3.out",
-            clearProps: "y,opacity"
+            duration: 0.7,
+            stagger: 0.08,
+            ease: "power2.out",
+            clearProps: "all"
         });
 
-        // Dynamic depth stacking effect as user scrolls each card
+        // Dynamic depth stacking effect
         stackCards.forEach((card, i) => {
             if (i < stackCards.length - 1) {
                 const nextCard = stackCards[i + 1];
@@ -225,13 +237,12 @@ class CinematicAnimations {
                     trigger: nextCard,
                     start: "top 75%",
                     end: "top 25%",
-                    scrub: 0.4,
+                    scrub: 0.3,
                     onUpdate: (self) => {
                         const p = self.progress;
-                        // Progressive subtle scale-down and depth dimming
-                        const scale = 1 - p * 0.045;
-                        const brightness = 1 - p * 0.28;
-                        const opacity = 1 - p * 0.08;
+                        const scale = 1 - p * 0.035;
+                        const brightness = 1 - p * 0.22;
+                        const opacity = 1 - p * 0.06;
 
                         gsap.set(card, {
                             scale: scale,
@@ -242,23 +253,6 @@ class CinematicAnimations {
                     }
                 });
             }
-        });
-
-        // Interactive hover responsiveness on stacked cards
-        stackCards.forEach((card) => {
-            card.addEventListener("mouseenter", () => {
-                gsap.to(card, {
-                    scale: 1.015,
-                    filter: "brightness(1.06)",
-                    opacity: 1,
-                    duration: 0.3,
-                    ease: "power2.out"
-                });
-            });
-
-            card.addEventListener("mouseleave", () => {
-                ScrollTrigger.refresh();
-            });
         });
     }
 
@@ -272,38 +266,23 @@ class CinematicAnimations {
 
         if (!section || !leftPanel || !rightCollage) return;
 
-        gsap.from(leftPanel.children, {
+        gsap.from([leftPanel, rightCollage], {
             scrollTrigger: {
                 trigger: section,
-                start: "top 80%",
+                start: "top 85%",
                 once: true
             },
-            y: 35,
+            y: 25,
             opacity: 0,
-            duration: 0.9,
+            duration: 0.75,
             stagger: 0.1,
-            ease: "power3.out"
+            ease: "power2.out",
+            clearProps: "all"
         });
-
-        gsap.from(rightCollage, {
-            scrollTrigger: {
-                trigger: section,
-                start: "top 80%",
-                once: true
-            },
-            scale: 0.96,
-            opacity: 0,
-            duration: 1.1,
-            ease: "power3.out"
-        });
-    }
-
-    initGalleryCardTilt() {
-        // GPU keyframes drive the continuous vertical flow
     }
 
     initCardSpotlightHover() {
-        const cards = document.querySelectorAll(".film-card-luxury, .service-clean-card, .contact-glass-panel, .gallery-sticky-sidebar");
+        const cards = document.querySelectorAll(".film-card-luxury, .service-clean-card, .contact-glass-panel");
 
         cards.forEach((card) => {
             card.addEventListener("mousemove", (e) => {
@@ -312,11 +291,12 @@ class CinematicAnimations {
                 const y = e.clientY - rect.top;
                 card.style.setProperty("--mouse-x", `${x}px`);
                 card.style.setProperty("--mouse-y", `${y}px`);
-            });
+            }, { passive: true });
         });
     }
 
     initMagneticButtons() {
+        if (!this.hasGSAP) return;
         const magneticBtns = document.querySelectorAll(".btn-cinematic, .direct-quick-link");
 
         magneticBtns.forEach((btn) => {
@@ -326,19 +306,19 @@ class CinematicAnimations {
                 const y = e.clientY - rect.top - rect.height / 2;
 
                 gsap.to(btn, {
-                    x: x * 0.2,
-                    y: y * 0.2,
-                    duration: 0.3,
+                    x: x * 0.18,
+                    y: y * 0.18,
+                    duration: 0.25,
                     ease: "power2.out"
                 });
-            });
+            }, { passive: true });
 
             btn.addEventListener("mouseleave", () => {
                 gsap.to(btn, {
                     x: 0,
                     y: 0,
-                    duration: 0.5,
-                    ease: "elastic.out(1, 0.4)"
+                    duration: 0.4,
+                    ease: "power2.out"
                 });
             });
         });
@@ -355,12 +335,12 @@ class CinematicAnimations {
             if (this.hasScrollTrigger) {
                 ScrollTrigger.create({
                     trigger: num,
-                    start: "top 90%",
+                    start: "top 92%",
                     onEnter: () => {
                         const obj = { val: 0 };
                         gsap.to(obj, {
                             val: target,
-                            duration: 2.0,
+                            duration: 1.6,
                             ease: "power2.out",
                             onUpdate: () => {
                                 num.textContent = Math.floor(obj.val);

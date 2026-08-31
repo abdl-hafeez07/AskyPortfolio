@@ -1,6 +1,6 @@
 /**
  * MOHAMED ASHIQ CM — People Editorial Gallery & Interactive Lightbox Controller
- * Handles Multi-Column Continuous Photo Collage, Watch Tutorial Action, Category Filtering, and Fullscreen Darkroom Lightbox
+ * Handles Multi-Column Continuous Photo Collage, Category Filtering, and Fullscreen Darkroom Lightbox
  */
 
 function resolveAssetUrl(url) {
@@ -64,7 +64,7 @@ class GalleryManager {
         if (c === "wedding" || c === "weddings") return "wedding";
         if (c === "portraits" || c === "portrait") return "portraits";
         if (c === "events" || c === "event") return "events";
-        if (c === "cinematic" || c === "films" || c === "film") return "films";
+        if (c === "cinematic" || c === "films" || c === "film") return "cinematic";
         return c;
     }
 
@@ -91,7 +91,7 @@ class GalleryManager {
             if (norm === "wedding") counts.wedding++;
             else if (norm === "portraits") counts.portraits++;
             else if (norm === "events") counts.events++;
-            else if (norm === "films") counts.cinematic++;
+            else if (norm === "cinematic" || norm === "films") counts.cinematic++;
         });
 
         const formatCount = (n) => `[${n < 10 ? '0' + n : n}]`;
@@ -172,11 +172,11 @@ class GalleryManager {
                 ? this.data.featuredProjects[0].videoTeaser
                 : "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
             
-            this.openVideoModal(tutorialVideoUrl, "People & Portraits — Cinematic BTS & Lighting Tutorial");
+            this.openVideoModal(tutorialVideoUrl, "People & Portraits — BTS & Cinematic Lighting Masterclass");
         });
     }
 
-    // Render Dense Multi-Column Continuous Moving Photo Collage
+    // Render Multi-Column Continuous Photo Collage
     renderPeopleCollage() {
         const col1Track = document.getElementById("people-col-1");
         const col2Track = document.getElementById("people-col-2");
@@ -185,7 +185,7 @@ class GalleryManager {
 
         const allPhotos = [...this.data.photographyItems];
 
-        // Distribute photos cyclically across 3 columns with varied aspect ratios
+        // Distribute photos cyclically across columns with varied aspect ratios
         const col1Photos = [];
         const col2Photos = [];
         const col3Photos = [];
@@ -397,6 +397,7 @@ class GalleryManager {
         const closeModal = () => {
             if (!modal) return;
             modal.classList.remove("is-active");
+            document.body.style.overflow = "";
             if (player) {
                 player.pause();
                 player.src = "";
@@ -423,6 +424,7 @@ class GalleryManager {
         if (titleEl) titleEl.textContent = title;
         player.src = videoUrl;
         modal.classList.add("is-active");
+        document.body.style.overflow = "hidden";
         player.play().catch(() => {});
     }
 
@@ -440,7 +442,10 @@ class GalleryManager {
                 e.stopPropagation();
             }
             const m = document.getElementById("cinematic-lightbox-modal");
-            if (m) m.classList.remove("is-active");
+            if (m) {
+                m.classList.remove("is-active");
+                document.body.style.overflow = "";
+            }
         };
 
         if (closeBtn) closeBtn.addEventListener("click", closeModal);
@@ -514,6 +519,7 @@ class GalleryManager {
         this.renderLightboxFilmstrip();
         this.updateLightboxContent();
         modal.classList.add("is-active");
+        document.body.style.overflow = "hidden";
     }
 
     renderLightboxFilmstrip() {
@@ -570,7 +576,7 @@ class GalleryManager {
                 }
 
                 imgWrapper.classList.remove("is-animating");
-            }, 100);
+            }, 60);
         }
     }
 }

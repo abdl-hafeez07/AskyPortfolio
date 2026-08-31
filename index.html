@@ -1147,64 +1147,59 @@
     </footer>
 
     <!-- MODAL 1: FULLSCREEN CINEMATIC LIGHTBOX -->
-    <div id="cinematic-lightbox-modal" class="cinematic-modal" role="dialog" aria-modal="true"
-        aria-label="Photo Lightbox">
+    <div id="cinematic-lightbox-modal" class="cinematic-lightbox-modal" aria-hidden="true" role="dialog" aria-label="Photo Lightbox Stage">
         <div class="lightbox-backdrop"></div>
-        <button id="lightbox-close-btn" class="modal-close-icon-btn" aria-label="Close Lightbox"
-            data-cursor="hover">&times;</button>
-        <button id="lightbox-prev-btn" class="lightbox-nav-btn lightbox-prev" aria-label="Previous Photo"
-            data-cursor="hover">&#10094;</button>
-        <button id="lightbox-next-btn" class="lightbox-nav-btn lightbox-next" aria-label="Next Photo"
-            data-cursor="hover">&#10095;</button>
-
-        <div class="lightbox-container">
-            <div class="lightbox-main-stage">
-                <div class="lightbox-image-wrapper" id="lightbox-image-wrapper">
-                    <!-- Top HUD -->
-                    <div class="lightbox-top-hud">
-                        <span id="lightbox-roll-tag">ROLL // MASTER</span>
-                        <span id="lightbox-counter">1 / 16</span>
-                    </div>
-
-                    <!-- Viewfinder Corners -->
-                    <div class="lightbox-viewfinder" aria-hidden="true">
-                        <span class="frame-corner top-left"></span>
-                        <span class="frame-corner top-right"></span>
-                        <span class="frame-corner bottom-left"></span>
-                        <span class="frame-corner bottom-right"></span>
-                    </div>
-
-                    <img id="lightbox-image" src="" alt="Expanded Master Frame">
+        <div class="lightbox-stage-container">
+            <!-- Top HUD Bar -->
+            <div class="lightbox-top-hud">
+                <div class="lightbox-brand-pill">
+                    <span class="hud-rec-dot"></span>
+                    <span id="lightbox-roll-tag">ROLL // MASTER</span>
                 </div>
-
-                <div class="lightbox-caption-bar">
-                    <h3 id="lightbox-title" class="lightbox-title"></h3>
-                    <div id="lightbox-meta" class="lightbox-meta"></div>
+                <div class="lightbox-info-center">
+                    <h2 id="lightbox-title" class="lightbox-title-text">Photography Frame</h2>
+                    <div id="lightbox-meta" class="lightbox-meta-specs">Location • Lens Specs • 2026</div>
+                </div>
+                <div class="lightbox-hud-right">
+                    <span id="lightbox-counter" class="lightbox-counter-badge">1 / 16</span>
+                    <button id="lightbox-close-btn" class="lightbox-close-btn" aria-label="Close Lightbox (Esc)" data-cursor="hover">✕</button>
                 </div>
             </div>
 
-            <!-- Interactive Film-Strip Reel -->
-            <div class="lightbox-filmstrip-wrapper">
-                <div class="lightbox-filmstrip-label">FRAME INDEX // QUICK JUMP</div>
-                <div class="lightbox-filmstrip" id="lightbox-filmstrip"></div>
+            <!-- Lightbox Main Stage -->
+            <div class="lightbox-main-stage">
+                <button id="lightbox-prev-btn" class="lightbox-nav-btn lightbox-prev" aria-label="Previous Frame" data-cursor="hover">&#10094;</button>
+
+                <div class="lightbox-image-wrapper" id="lightbox-image-wrapper">
+                    <img id="lightbox-image" src="img/IMG_1013.JPG" alt="Expanded Photography Frame" class="lightbox-active-img">
+                </div>
+
+                <button id="lightbox-next-btn" class="lightbox-nav-btn lightbox-next" aria-label="Next Frame" data-cursor="hover">&#10095;</button>
+            </div>
+
+            <!-- Lightbox Bottom Filmstrip -->
+            <div class="lightbox-filmstrip-tray">
+                <div class="lightbox-filmstrip" id="lightbox-filmstrip">
+                    <!-- Filmstrip thumbnails dynamically populated -->
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 2: CINEMATIC VIDEO PLAYER -->
-    <div id="cinematic-video-modal" class="cinematic-modal" role="dialog" aria-modal="true" aria-label="Video Player">
+    <!-- MODAL 2: CINEMATIC VIDEO THEATER MODAL -->
+    <div id="cinematic-video-modal" class="cinematic-video-modal" aria-hidden="true" role="dialog" aria-label="Video Player Stage">
         <div class="modal-backdrop-cinematic"></div>
-        <button id="video-modal-close-btn" class="modal-close-icon-btn" aria-label="Close Video">&times;</button>
-
-        <div class="video-modal-dialog">
-            <div class="mb-3 d-flex justify-content-between align-items-center">
-                <h4 id="video-modal-title" class="mb-0 text-white font-monospace"
-                    style="font-size: 1.1rem; letter-spacing: 0.12em;"></h4>
-                <span class="badge"
-                    style="background: var(--accent-gold); color: #000; font-family: var(--font-mono);">4K MASTER</span>
+        <div class="modal-content-stage">
+            <div class="modal-top-bar">
+                <div class="modal-title-wrap">
+                    <span class="rec-dot-live"></span>
+                    <span id="video-modal-title" class="modal-film-title">Cinematic Showreel</span>
+                </div>
+                <button id="video-modal-close-btn" class="modal-close-icon-btn" aria-label="Close Video Theater" data-cursor="hover">✕</button>
             </div>
-            <div class="video-modal-screen">
-                <video id="video-modal-player" controls playsinline preload="auto">
+            <div class="modal-video-container">
+                <video id="video-modal-player" controls preload="metadata" playsinline class="modal-html5-player">
+                    <source src="" type="video/mp4">
                     Your browser does not support HTML5 cinema playback.
                 </video>
             </div>
