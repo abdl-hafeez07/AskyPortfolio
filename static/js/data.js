@@ -124,7 +124,7 @@ window.PORTFOLIO_DATA = {
                 "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=85",
                 "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1200&q=85"
             ],
-            videoTeaser: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+            videoTeaser: "media/videos/reels/asky2.mp4",
             awards: "Client Choice Best Teaser"
         },
         {
@@ -144,7 +144,7 @@ window.PORTFOLIO_DATA = {
                 "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=85",
                 "https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=1200&q=85"
             ],
-            videoTeaser: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            videoTeaser: "media/videos/reels/Asky.mp4",
             awards: "High Engagement Commercial Reel"
         }
     ],

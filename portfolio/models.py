@@ -29,7 +29,9 @@ class Profile(models.Model):
     awards_count = models.IntegerField(default=5)
     
     # Assets
-    profile_photo = models.ImageField(upload_to='profile/', blank=True, null=True)
+    hero_image = models.ImageField(upload_to='profile/hero/', blank=True, null=True, help_text="Custom Hero section artwork / main display image")
+    hero_image_url = models.URLField(blank=True, default="", help_text="Or external URL for hero image")
+    profile_photo = models.ImageField(upload_to='profile/', blank=True, null=True, help_text="About section portrait photo")
     profile_photo_url = models.URLField(blank=True, default="")
     resume_file = models.FileField(upload_to='resume/', blank=True, null=True)
     
@@ -47,6 +49,24 @@ class Profile(models.Model):
     def experience_years(self):
         current_year = timezone.now().year
         return f"{max(1, current_year - self.experience_start_year)}+"
+
+    @property
+    def hero_image_src(self):
+        if self.hero_image:
+            return self.hero_image.url
+        if self.hero_image_url:
+            return self.hero_image_url
+        if self.profile_photo:
+            return self.profile_photo.url
+        return "/static/img/IMG_1013.JPG"
+
+    @property
+    def profile_photo_src(self):
+        if self.profile_photo:
+            return self.profile_photo.url
+        if self.profile_photo_url:
+            return self.profile_photo_url
+        return "/static/img/mohamed_ashiq.jpeg"
 
 
 class Experience(models.Model):
@@ -159,9 +179,10 @@ class Project(models.Model):
     client = models.CharField(max_length=150, blank=True)
     focal_length = models.CharField(max_length=100, default="35mm & 50mm Prime", blank=True)
     aspect_ratio = models.CharField(max_length=50, default="2.39:1 CinemaScope", blank=True)
-    cover_image = models.ImageField(upload_to='projects/', blank=True, null=True)
+    cover_image = models.ImageField(upload_to='projects/', blank=True, null=True, help_text="Upload custom cover / thumbnail image (PNG, JPG, WebP)")
     cover_image_url = models.URLField(blank=True, default="")
-    video_url = models.URLField(blank=True, default="", help_text="Direct MP4 URL or YouTube/Vimeo link")
+    video_file = models.FileField(upload_to='videos/projects/', blank=True, null=True, help_text="Upload MP4, WebM, or MOV video file")
+    video_url = models.URLField(blank=True, default="", help_text="Or direct MP4 URL, YouTube, or Vimeo link")
     overview = models.TextField(blank=True)
     awards = models.CharField(max_length=200, blank=True)
     is_featured = models.BooleanField(default=True)
@@ -170,8 +191,8 @@ class Project(models.Model):
 
     class Meta:
         ordering = ['display_order', '-created_at']
-        verbose_name = "Featured Project"
-        verbose_name_plural = "Featured Projects"
+        verbose_name = "Featured Film / Project"
+        verbose_name_plural = "Featured Films & Projects"
 
     def __str__(self):
         return f"{self.title} ({self.get_category_display()})"
@@ -180,7 +201,26 @@ class Project(models.Model):
     def image_src(self):
         if self.cover_image:
             return self.cover_image.url
+        # Fallback to VideoReel if thumbnail was uploaded there
+        matching_reel = VideoReel.objects.filter(id=self.id).first()
+        if not matching_reel:
+            matching_reel = VideoReel.objects.filter(title__iexact=self.title).first()
+        if matching_reel and matching_reel.thumbnail:
+            return matching_reel.thumbnail.url
         return self.cover_image_url or "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=85"
+
+    @property
+    def video_src(self):
+        if self.video_file:
+            return self.video_file.url
+        if self.video_url:
+            return self.video_url
+        matching_reel = VideoReel.objects.filter(id=self.id).first()
+        if not matching_reel:
+            matching_reel = VideoReel.objects.filter(title__iexact=self.title).first()
+        if matching_reel and matching_reel.video_src:
+            return matching_reel.video_src
+        return ""
 
 
 class ProjectGalleryImage(models.Model):
@@ -207,6 +247,7 @@ class GalleryItem(models.Model):
         ('wedding', 'Wedding Photography'),
         ('events', 'Events'),
         ('portraits', 'Portraits'),
+        ('cinematic', 'Cinematic & Films'),
         ('commercial', 'Commercial'),
     ]
     title = models.CharField(max_length=200)
@@ -214,7 +255,7 @@ class GalleryItem(models.Model):
     location = models.CharField(max_length=150, default="Bengaluru, India", blank=True)
     year = models.CharField(max_length=10, default="2025", blank=True)
     camera_spec = models.CharField(max_length=150, default="Sony Cinema / 50mm T1.4", blank=True)
-    image = models.ImageField(upload_to='gallery/', blank=True, null=True)
+    image = models.ImageField(upload_to='gallery/', blank=True, null=True, help_text="Upload photo or still frame")
     image_url = models.URLField(blank=True, default="")
     aspect_type = models.CharField(
         max_length=30,
@@ -244,8 +285,9 @@ class VideoReel(models.Model):
     category = models.CharField(max_length=100, default="Wedding Cinema")
     duration = models.CharField(max_length=30, default="01:30")
     client_name = models.CharField(max_length=150, blank=True)
-    video_url = models.URLField(help_text="Direct MP4 URL, YouTube, or Vimeo")
-    thumbnail = models.ImageField(upload_to='video_reels/', blank=True, null=True)
+    video_file = models.FileField(upload_to='videos/reels/', blank=True, null=True, help_text="Upload MP4, WebM, or MOV video file directly from your computer")
+    video_url = models.URLField(blank=True, default="", help_text="Or direct MP4 URL, YouTube, or Vimeo link")
+    thumbnail = models.ImageField(upload_to='video_reels/', blank=True, null=True, help_text="Upload custom thumbnail / poster image (PNG, JPG, WebP)")
     thumbnail_url = models.URLField(blank=True, default="")
     aspect_ratio = models.CharField(max_length=30, default="16:9 Cinema", blank=True)
     is_featured = models.BooleanField(default=True)
@@ -260,10 +302,47 @@ class VideoReel(models.Model):
         return f"{self.title} ({self.duration})"
 
     @property
+    def video_src(self):
+        if self.video_file:
+            return self.video_file.url
+        if self.video_url:
+            return self.video_url
+        matching_proj = Project.objects.filter(id=self.id).first()
+        if not matching_proj:
+            matching_proj = Project.objects.filter(title__iexact=self.title).first()
+        if matching_proj and matching_proj.video_src:
+            return matching_proj.video_src
+        return ""
+
+    @property
     def thumbnail_src(self):
         if self.thumbnail:
             return self.thumbnail.url
+        matching_proj = Project.objects.filter(id=self.id).first()
+        if not matching_proj:
+            matching_proj = Project.objects.filter(title__iexact=self.title).first()
+        if matching_proj and matching_proj.cover_image:
+            return matching_proj.cover_image.url
         return self.thumbnail_url or "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=85"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Keep corresponding Project record synchronized if matching ID exists
+        if self.id:
+            try:
+                proj = Project.objects.filter(id=self.id).first()
+                if proj:
+                    updated = False
+                    if self.thumbnail and proj.cover_image != self.thumbnail:
+                        proj.cover_image = self.thumbnail
+                        updated = True
+                    if self.video_file and proj.video_file != self.video_file:
+                        proj.video_file = self.video_file
+                        updated = True
+                    if updated:
+                        proj.save()
+            except Exception as e:
+                pass
 
 
 class Testimonial(models.Model):
@@ -273,6 +352,7 @@ class Testimonial(models.Model):
     project_title = models.CharField(max_length=200, blank=True)
     rating = models.IntegerField(default=5)
     comment = models.TextField()
+    avatar = models.ImageField(upload_to='testimonials/', blank=True, null=True, help_text="Upload client avatar photo")
     avatar_url = models.URLField(blank=True, default="")
     is_featured = models.BooleanField(default=True)
     display_order = models.IntegerField(default=0)
@@ -284,6 +364,12 @@ class Testimonial(models.Model):
 
     def __str__(self):
         return f"{self.client_name} ({self.client_role})"
+
+    @property
+    def avatar_src(self):
+        if self.avatar:
+            return self.avatar.url
+        return self.avatar_url or "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
 
 
 class ContactMessage(models.Model):

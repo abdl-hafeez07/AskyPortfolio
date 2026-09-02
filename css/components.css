@@ -2259,24 +2259,43 @@
     z-index: 10;
     width: 100%;
     max-width: 980px;
-    padding: 20px;
+    max-height: 92vh;
+    padding: 16px 20px 20px;
     background: #09090f;
     border: 1px solid var(--border-gold);
     border-radius: 20px;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
+    display: flex;
+    flex-direction: column;
+    transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-content-stage.stage-vertical-reel {
+    max-width: min(90vw, 420px) !important;
+}
+
+.modal-content-stage.stage-square {
+    max-width: min(90vw, 560px) !important;
+}
+
+.modal-content-stage.stage-landscape {
+    max-width: min(92vw, 980px) !important;
 }
 
 .modal-top-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
+    gap: 12px;
 }
 
 .modal-title-wrap {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
+    min-width: 0;
 }
 
 .rec-dot-live {
@@ -2285,6 +2304,7 @@
     border-radius: 50%;
     background: #ff3b30;
     box-shadow: 0 0 10px #ff3b30;
+    flex-shrink: 0;
 }
 
 .modal-film-title {
@@ -2292,11 +2312,27 @@
     font-size: 0.85rem;
     letter-spacing: 0.08em;
     color: var(--accent-gold);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.modal-video-format-badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: rgba(229, 195, 120, 0.12);
+    color: var(--accent-gold);
+    border: 1px solid rgba(229, 195, 120, 0.25);
 }
 
 .modal-close-icon-btn {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -2318,16 +2354,27 @@
 }
 
 .modal-video-container {
+    position: relative;
     width: 100%;
+    max-height: calc(92vh - 80px);
     aspect-ratio: 16 / 9;
     border-radius: 12px;
     overflow: hidden;
     background: #000000;
+    transition: aspect-ratio 0.35s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.modal-html5-player {
+.modal-html5-player,
+.modal-iframe-player {
     width: 100%;
     height: 100%;
+    max-height: calc(92vh - 80px);
+    border: 0;
+    outline: none;
+    display: block;
     object-fit: contain;
 }
 

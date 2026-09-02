@@ -232,6 +232,7 @@
                 <div class="modal-title-wrap">
                     <span class="rec-dot-live"></span>
                     <span id="video-modal-title" class="modal-film-title">Cinematic Showreel</span>
+                    <span id="video-modal-format-badge" class="modal-video-format-badge">4K CINEMA</span>
                 </div>
                 <button id="video-modal-close-btn" class="modal-close-icon-btn" aria-label="Close Video Theater" data-cursor="hover">✕</button>
             </div>
@@ -276,6 +277,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Dynamic Django Portfolio Data (Live database records override static defaults) -->
+    <script id="django-portfolio-data" type="application/json">
+        {{ portfolio_data_json|safe }}
+    </script>
 
     <!-- CUSTOM APP SCRIPTS -->
     <script src="{% static 'js/data.js' %}"></script>

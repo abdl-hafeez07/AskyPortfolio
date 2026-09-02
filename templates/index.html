@@ -57,9 +57,9 @@
                 <div class="hud-corner bottom-left"></div>
                 <div class="hud-corner bottom-right"></div>
 
-                <!-- Iris Aperture & Master Frame (IMG_1013.JPG) -->
+                <!-- Iris Aperture & Master Frame -->
                 <div class="loader-iris-frame">
-                    <img src="{% static 'img/IMG_1013.JPG' %}" alt="Mohamed Ashiq CM - Cinema Master Frame" class="loader-iris-image" id="loader-iris-image">
+                    <img src="{{ profile.hero_image_src }}" alt="{{ profile.full_name|default:'Mohamed Ashiq CM' }} - Cinema Master Frame" class="loader-iris-image" id="loader-iris-image">
                     
                     <!-- Optical Lens Glint & Shutter Blade Aperture -->
                     <div class="loader-lens-aperture-overlay"></div>
@@ -189,16 +189,19 @@
                             <span>{{ profile.professional_title|default:'VIDEOGRAPHER & VIDEO EDITOR'|upper }} • {{ profile.location|default:'BENGALURU'|upper }}</span>
                         </div>
                         <h1 class="hero-title-main">
+                            {% if profile.hero_headline %}
+                            {{ profile.hero_headline|safe }}
+                            {% else %}
                             Crafting <span class="hero-title-highlight">Cinematic Films</span> & Evocative Stories
+                            {% endif %}
                         </h1>
                         <p class="hero-lead-text">
-                            Mohamed Ashiq CM specializes in emotive wedding films, dynamic content creation, and
-                            precision post-production on DaVinci Resolve & Premiere Pro.
+                            {{ profile.hero_subheadline|default:profile.short_bio|default:'Mohamed Ashiq CM specializes in emotive wedding films, dynamic content creation, and precision post-production on DaVinci Resolve & Premiere Pro.' }}
                         </p>
                         <div class="hero-cta-row">
                             <a href="#selected-work" class="btn-cinematic btn-primary-cinema" data-cursor="hover"
                                 data-magnetic>
-                                Explore 50+ Films
+                                Explore {{ profile.wedding_films_delivered|default:50 }}+ Films
                             </a>
                             <a href="#contact" class="btn-cinematic btn-outline-cinema" data-cursor="hover"
                                 data-magnetic>
@@ -208,22 +211,22 @@
                         <div class="hero-metrics-bar">
                             <div class="metric-item">
                                 <span class="metric-num stat-number-val"
-                                    data-target="{{ profile.wedding_films_delivered|default:50 }}">50</span>
+                                    data-target="{{ profile.wedding_films_delivered|default:50 }}">{{ profile.wedding_films_delivered|default:50 }}</span>
                                 <span class="metric-num" style="font-size: 1.2rem; margin-left: -4px;">+</span>
                                 <span class="metric-label">Wedding Films</span>
                             </div>
                             <div class="metric-item">
-                                <span class="metric-num stat-number-val" data-target="3">3</span>
+                                <span class="metric-num stat-number-val" data-target="{{ profile.experience_years|default:3 }}">{{ profile.experience_years|default:3 }}</span>
                                 <span class="metric-num" style="font-size: 1.2rem; margin-left: -4px;">+</span>
                                 <span class="metric-label">Years Craft</span>
                             </div>
                             <div class="metric-item">
-                                <span class="metric-num stat-number-val" data-target="100">100</span>
+                                <span class="metric-num stat-number-val" data-target="{{ profile.client_satisfaction_rate|default:100 }}">{{ profile.client_satisfaction_rate|default:100 }}</span>
                                 <span class="metric-num" style="font-size: 1.2rem; margin-left: -4px;">%</span>
                                 <span class="metric-label">Client Satisfaction</span>
                             </div>
                             <div class="metric-item">
-                                <span class="metric-num">2</span>
+                                <span class="metric-num stat-number-val" data-target="{{ profile.awards_count|default:2 }}">{{ profile.awards_count|default:2 }}</span>
                                 <span class="metric-label">Pro Suites</span>
                             </div>
                         </div>
@@ -239,7 +242,7 @@
 
                             <!-- Master Artwork Frame -->
                             <div class="hero-artwork-frame">
-                                <img src="{% static 'img/IMG_1013.JPG' %}" alt="Mohamed Ashiq CM - Cinematic Videographer & Film Director" class="hero-artwork-img" id="hero-artwork-img">
+                                <img src="{{ profile.hero_image_src }}" alt="{{ profile.full_name|default:'Mohamed Ashiq CM' }} - Cinematic Videographer & Film Director" class="hero-artwork-img" id="hero-artwork-img">
                                 
                                 <!-- Interactive Light Glint / Flare Layer -->
                                 <div class="hero-shimmer-sweep" aria-hidden="true"></div>
@@ -279,7 +282,7 @@
             <div class="row align-items-center g-5">
                 <div class="col-12 col-lg-5 text-center">
                     <div class="about-image-card">
-                        <img src="{% if profile.profile_photo %}{{ profile.profile_photo.url }}{% elif profile.profile_photo_url %}{{ profile.profile_photo_url }}{% else %}{% static 'img/mohamed_ashiq.jpeg' %}{% endif %}"
+                        <img src="{{ profile.profile_photo_src }}"
                             alt="{{ profile.full_name|default:'Mohamed Ashiq CM' }}" class="about-img">
                         <div class="about-floating-badge">
                             <h4 class="about-floating-name">{{ profile.full_name|default:'Mohamed Ashiq CM' }}</h4>
@@ -356,7 +359,7 @@
 
             <div class="featured-films-grid" id="featured-works-grid">
                 {% for proj in featured_projects %}
-                <article class="film-card-luxury" data-video-url="{{ proj.video_url }}"
+                <article class="film-card-luxury" data-video-url="{{ proj.video_src }}"
                     data-video-title="{{ proj.title }}" data-cursor="play">
                     <div class="film-thumb-wrap">
                         <img src="{{ proj.image_src }}" alt="{{ proj.title }}" class="film-thumb-img" loading="lazy">
@@ -479,7 +482,29 @@
             <!-- Endless Horizontal Auto-Scrolling Image Marquee Carousel (Zero-Gap) -->
             <div class="services-marquee-wrapper" aria-label="Cinematic Visual Showcase">
                 <div class="services-marquee-track">
-                    <!-- Set 1 -->
+                    {% if gallery_items %}
+                    <!-- Set 1 (Dynamic Gallery Items) -->
+                    {% for item in gallery_items %}
+                    <div class="marquee-image-item">
+                        <img src="{{ item.image_src }}" alt="{{ item.title }}" class="marquee-img" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85';">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">{{ item.get_category_display }}</span>
+                            <h4 class="marquee-title">{{ item.title }}</h4>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- Set 2 (Duplicate for Seamless Infinite Loop) -->
+                    {% for item in gallery_items %}
+                    <div class="marquee-image-item" aria-hidden="true">
+                        <img src="{{ item.image_src }}" alt="{{ item.title }}" class="marquee-img" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85';">
+                        <div class="marquee-item-overlay">
+                            <span class="marquee-tag">{{ item.get_category_display }}</span>
+                            <h4 class="marquee-title">{{ item.title }}</h4>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <!-- Set 1 (Fallback Curated Stills) -->
                     <div class="marquee-image-item">
                         <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85"
                             alt="Wedding Film Highlight" class="marquee-img" loading="lazy">
@@ -610,6 +635,7 @@
                             <h4 class="marquee-title">CinemaScope 2.39:1</h4>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -1023,6 +1049,7 @@
                 <div class="modal-title-wrap">
                     <span class="rec-dot-live"></span>
                     <span id="video-modal-title" class="modal-film-title">Cinematic Showreel</span>
+                    <span id="video-modal-format-badge" class="modal-video-format-badge">4K CINEMA</span>
                 </div>
                 <button id="video-modal-close-btn" class="modal-close-icon-btn" aria-label="Close Video Theater" data-cursor="hover">✕</button>
             </div>
@@ -1040,6 +1067,11 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Dynamic Django Portfolio Data (Live database records override static defaults) -->
+    <script id="django-portfolio-data" type="application/json">
+        {{ portfolio_data_json|safe }}
+    </script>
 
     <!-- Custom Portfolio Scripts -->
     <script src="{% static 'js/data.js' %}"></script>

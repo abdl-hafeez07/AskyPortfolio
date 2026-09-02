@@ -5,23 +5,41 @@
 
 function resolveAssetUrl(url) {
     if (!url) return "";
-    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:") || url.startsWith("//")) {
+    url = url.trim();
+    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:") || url.startsWith("//") || url.startsWith("blob:")) {
         return url;
     }
     // When running under Django (HTTP environment)
     if (window.location && window.location.protocol && window.location.protocol.startsWith("http")) {
+        if (url.startsWith("/media/")) return url;
+        if (url.startsWith("media/")) return "/" + url;
         if (url.startsWith("/static/")) return url;
         if (url.startsWith("static/")) return "/" + url;
         return "/static/" + (url.startsWith("/") ? url.slice(1) : url);
     }
     // Static HTML environment (file:// or plain server)
-    if (url.startsWith("/static/")) return url.replace("/static/", "");
-    if (url.startsWith("static/")) return url.replace("static/", "");
+    if (url.startsWith("/static/")) return url.replace(/^\/static\//, "");
+    if (url.startsWith("static/")) return url.replace(/^static\//, "");
+    if (url.startsWith("/media/")) return url.replace(/^\/media\//, "media/");
+    if (url.startsWith("/")) return url.slice(1);
     return url;
 }
 
 class GalleryManager {
     constructor() {
+        // Automatically adopt dynamic backend data from Django if present on the page
+        const djangoDataEl = document.getElementById("django-portfolio-data");
+        if (djangoDataEl && djangoDataEl.textContent.trim()) {
+            try {
+                const dynamicData = JSON.parse(djangoDataEl.textContent);
+                if (dynamicData && typeof dynamicData === "object") {
+                    window.PORTFOLIO_DATA = Object.assign({}, window.PORTFOLIO_DATA || {}, dynamicData);
+                }
+            } catch (err) {
+                console.warn("Could not parse django-portfolio-data script tag", err);
+            }
+        }
+
         this.data = window.PORTFOLIO_DATA || {};
         this.currentLightboxIndex = 0;
         this.activePhotoList = [];
@@ -109,15 +127,14 @@ class GalleryManager {
         if (elCinematic) elCinematic.textContent = formatCount(counts.cinematic);
     }
 
-    // Attach click listeners to all film cards
+    // Attach click listeners to all film cards & video triggers
     bindFilmCardEvents() {
         const container = document.getElementById("featured-works-grid");
-        if (!container) return;
 
         // Fallback render if container has no items
-        if (container.children.length === 0 && this.data.featuredProjects) {
+        if (container && container.children.length === 0 && this.data.featuredProjects) {
             container.innerHTML = this.data.featuredProjects.map((proj) => `
-                <article class="film-card-luxury" data-video-url="${proj.videoTeaser}" data-video-title="${proj.title}" data-cursor="play">
+                <article class="film-card-luxury" data-video-url="${proj.videoTeaser || ''}" data-video-title="${proj.title}" data-cursor="play">
                     <div class="film-thumb-wrap">
                         <img src="${resolveAssetUrl(proj.coverImage)}" alt="${proj.title}" class="film-thumb-img" loading="lazy">
                         <div class="film-gradient-overlay"></div>
@@ -151,14 +168,17 @@ class GalleryManager {
             `).join("");
         }
 
-        container.querySelectorAll(".film-card-luxury").forEach(card => {
-            card.addEventListener("click", () => {
+        // Global delegated click listener for any video trigger
+        document.addEventListener("click", (e) => {
+            const card = e.target.closest("[data-video-url]");
+            if (card) {
                 const videoUrl = card.getAttribute("data-video-url");
                 const videoTitle = card.getAttribute("data-video-title") || "Cinematic Film";
                 if (videoUrl) {
+                    e.preventDefault();
                     this.openVideoModal(videoUrl, videoTitle);
                 }
-            });
+            }
         });
     }
 
@@ -355,14 +375,14 @@ class GalleryManager {
             <div class="swiper-slide">
                 <div class="p-4 rounded-4 h-100" style="background: var(--bg-card); border: 1px solid var(--border-subtle); display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <div class="mb-3" style="color: var(--accent-gold); font-size: 0.9rem;">★★★★★</div>
+                        <div class="mb-3" style="color: var(--accent-gold); font-size: 0.9rem;">${'★'.repeat(test.rating || 5)}</div>
                         <p class="text-light mb-4" style="font-size: 1rem; line-height: 1.7; font-style: italic;">"${test.quote}"</p>
                     </div>
                     <div class="d-flex align-items-center gap-3 pt-3" style="border-top: 1px solid var(--border-subtle);">
-                        <img src="${resolveAssetUrl(test.avatar)}" alt="${test.clientName}" class="rounded-circle" style="width: 44px; height: 44px; object-fit: cover; border: 2px solid var(--accent-gold);">
+                        <img src="${resolveAssetUrl(test.avatar)}" alt="${test.clientName}" class="rounded-circle" style="width: 44px; height: 44px; object-fit: cover; border: 2px solid var(--accent-gold);" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80';">
                         <div>
                             <strong class="d-block text-white" style="font-size: 0.95rem;">${test.clientName}</strong>
-                            <span class="small text-muted font-monospace">${test.role}</span>
+                            <span class="small text-muted font-monospace">${test.role || 'Client'}</span>
                         </div>
                     </div>
                 </div>
@@ -370,14 +390,15 @@ class GalleryManager {
         `).join("");
 
         if (typeof Swiper !== "undefined" && document.querySelector(".testimonials-swiper")) {
+            const hasMultiple = (this.data.testimonials && this.data.testimonials.length > 2);
             new Swiper(".testimonials-swiper", {
                 slidesPerView: 1,
                 spaceBetween: 24,
-                loop: true,
-                autoplay: { delay: 5000, disableOnInteraction: false },
+                loop: hasMultiple,
+                autoplay: hasMultiple ? { delay: 5000, disableOnInteraction: false } : false,
                 breakpoints: {
-                    768: { slidesPerView: 2 },
-                    1024: { slidesPerView: 2 }
+                    768: { slidesPerView: Math.min(2, this.data.testimonials.length) },
+                    1024: { slidesPerView: Math.min(2, this.data.testimonials.length) }
                 },
                 pagination: {
                     el: ".testimonial-pagination",
@@ -391,16 +412,16 @@ class GalleryManager {
     bindVideoModalEvents() {
         const modal = document.getElementById("cinematic-video-modal");
         const closeBtn = document.getElementById("video-modal-close-btn");
-        const player = document.getElementById("video-modal-player");
         const backdrop = modal ? modal.querySelector(".modal-backdrop-cinematic") : null;
 
         const closeModal = () => {
             if (!modal) return;
             modal.classList.remove("is-active");
             document.body.style.overflow = "";
-            if (player) {
-                player.pause();
-                player.src = "";
+            const container = modal.querySelector(".modal-video-container");
+            if (container) {
+                // Instantly stop any video playback or iframe streaming
+                container.innerHTML = "";
             }
         };
 
@@ -414,18 +435,139 @@ class GalleryManager {
         });
     }
 
-    openVideoModal(videoUrl, title = "Cinematic Showreel") {
-        const modal = document.getElementById("cinematic-video-modal");
-        const titleEl = document.getElementById("video-modal-title");
-        const player = document.getElementById("video-modal-player");
+    parseVideoSource(url) {
+        if (!url) return { type: "empty", src: "", isVertical: false };
+        const trimmed = url.trim();
 
-        if (!modal || !player) return;
+        // 1. YouTube (Standard, Short, Shorts, Embeds)
+        const isShorts = trimmed.includes("/shorts/");
+        const ytMatch = trimmed.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+        if (ytMatch && ytMatch[1]) {
+            return {
+                type: "youtube",
+                isVertical: isShorts,
+                src: `https://www.youtube-nocookie.com/embed/${ytMatch[1]}?autoplay=1&rel=0&modestbranding=1&playsinline=1`
+            };
+        }
+
+        // 2. Vimeo
+        const vimeoMatch = trimmed.match(/(?:vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+))/i);
+        if (vimeoMatch && vimeoMatch[1]) {
+            return {
+                type: "vimeo",
+                isVertical: false,
+                src: `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&title=0&byline=0&portrait=0`
+            };
+        }
+
+        // 3. Direct HTML5 / Uploaded Video File (.mp4, .webm, .mov, /media/..., etc.)
+        return {
+            type: "html5",
+            isVertical: false,
+            src: resolveAssetUrl(trimmed)
+        };
+    }
+
+    openVideoModal(rawUrl, title = "Cinematic Showreel") {
+        const modal = document.getElementById("cinematic-video-modal");
+        if (!modal || !rawUrl) return;
+
+        const titleEl = document.getElementById("video-modal-title");
+        const formatBadge = modal.querySelector(".modal-video-format-badge");
+        const stage = modal.querySelector(".modal-content-stage");
+        const container = modal.querySelector(".modal-video-container");
+        if (!container) return;
 
         if (titleEl) titleEl.textContent = title;
-        player.src = videoUrl;
+
+        // Reset stage classes and aspect ratio
+        if (stage) {
+            stage.classList.remove("stage-vertical-reel", "stage-square", "stage-landscape");
+            stage.style.maxWidth = "";
+        }
+        container.style.aspectRatio = "16 / 9";
+        if (formatBadge) formatBadge.textContent = "CALIBRATING...";
+
+        const parsed = this.parseVideoSource(rawUrl);
+
+        if (parsed.type === "youtube" || parsed.type === "vimeo") {
+            if (parsed.isVertical) {
+                if (stage) stage.classList.add("stage-vertical-reel");
+                container.style.aspectRatio = "9 / 16";
+                if (formatBadge) formatBadge.textContent = "9:16 VERTICAL REEL";
+            } else {
+                if (stage) stage.classList.add("stage-landscape");
+                container.style.aspectRatio = "16 / 9";
+                if (formatBadge) formatBadge.textContent = "16:9 4K CINEMA";
+            }
+
+            container.innerHTML = `
+                <iframe class="modal-iframe-player"
+                    src="${parsed.src}"
+                    title="${title}"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+            `;
+        } else {
+            // HTML5 player with automatic dimension detection
+            container.innerHTML = `
+                <video id="video-modal-player" controls autoplay playsinline preload="auto" class="modal-html5-player">
+                    <source src="${parsed.src}" type="video/mp4">
+                    <source src="${parsed.src}">
+                    <p style="color:#aaa; padding:20px; text-align:center;">Your browser does not support HTML5 video playback. <a href="${parsed.src}" target="_blank" style="color:var(--accent-gold); text-decoration:underline;">Click to download/open video</a></p>
+                </video>
+            `;
+
+            const player = container.querySelector("video");
+            if (player) {
+                const adjustDimensions = () => {
+                    const width = player.videoWidth;
+                    const height = player.videoHeight;
+                    if (!width || !height) return;
+
+                    const ratio = width / height;
+                    container.style.aspectRatio = `${width} / ${height}`;
+
+                    if (stage) {
+                        stage.classList.remove("stage-vertical-reel", "stage-square", "stage-landscape");
+
+                        if (ratio < 0.8) {
+                            // 9:16 Vertical Reel (Instagram Reel / Shorts / TikTok)
+                            stage.classList.add("stage-vertical-reel");
+                            if (formatBadge) formatBadge.textContent = `9:16 REEL (${width}x${height})`;
+                        } else if (ratio < 1.15) {
+                            // Square (1:1) or 4:5 Portrait
+                            stage.classList.add("stage-square");
+                            if (formatBadge) formatBadge.textContent = `4:5 / SQUARE (${width}x${height})`;
+                        } else if (ratio > 2.0) {
+                            // Anamorphic / CinemaScope (2.39:1)
+                            stage.classList.add("stage-landscape");
+                            if (formatBadge) formatBadge.textContent = `2.39:1 CINEMASCOPE (${width}x${height})`;
+                        } else {
+                            // Standard Landscape (16:9)
+                            stage.classList.add("stage-landscape");
+                            if (formatBadge) formatBadge.textContent = `16:9 CINEMA (${width}x${height})`;
+                        }
+                    }
+                };
+
+                player.addEventListener("loadedmetadata", adjustDimensions);
+                player.addEventListener("loadeddata", adjustDimensions);
+
+                // If dimensions are already ready immediately (cached)
+                if (player.videoWidth && player.videoHeight) {
+                    adjustDimensions();
+                }
+
+                player.play().catch(err => {
+                    console.log("Autoplay unmuted paused by browser policy:", err);
+                });
+            }
+        }
+
         modal.classList.add("is-active");
         document.body.style.overflow = "hidden";
-        player.play().catch(() => {});
     }
 
     // Lightbox Modal
