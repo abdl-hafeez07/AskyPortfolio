@@ -85,3 +85,11 @@
     background: rgba(229, 195, 120, 0.2);
     border-color: var(--accent-gold);
 }
+
+.custom-cursor.is-zoom .custom-cursor-text {
+    opacity: 1;
+}
+
+.custom-cursor.is-clicking {
+    transform: scale(0.85);
+}
